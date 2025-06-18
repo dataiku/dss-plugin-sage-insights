@@ -1,6 +1,6 @@
 # Feature Requests
 
-## Streamlit
+## Streamlit Core Features
 
 1. Auto fix column types when loading DFs
 1. partition new folder
@@ -10,16 +10,23 @@
 
 ### User Profiles
 
+1. What kind of recipes are the users using
+1. How many projects do they contribute to
+1. How many projects do they own
+1. (Future) How many scenarios/projects does a user contribute to in Automation
+1. Active Users vs Login Users
 
-## Metrics / Checks
-1. User profiling
-    1. What kind of recipes are users using
-    1. Howmany projects do they contribute to
-    1. How many projects do they own
-    1. How many scenarios/projects does user contributes to in automation
-1. Common scenario failure issues
-1. Common scenario run times
-1. Active users vs login users
+### Scenarios
+
+1. Common Scenario Failures
+1. Common scneario run times
+
+### Spark and Container Configs
+
+1. ?
+
+### 
+
 1. Spark and container configs
 1. User group permissions
 1. Disk Space Utilization
