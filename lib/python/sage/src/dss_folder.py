@@ -37,7 +37,7 @@ def create_folder(folder_name):
     return folder
 
 
-def write_folder_output(folder_name, path, data_type, data):
+def write_folder_output(path, data=None, folder_name="base_data", data_type="DF"):
     folder = get_folder(folder_name)
     if data_type == "DF":
         with folder.get_writer(path) as w:
@@ -47,7 +47,7 @@ def write_folder_output(folder_name, path, data_type, data):
             w.write(str.encode(json.dumps(data, indent=4)))
 
 
-def read_folder_input(folder_name, path, data_type):
+def read_folder_input(path, folder_name="base_data", data_type="DF"):
     folder = get_folder(folder_name)
     if data_type == "DF":
         with folder.get_download_stream(path) as reader:

@@ -21,8 +21,6 @@ with tab1:
         path = f"/instance/_dataiku_{data_category}.csv",
         data_type = "DF"
     )
-    for c in ["creationDate", "last_session_activity", "first_commit_date", "last_commit_date"]:
-        df[c] = pd.to_datetime(df[c])
     if dss_objects:
         # Load Body
         layout_basic.body(category, dss_objects, df)

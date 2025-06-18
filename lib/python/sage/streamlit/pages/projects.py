@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-from sage.src import dss_folder
-from sage.src import dss_funcs
+from sage.streamlit.pages.layouts import layout_basic, layout_custom
+from sage.src import dss_funcs, dss_folder
 try:
     from sage.modules import projects as dss_objects # change this line
 except:
@@ -21,8 +21,6 @@ with tab1:
         path = f"/instance/_dataiku_{data_category}.csv",
         data_type = "DF"
     )
-    for c in ["lastModifiedOn", "creationOn"]:
-        df[c] = pd.to_datetime(df[c])
     if dss_objects:
         # Load Body
         layout_basic.body(category, dss_objects, df)

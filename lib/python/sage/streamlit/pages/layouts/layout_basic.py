@@ -46,7 +46,10 @@ def body(category, dss_objects, df):
             title = meta['title']
             value = meta["value"]
             delta = meta["delta"]
-            st.metric(label=title, value=value, delta=delta)
+            if delta:
+                st.metric(label=title, value=value, delta=delta)
+            else:
+                st.metric(label=title, value=value)
 
     with col[1]:
         for chart in charts:
