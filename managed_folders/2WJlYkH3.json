@@ -18,30 +18,10 @@
     }
   },
   "partitioning": {
-    "filePathPattern": "%{category}/%{module}/%{project_key}/%Y/%M/%D/.*",
+    "filePathPattern": "",
     "ignoreNonMatchingFile": false,
     "considerMissingRequestedPartitionsAsEmpty": false,
-    "dimensions": [
-      {
-        "name": "category",
-        "type": "value"
-      },
-      {
-        "name": "module",
-        "type": "value"
-      },
-      {
-        "name": "project_key",
-        "type": "value"
-      },
-      {
-        "name": "date",
-        "params": {
-          "period": "DAY"
-        },
-        "type": "time"
-      }
-    ]
+    "dimensions": []
   },
   "flowOptions": {
     "virtualizable": false,
