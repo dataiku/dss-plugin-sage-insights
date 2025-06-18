@@ -1,7 +1,7 @@
 {
   "type": "step_based",
   "name": "Refresh Sage Data",
-  "active": false,
+  "active": true,
   "checklists": {
     "checklists": []
   },
@@ -11,7 +11,28 @@
     "suppressTriggersWhileRunning": true
   },
   "tags": [],
-  "triggers": [],
+  "triggers": [
+    {
+      "id": "C2mUq2qd",
+      "type": "temporal",
+      "name": "Time-based",
+      "delay": 5,
+      "active": true,
+      "params": {
+        "repeatFrequency": 1,
+        "frequency": "Daily",
+        "startingFrom": "2025-06-18",
+        "daysOfWeek": [
+          "Wednesday"
+        ],
+        "monthlyRunOn": "ON_THE_DAY",
+        "minute": 0,
+        "hour": 18,
+        "timezone": "SERVER",
+        "lastUpdate": 1750279378367
+      }
+    }
+  ],
   "reporters": [],
   "params": {
     "steps": [
