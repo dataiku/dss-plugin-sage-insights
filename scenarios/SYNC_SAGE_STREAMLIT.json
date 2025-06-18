@@ -37,6 +37,27 @@
           },
           "proceedOnFailure": false
         }
+      },
+      {
+        "id": "run_scenario_null.RESTART_DASHBOARD",
+        "type": "run_scenario",
+        "name": "Step #2",
+        "enabled": true,
+        "alwaysShowComment": false,
+        "runConditionType": "RUN_IF_STATUS_MATCH",
+        "runConditionStatuses": [
+          "SUCCESS",
+          "WARNING"
+        ],
+        "runConditionExpression": "",
+        "resetScenarioStatus": false,
+        "delayBetweenRetries": 10,
+        "maxRetriesOnFail": 0,
+        "params": {
+          "scenarioId": "RESTART_DASHBOARD",
+          "handleWarningsAs": "WARNING",
+          "proceedOnFailure": false
+        }
       }
     ]
   },
