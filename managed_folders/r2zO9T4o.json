@@ -17,6 +17,31 @@
       "replacements": []
     }
   },
+  "partitioning": {
+    "ignoreNonMatchingFile": false,
+    "considerMissingRequestedPartitionsAsEmpty": false,
+    "dimensions": [
+      {
+        "name": "dimension_1",
+        "type": "value"
+      },
+      {
+        "name": "dimension_2",
+        "type": "value"
+      },
+      {
+        "name": "dimension_3",
+        "type": "value"
+      },
+      {
+        "name": "date",
+        "params": {
+          "period": "DAY"
+        },
+        "type": "time"
+      }
+    ]
+  },
   "flowOptions": {
     "virtualizable": false,
     "rebuildBehavior": "NORMAL",
