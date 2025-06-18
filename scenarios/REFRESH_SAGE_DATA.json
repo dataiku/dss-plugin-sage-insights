@@ -2,13 +2,6 @@
   "type": "step_based",
   "name": "Refresh Sage Data",
   "active": false,
-  "creationTag": {
-    "versionNumber": 0,
-    "lastModifiedBy": {
-      "login": "smazzei"
-    },
-    "lastModifiedOn": 1750254945180
-  },
   "checklists": {
     "checklists": []
   },
@@ -21,7 +14,32 @@
   "triggers": [],
   "reporters": [],
   "params": {
-    "steps": []
+    "steps": [
+      {
+        "id": "custom_python_dIZZAKaKZeTvZupdMNPN6g",
+        "type": "custom_python",
+        "name": "Step #1",
+        "enabled": true,
+        "alwaysShowComment": false,
+        "runConditionType": "RUN_IF_STATUS_MATCH",
+        "runConditionStatuses": [
+          "SUCCESS",
+          "WARNING"
+        ],
+        "runConditionExpression": "",
+        "resetScenarioStatus": false,
+        "delayBetweenRetries": 10,
+        "maxRetriesOnFail": 0,
+        "params": {
+          "script": "from sage.src import main\nmain.main()",
+          "envSelection": {
+            "envMode": "EXPLICIT_ENV",
+            "envName": "sage"
+          },
+          "proceedOnFailure": false
+        }
+      }
+    ]
   },
   "automationLocal": false,
   "customFields": {},
