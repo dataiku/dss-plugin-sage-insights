@@ -47,7 +47,7 @@ def write_folder_output(folder_name, path, data, data_type="DF"):
             w.write(str.encode(json.dumps(data, indent=4)))
 
 
-def read_folder_input(path, folder_name, data_type="DF"):
+def read_folder_input(folder_name, path, data_type="DF"):
     folder = get_folder(folder_name)
     if data_type == "DF":
         with folder.get_download_stream(path) as reader:

@@ -4,12 +4,12 @@ import importlib
 import pandas as pd
 from datetime import datetime
 
-from sage.base_data import instance
+from sage.base_data import client_handle  as dss_object
 from sage.src import dss_folder
 
 
 def run_modules(client, dt):
-    directory = instance.__path__[0]
+    directory = dss_object.__path__[0]
     for root, _, files in os.walk(directory):
         for f in files:
             if f.endswith(".py") and f != "__init__.py":
@@ -32,14 +32,12 @@ def run_modules(client, dt):
                 dt_day   = str(f'{dt.day:02d}')
                 dss_folder.write_folder_output(
                     folder_name = "partitioned_data",
-                    path = f"/instance/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv",
-                    data_type = "DF",
+                    path = f"{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv",
                     data = results[1]
                 )
                 dss_folder.write_folder_output(
                     folder_name = "base_data",
-                    path = f"_{module_name}.csv",
-                    data_type = "DF",
+                    path = f"{path}/{module_name}.csv",
                     data = results[1]
                 )
     return

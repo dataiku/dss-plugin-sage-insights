@@ -76,7 +76,10 @@ def filter_dataframe(df, filter):
     return df
 
 def main(data_category, df):
-    toml = config_data[data_category]
+    try:
+        toml = config_data[data_category]
+    except:
+        toml = {"filter": []}
 
     col1, col2 = st.columns(2)
     with col1:

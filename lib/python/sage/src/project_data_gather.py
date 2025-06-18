@@ -4,11 +4,12 @@ import importlib
 import pandas as pd
 from datetime import datetime
 
-from sage.base_data import project
+from sage.base_data import project_handle as dss_object
 from sage.src import dss_folder
 
+
 def run_modules(project_handle, project_key, dt):
-    directory = project.__path__[0]
+    directory = dss_object.__path__[0]
     for root, _, files in os.walk(directory):
         for f in files:
             if f.endswith(".py") and f != "__init__.py":
@@ -54,12 +55,15 @@ def stack_project_data():
         df = pd.DataFrame()
         for partition in filtered_df.partitions.tolist():
             path = folder.list_paths_in_partition(partition=partition)[0]
-            tdf = dss_folder.read_folder_input("base_data", path, "DF")
-            df = pd.concat([df, tdf], ignore_index=True)
+            tdf = dss_folder.read_folder_input(folder_name="partitioned_data", path=path)
+            if df.empty:
+                df = tdf
+            else:
+                df = pd.concat([df, tdf], ignore_index=True)
         # Write consolidated DF to folder
         dss_folder.write_folder_output(
             folder_name = "base_data",
-            path = f"/{i[0]}/_{i[1]}.csv",
+            path = f"/{i[0]}/{i[1]}.csv",
             data_type = "DF",
             data = df
         )
