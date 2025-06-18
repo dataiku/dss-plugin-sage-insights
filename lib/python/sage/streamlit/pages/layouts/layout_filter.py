@@ -78,17 +78,25 @@ def filter_dataframe(df, filter):
 def main(data_category, df):
     toml = config_data[data_category]
 
-    # Filter the metadata df columns for what they are initially interested in
-    columns = list(df.columns)
-    for filter in toml["filter"]:
-        columns.remove(filter)
-    options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
-    filter = toml["filter"] + options
-    if options:
-        df = df[filter]
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            # Filter the metadata df columns for what they are initially interested in
+            columns = list(df.columns)
+            for filter in toml["filter"]:
+                columns.remove(filter)
+            options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
+            filter = toml["filter"] + options
+            if options:
+                df = df[filter]
 
-    # Display metadata df with custom filter on rows
-    display_df = filter_dataframe(df, filter)
-    st.dataframe(display_df)
+            # Display metadata df with custom filter on rows
+            display_df = filter_dataframe(df, filter)
+    with col2:
+        with st.container(border=True):
+            st.dataframe(display_df)
 
+    # Metrics
+    with st.container(border=True):
+        st.write("hello")
     return

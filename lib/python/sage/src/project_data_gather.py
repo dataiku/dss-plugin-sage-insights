@@ -31,7 +31,7 @@ def run_modules(project_handle, project_key, dt):
                 dt_month = str(f'{dt.month:02d}')
                 dt_day   = str(f'{dt.day:02d}')
                 dss_folder.write_folder_output(
-                    folder_name = "base_data",
+                    folder_name = "partitioned_data",
                     path = f"/{category}/{module_name}/{project_key}/{dt_year}/{dt_month}/{dt_day}/data.csv",
                     data_type = "DF",
                     data = results[1]
@@ -40,33 +40,25 @@ def run_modules(project_handle, project_key, dt):
 
 
 def stack_project_data():
-    folder_name = "base_data"
-    folder = dss_folder.get_folder(folder_name=folder_name)
-    dt = datetime.now().strftime("%Y-%m-%d")
-
-    client = dataiku.api_client()
-    project_keys = client.list_project_keys()
-
     # create a partitioned folder dataframe
+    folder = dss_folder.get_folder(folder_name="partitioned_data")
     d = folder.list_partitions()
     folder_df = pd.DataFrame(d, columns=["partitions"])
     folder_df[["category", "module", "project_key", "dt"]] = folder_df["partitions"].str.split("|", expand=True)
-
+    # Loop over the sets and gather
     for i,grp in folder_df.groupby(by=["category", "module"]):
         # get latest dt partition
         max_date = grp['dt'].max()
         filtered_df = grp[grp['dt'] == max_date]
-
         # loop over and build consolidated df
         df = pd.DataFrame()
         for partition in filtered_df.partitions.tolist():
             path = folder.list_paths_in_partition(partition=partition)[0]
             tdf = dss_folder.read_folder_input("base_data", path, "DF")
             df = pd.concat([df, tdf], ignore_index=True)
-        
         # Write consolidated DF to folder
         dss_folder.write_folder_output(
-            folder_name = folder_name,
+            folder_name = "base_data",
             path = f"/{i[0]}/_{i[1]}.csv",
             data_type = "DF",
             data = df
@@ -81,7 +73,6 @@ def main():
     for project_key in project_keys:
         project_handle = client.get_project(project_key=project_key)
         run_modules(project_handle, project_key, dt)
-
     # Stack individual results
     stack_project_data()
     return

@@ -1,32 +1,16 @@
-import streamlit as st
-import pandas as pd
-
-from sage.streamlit.pages.layouts import layout_basic, layout_filter, layout_custom
-from sage.src import dss_funcs, dss_folder
+from sage.streamlit.pages.layouts import layout_main
+from sage.src import dss_folder
 try:
     from sage.insights import users as dss_objects # change this line
 except:
     dss_objects = False
 
 # -----------------------------------------------------------------------------
-# Display the metrics of metadata layer
 category = "Users"
 data_category = category.lower()
-st.title(f"{category} Metadata")
-tab1, tab2, tab3 = st.tabs(["At a glance", "Drill Down", "Custom Metrics & Graphs"])
-with tab1:
-    # Load data
-    df = dss_folder.read_folder_input(
-        folder_name = "base_data",
-        path = f"/instance/_dataiku_{data_category}.csv",
-        data_type = "DF"
-    )
-    if dss_objects:
-        # Load Body
-        layout_basic.body(category, dss_objects, df)
-    else:
-        st.error("No Insights Found!!")
-with tab2:
-    layout_filter.main(data_category, df)
-with tab3:
-    layout_custom.main(category)
+df = dss_folder.read_folder_input(
+    folder_name = "base_data",
+    path = f"/instance/_dataiku_{data_category}.csv",
+    data_type = "DF"
+)
+layout_main.main(category, data_category, dss_objects, df)
