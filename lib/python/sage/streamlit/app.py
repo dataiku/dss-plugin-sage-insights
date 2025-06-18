@@ -5,11 +5,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-def main():
-    st.header(f" Welcome")
-
 # home
-home = st.Page(main, title="Home", icon=":material/login:", default=True)
+home = st.Page("pages/home.py", title="Home", icon=":material/login:", default=True)
 
 # Instance Level
 projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
