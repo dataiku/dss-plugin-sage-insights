@@ -6,26 +6,12 @@ from sage.src import dss_funcs
 
 def body(category, dss_objects, df):
     # -------------------------------------------------------------------------
-    # Filer on Project Key for some categories
-    df_filter = {}
-    if category in ["Datasets", "Rcipes", "Scenarios"]:
-        project_keys = df.project_key.unique().tolist()
-        project_keys = sorted(project_keys)
-        project_keys.insert(0, "")
-        option = st.selectbox(
-            "How would you like to be contacted?",
-            project_keys,
-        )
-        if option:
-            df_filter["project_key"] = option
-
-    # -------------------------------------------------------------------------
     # Load the INSIGHTS information
     metrics = []
     charts = []
     d = dss_funcs.collect_modules(dss_objects)
     for key in d.keys():
-        meta, result = dss_funcs.load_insights(d[key][0], d[key][1], df, df_filter)
+        meta, result = dss_funcs.load_insights(d[key][0], d[key][1], df)
         if meta["pass"]:
             if meta["type"] == "metric":
                 metrics.append([meta, result])
