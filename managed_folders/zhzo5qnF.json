@@ -17,6 +17,32 @@
       "replacements": []
     }
   },
+  "partitioning": {
+    "filePathPattern": "%{category}/%{module}/%{project_key}/%Y/%M/%D/.*",
+    "ignoreNonMatchingFile": false,
+    "considerMissingRequestedPartitionsAsEmpty": false,
+    "dimensions": [
+      {
+        "name": "category",
+        "type": "value"
+      },
+      {
+        "name": "module",
+        "type": "value"
+      },
+      {
+        "name": "project_key",
+        "type": "value"
+      },
+      {
+        "name": "date",
+        "params": {
+          "period": "DAY"
+        },
+        "type": "time"
+      }
+    ]
+  },
   "flowOptions": {
     "virtualizable": false,
     "rebuildBehavior": "NORMAL",
