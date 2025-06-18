@@ -31,7 +31,7 @@
         "delayBetweenRetries": 10,
         "maxRetriesOnFail": 0,
         "params": {
-          "script": "import dataiku\nclient \u003d dataiku.api_client()\nproject \u003d client.get_project(dataiku.default_project_key())\nvsc \u003d project.get_code_studio(code_studio_id\u003d\"StlIeuE\")\nzones \u003d vsc.get_status().get_zones()\nfor zone in zones:\n    vsc.pull_from_code_studio(zone\u003dzone)",
+          "script": "import dataiku\nclient \u003d dataiku.api_client()\nproject \u003d client.get_project(dataiku.default_project_key())\nvsc \u003d project.get_code_studio(code_studio_id\u003d\"qAFRuwz\")\nzones \u003d vsc.get_status().get_zones()\nfor zone in zones:\n    vsc.pull_from_code_studio(zone\u003dzone)",
           "envSelection": {
             "envMode": "INHERIT"
           },
