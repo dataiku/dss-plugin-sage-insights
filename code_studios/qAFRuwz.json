@@ -1,0 +1,19 @@
+{
+  "name": "Sage Dashboard",
+  "libName": "Sage_Dashboard",
+  "templateId": "sage_dashboard",
+  "params": {},
+  "owner": "smazzei",
+  "creationTag": {
+    "versionNumber": 0,
+    "lastModifiedBy": {
+      "login": "smazzei"
+    },
+    "lastModifiedOn": 1750206606792
+  },
+  "tags": [],
+  "customFields": {},
+  "checklists": {
+    "checklists": []
+  }
+}
