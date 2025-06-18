@@ -1,10 +1,10 @@
 import streamlit as st
 
-st.markdown("""# 📊 Dataiku Administrative Insights Dashboard
+st.markdown("""(All of the following is ChatGPT code, just wanted some boiler text)
+
+# 📊 Dataiku Administrative Insights Dashboard
 
 ## Overview
-
-(All of the following is ChatGPT code)
 
 This dashboard provides key administrative insights into the Dataiku platform to help platform owners, administrators, and governance teams monitor usage, performance, project activity, and compliance metrics.
 
