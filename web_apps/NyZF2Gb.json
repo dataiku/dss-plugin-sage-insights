@@ -13,7 +13,7 @@
       },
       "allowExpositionOverride": false
     },
-    "autoStartBackend": false,
+    "autoStartBackend": true,
     "backendAPIAccessEnabled": false,
     "infra": {
       "containerSelection": {
