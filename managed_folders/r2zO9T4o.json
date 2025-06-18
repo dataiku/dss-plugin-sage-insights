@@ -18,19 +18,20 @@
     }
   },
   "partitioning": {
+    "filePathPattern": "%{category}/%{module}/%{project_key}/%Y/%M/%D/.*",
     "ignoreNonMatchingFile": false,
     "considerMissingRequestedPartitionsAsEmpty": false,
     "dimensions": [
       {
-        "name": "dimension_1",
+        "name": "category",
         "type": "value"
       },
       {
-        "name": "dimension_2",
+        "name": "module",
         "type": "value"
       },
       {
-        "name": "dimension_3",
+        "name": "project_key",
         "type": "value"
       },
       {
