@@ -14,5 +14,8 @@ df = dss_folder.read_folder_input(
 )
 with open(".streamlit/.sage_config.toml", "rb") as f:
     config_data = tomllib.load(f)
-config = config_data[data_category]
+try:
+    config = config_data[data_category]
+except:
+    config = {}
 layout_main.main(category, data_category, dss_objects, df, config)
