@@ -2,13 +2,6 @@
   "type": "step_based",
   "name": "Restart Dashboard",
   "active": false,
-  "creationTag": {
-    "versionNumber": 0,
-    "lastModifiedBy": {
-      "login": "smazzei"
-    },
-    "lastModifiedOn": 1750261068305
-  },
   "checklists": {
     "checklists": []
   },
@@ -21,7 +14,28 @@
   "triggers": [],
   "reporters": [],
   "params": {
-    "steps": []
+    "steps": [
+      {
+        "id": "restart_webapp_NyZF2Gb",
+        "type": "restart_webapp",
+        "name": "Step #1",
+        "enabled": true,
+        "alwaysShowComment": false,
+        "runConditionType": "RUN_IF_STATUS_MATCH",
+        "runConditionStatuses": [
+          "SUCCESS",
+          "WARNING"
+        ],
+        "runConditionExpression": "",
+        "resetScenarioStatus": false,
+        "delayBetweenRetries": 10,
+        "maxRetriesOnFail": 0,
+        "params": {
+          "webAppId": "NyZF2Gb",
+          "proceedOnFailure": false
+        }
+      }
+    ]
   },
   "automationLocal": false,
   "customFields": {},
