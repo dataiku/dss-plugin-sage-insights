@@ -1,9 +1,14 @@
 import streamlit as st
+import altair as alt
 
 st.set_page_config(
+    page_title="Dataiku Sage Dashboard",
+    page_icon="🏂",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+alt.themes.enable("dark")
 
 # home
 home = st.Page("pages/home.py", title="Home", icon=":material/login:", default=True)
