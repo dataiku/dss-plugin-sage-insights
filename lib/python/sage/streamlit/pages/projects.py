@@ -1,16 +1,16 @@
 import streamlit as st
 import pandas as pd
 
-from sage.streamlit.pages.layouts import layout_basic, layout_custom
-from sage.src import dss_funcs, dss_folder
+from sage.src import dss_folder
+from sage.src import dss_funcs
 try:
-    from sage.insights import users as dss_objects # change this line
+    from sage.modules import projects as dss_objects # change this line
 except:
     dss_objects = False
 
 # -----------------------------------------------------------------------------
-# Display the metrics of metadata layer
-category = "Users"
+# Set category and load module(s)
+category = "Projects"
 st.title(f"{category} Metadata")
 tab1, tab2 = st.tabs(["Home", "Custom"])
 with tab1:
@@ -21,7 +21,7 @@ with tab1:
         path = f"/instance/_dataiku_{data_category}.csv",
         data_type = "DF"
     )
-    for c in ["creationDate", "last_session_activity", "first_commit_date", "last_commit_date"]:
+    for c in ["lastModifiedOn", "creationOn"]:
         df[c] = pd.to_datetime(df[c])
     if dss_objects:
         # Load Body
