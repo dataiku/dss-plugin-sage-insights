@@ -1,9 +1,15 @@
 # Feature Requests
 
 ## Streamlit
+
 1. Auto fix column types when loading DFs
 1. partition new folder
 1. dss_commits create in correct project
+
+## Metric / Checks
+
+### User Profiles
+
 
 ## Metrics / Checks
 1. User profiling
