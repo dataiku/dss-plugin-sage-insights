@@ -1,7 +1,7 @@
 {
   "type": "step_based",
   "name": "Sync Sage Streamlit",
-  "active": true,
+  "active": false,
   "checklists": {
     "checklists": []
   },
@@ -28,7 +28,7 @@
         "minute": 0,
         "hour": 8,
         "timezone": "SERVER",
-        "lastUpdate": 1750276836861
+        "lastUpdate": 1750279359485
       }
     }
   ],
