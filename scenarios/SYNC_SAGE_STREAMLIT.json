@@ -2,13 +2,6 @@
   "type": "step_based",
   "name": "Sync Sage Streamlit",
   "active": false,
-  "creationTag": {
-    "versionNumber": 0,
-    "lastModifiedBy": {
-      "login": "smazzei"
-    },
-    "lastModifiedOn": 1750260916679
-  },
   "checklists": {
     "checklists": []
   },
@@ -21,7 +14,31 @@
   "triggers": [],
   "reporters": [],
   "params": {
-    "steps": []
+    "steps": [
+      {
+        "id": "custom_python_GujegKFywnCGjIiTyTqkZw",
+        "type": "custom_python",
+        "name": "Step #1",
+        "enabled": true,
+        "alwaysShowComment": false,
+        "runConditionType": "RUN_IF_STATUS_MATCH",
+        "runConditionStatuses": [
+          "SUCCESS",
+          "WARNING"
+        ],
+        "runConditionExpression": "",
+        "resetScenarioStatus": false,
+        "delayBetweenRetries": 10,
+        "maxRetriesOnFail": 0,
+        "params": {
+          "script": "import dataiku\nclient \u003d dataiku.api_client()\nproject \u003d client.get_project(dataiku.default_project_key())\nvsc \u003d project.get_code_studio(code_studio_id\u003d\"StlIeuE\")\nzones \u003d vsc.get_status().get_zones()\nfor zone in zones:\n    vsc.pull_from_code_studio(zone\u003dzone)",
+          "envSelection": {
+            "envMode": "INHERIT"
+          },
+          "proceedOnFailure": false
+        }
+      }
+    ]
   },
   "automationLocal": false,
   "customFields": {},
