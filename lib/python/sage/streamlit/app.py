@@ -12,20 +12,19 @@ def main():
 home = st.Page(main, title="Home", icon=":material/login:", default=True)
 
 # Instance Level
-#projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
+projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
 users = st.Page("pages/users.py", title="Users", icon=":material/dashboard:")
 
 # Project Level
-#datasets = st.Page("pages/datasets.py", title="Datasets", icon=":material/dashboard:")
-#recipes = st.Page("pages/recipes.py", title="Recipes", icon=":material/dashboard:")
-#scenarios = st.Page("pages/scenarios.py", title="Scenarios", icon=":material/dashboard:")
+datasets = st.Page("pages/datasets.py", title="Datasets", icon=":material/dashboard:")
+recipes = st.Page("pages/recipes.py", title="Recipes", icon=":material/dashboard:")
+scenarios = st.Page("pages/scenarios.py", title="Scenarios", icon=":material/dashboard:")
 
 pg = st.navigation(
     {
         "Sage Insights": [home],
         "Instance Level": [users],
-        #"Instance Level": [projects, users],
-        #"Project Level": [datasets, recipes, scenarios]
+        "Project Level": [projects, datasets, recipes, scenarios]
     }
 )
 pg.run()
