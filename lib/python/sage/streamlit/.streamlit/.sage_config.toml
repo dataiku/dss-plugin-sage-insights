@@ -1,2 +1,2 @@
 [users]
-  [users.filter] = ["login"]
+filter = ["login"]

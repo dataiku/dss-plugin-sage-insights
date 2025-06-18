@@ -11,11 +11,11 @@ except:
 # -----------------------------------------------------------------------------
 # Display the metrics of metadata layer
 category = "Users"
+data_category = category.lower()
 st.title(f"{category} Metadata")
 tab1, tab2, tab3 = st.tabs(["At a glance", "Drill Down", "Custom Metrics & Graphs"])
 with tab1:
     # Load data
-    data_category = category.lower()
     df = dss_folder.read_folder_input(
         folder_name = "base_data",
         path = f"/instance/_dataiku_{data_category}.csv",
@@ -27,6 +27,6 @@ with tab1:
     else:
         st.error("No Insights Found!!")
 with tab2:
-    layout_filter.main(df)
+    layout_filter.main(data_category, df)
 with tab3:
     layout_custom.main(category)
