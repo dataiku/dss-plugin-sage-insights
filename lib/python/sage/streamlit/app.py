@@ -8,8 +8,8 @@ st.set_page_config(
 def main():
     st.header(f" Welcome")
 
-# Splash
-home_pg = st.Page(main, title="Home", icon=":material/login:", default=True)
+# home
+home = st.Page(main, title="Home", icon=":material/login:", default=True)
 
 # Instance Level
 #projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
@@ -22,8 +22,8 @@ users = st.Page("pages/users.py", title="Users", icon=":material/dashboard:")
 
 pg = st.navigation(
     {
-        "Sage Insights": [home_pg],
-        "Instance Level": [users_pg],
+        "Sage Insights": [home],
+        "Instance Level": [users],
         #"Instance Level": [projects, users],
         #"Project Level": [datasets, recipes, scenarios]
     }
