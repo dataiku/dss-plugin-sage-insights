@@ -47,7 +47,17 @@
     "flowActions": {}
   },
   "schema": {
-    "columns": [],
+    "columns": [
+      {"name":"project_key","type":"string"},
+      {"name":"commit_id","type":"string"},
+      {"name":"author","type":"string"},
+      {"name":"timestamp","type":"bigint"},
+      {"name":"added_files","type":"int"},
+      {"name":"added_lines","type":"int"},
+      {"name":"removed_files","type":"int"},
+      {"name":"removed_lines","type":"int"},
+      {"name":"changed_files","type":"int"}
+    ],
     "userModified": true
   },
   "typeSystemVersion": "V2",
