@@ -18,7 +18,7 @@
       {
         "id": "custom_python_dIZZAKaKZeTvZupdMNPN6g",
         "type": "custom_python",
-        "name": "Step #1",
+        "name": "run sage",
         "enabled": true,
         "alwaysShowComment": false,
         "runConditionType": "RUN_IF_STATUS_MATCH",
