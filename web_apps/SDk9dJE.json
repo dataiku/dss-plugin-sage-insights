@@ -1,0 +1,59 @@
+{
+  "type": "CODE_STUDIO_AS_WEBAPP",
+  "hasLegacyBackendURL": false,
+  "params": {
+    "codeStudioId": "qAFRuwz",
+    "exposedPort": {
+      "label": "Streamlit",
+      "port": 8181,
+      "exposeHtml": true,
+      "exposition": {
+        "type": "port_forward",
+        "params": {}
+      },
+      "allowExpositionOverride": false
+    },
+    "autoStartBackend": false,
+    "backendAPIAccessEnabled": false,
+    "infra": {
+      "containerSelection": {
+        "containerMode": "EXPLICIT_CONTAINER",
+        "containerConf": "eks-default"
+      },
+      "overrideGlobalK8sExposition": false,
+      "exposition": {
+        "type": "local_process",
+        "params": {}
+      },
+      "scaling": {
+        "initialReplicas": 1,
+        "progressDeadlineSeconds": 600,
+        "hpa": false,
+        "hpaTargetCPUPercent": 0,
+        "hpaMetrics": [],
+        "hpaMinPods": 0,
+        "hpaMaxPods": 0,
+        "hpaAnnotations": []
+      },
+      "deploymentModifier": {
+        "config": {}
+      }
+    },
+    "forceAuthentication": false
+  },
+  "config": {},
+  "name": "Sage Dashboard",
+  "creationTag": {
+    "versionNumber": 0,
+    "lastModifiedBy": {
+      "login": "smazzei"
+    },
+    "lastModifiedOn": 1750206678758
+  },
+  "tags": [],
+  "checklists": {
+    "checklists": []
+  },
+  "customFields": {},
+  "isVirtual": false
+}
