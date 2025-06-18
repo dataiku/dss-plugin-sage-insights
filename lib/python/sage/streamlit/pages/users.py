@@ -12,7 +12,7 @@ except:
 # Display the metrics of metadata layer
 category = "Users"
 st.title(f"{category} Metadata")
-tab1, tab2 = st.tabs(["Home", "Custom"])
+tab1, tab2 = st.tabs(["At a glance", "Custom Metrics & Graphs"])
 with tab1:
     # Load data
     data_category = category.lower()
