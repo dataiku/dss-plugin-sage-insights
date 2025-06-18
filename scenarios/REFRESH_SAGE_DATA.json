@@ -38,26 +38,6 @@
           },
           "proceedOnFailure": false
         }
-      },
-      {
-        "id": "restart_webapp_NyZF2Gb",
-        "type": "restart_webapp",
-        "name": "Step #2",
-        "enabled": true,
-        "alwaysShowComment": false,
-        "runConditionType": "RUN_IF_STATUS_MATCH",
-        "runConditionStatuses": [
-          "SUCCESS",
-          "WARNING"
-        ],
-        "runConditionExpression": "",
-        "resetScenarioStatus": false,
-        "delayBetweenRetries": 10,
-        "maxRetriesOnFail": 0,
-        "params": {
-          "webAppId": "NyZF2Gb",
-          "proceedOnFailure": false
-        }
       }
     ]
   },
