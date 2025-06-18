@@ -6,10 +6,6 @@ from pandas.api.types import (
     is_object_dtype,
 )
 
-import tomllib
-with open(".streamlit/.sage_config.toml", "rb") as f:
-    config_data = tomllib.load(f)
-
 def filter_dataframe(df, filter):
     # Add a filtering block
     modify = st.checkbox("Add Custom Filters")
@@ -75,21 +71,25 @@ def filter_dataframe(df, filter):
 
     return df
 
-def main(data_category, df):
+def main(data_category, df, config):
     try:
-        toml = config_data[data_category]
+        config.get("filter")
     except:
-        toml = {"filter": []}
+        config["filter"] = []
 
     col1, col2 = st.columns(2)
     with col1:
         with st.container(border=True):
             # Filter the metadata df columns for what they are initially interested in
             columns = list(df.columns)
-            for filter in toml["filter"]:
-                columns.remove(filter)
-            options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
-            filter = toml["filter"] + options
+            if config.get("filter"):
+                for filter in config["filter"]:
+                    columns.remove(filter)
+                options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
+                filter = config["filter"] + options
+            else:
+                options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
+                filter = options
             if options:
                 df = df[filter]
 
