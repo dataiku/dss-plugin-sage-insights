@@ -1,8 +1,9 @@
+import dataiku
 import pandas as pd
 
 
 def main(client):
-    project_handle = client.get_project(project_key="SAGE")
+    project_handle = client.get_project(project_key=dataiku.default_project_key())
 
     # Pull in DSS Commits table to see user activity better
     dataset_handle = project_handle.get_dataset("dss_commits")
