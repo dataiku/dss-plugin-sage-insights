@@ -26,11 +26,17 @@ def main(client):
             shortDesc, tags
         ]
         tdf = pd.DataFrame([d], columns=cols)
-        df = pd.concat([df, tdf], ignore_index=True)
+        if df.empty:
+            df = tdf
+        else:
+            df = pd.concat([df, tdf], ignore_index=True)
     
+    # Imported projects missing creation values - temp fix for now
+    df.loc[df["creationBy"] == False, "creationBy"] = df["lastModifiedBy"]
+    df.loc[df["creationOn"] == 0, "creationOn"] = df["lastModifiedOn"]
+
     # Clean dates
     for c in ["lastModifiedOn", "creationOn"]:
-        df[c] = pd.to_datetime(df[c].replace(False, pd.NaT)).fillna(pd.to_datetime('1970-01-01'))
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = pd.to_datetime(df[c], utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))

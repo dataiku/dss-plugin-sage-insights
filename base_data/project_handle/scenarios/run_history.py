@@ -22,19 +22,21 @@ def main(project_handle):
             continue
         data = []
         for run in scenario_payload.get_last_runs():
+            try:
+                a = run.end_time
+            except:
+                continue # scenario still running
             for stepRuns in run.get_details()['stepRuns']:
                 step_name = stepRuns['step']['name']
-
                 # Get the step result -- SUCESS, FAILED, ABORTED
                 if 'result' in stepRuns:
                     result = stepRuns['result']
                 elif 'result' in stepRuns['scenarioRun']:
                     result = stepRuns['scenarioRun']['result']
                 else:
-                    #omg its running there are no results lmfao
+                    # omg its running there are no results lmfao
                     continue
                 step_pass = result['outcome']
-
                 # Check for Error Messages
                 err_msg = None
                 if step_pass != 'SUCCESS':
@@ -58,10 +60,11 @@ def main(project_handle):
                     step_pass,
                     err_msg
                 ])
-        tdf = pd.DataFrame(data, columns=cols)
-        df = pd.concat([df, tdf], ignore_index=True)
+        if df.empty:
+            df = tdf = pd.DataFrame(data, columns=cols)
+        else:
+            df = pd.concat([df, tdf], ignore_index=True)
     return [True, df]
 
-# Example usage:
 if __name__ == "__main__":
     main(project)
