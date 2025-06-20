@@ -58,7 +58,7 @@ def load_insights(module_name, fp, df, df_filter={}):
 
 def get_dss_commits():
     client = dataiku.api_client()
-    project_handle = client.get_project("SAGE_DASHBOARD")
+    project_handle = client.get_project(dataiku.default_project_key())
     dataset = project_handle.get_dataset("dss_commits")
     if not dataset.exists():
         dataset = project_handle.create_dataset(

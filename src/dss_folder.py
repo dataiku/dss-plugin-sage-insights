@@ -28,6 +28,15 @@ def create_folder(folder_name):
         name = folder_name,
         connection_name = "filesystem_folders"
     )
+    if folder_name == "partitioned_data":
+        settings = folder_handle.get_settings()
+        settings.remove_partitioning()
+        settings.add_discrete_partitioning_dimension("category")
+        settings.add_discrete_partitioning_dimension("module")
+        settings.add_discrete_partitioning_dimension("project_key")
+        settings.add_time_partitioning_dimension("date", period='DAY')
+        settings.set_partitioning_file_pattern("%{category}/%{module}/%{project_key}/%Y/%M/%D/.*")
+        settings.save()
     # Return Folder object
     folder = dataiku.Folder(
         lookup = folder_name,
