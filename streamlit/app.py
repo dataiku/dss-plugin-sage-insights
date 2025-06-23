@@ -23,12 +23,16 @@ datasets = st.Page("pages/metrics_graphs/datasets.py", title="Datasets", icon=":
 recipes = st.Page("pages/metrics_graphs/recipes.py", title="Recipes", icon=":material/dashboard:")
 scenarios = st.Page("pages/metrics_graphs/scenarios.py", title="Scenarios", icon=":material/dashboard:")
 
+# Debug
+debug = st.Page("pages/debug.py", title="Debug")
+
 # Navigation Panel
 pg = st.navigation(
     {
         "Sage Insights": [home],
         "Administartion": [instance_checks],
-        "Metrics and Graphs": [users, projects, datasets, recipes, scenarios]
+        "Metrics and Graphs": [users, projects, datasets, recipes, scenarios],
+        "DEBUG": [debug]
     }
 )
 pg.run()

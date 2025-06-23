@@ -2,7 +2,7 @@ import streamlit as st
 import tomllib
 
 from sage.src import dss_folder
-from sage.streamlit.pages.layouts import layout_basic
+from sage.streamlit.pages.layouts import layout_glance
 from sage.streamlit.pages.layouts import layout_filter
 from sage.streamlit.pages.layouts import layout_custom
 
@@ -28,7 +28,7 @@ def main(category, dss_objects):
         st.markdown(config["about"])
     with tab2:
         if dss_objects:
-            layout_basic.body(category, dss_objects, df)
+            layout_glance.body(category, dss_objects, df)
         else:
             st.error("No Insights Found!!")
     with tab3:
