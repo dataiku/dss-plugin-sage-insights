@@ -13,20 +13,22 @@ alt.themes.enable("dark")
 # home
 home = st.Page("pages/home.py", title="Home", icon=":material/login:", default=True)
 
-# Instance Level
-projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
-users = st.Page("pages/users.py", title="Users", icon=":material/dashboard:")
+# Administration
+instance_checks = st.Page("pages/administration/instance_checks.py", title="Instance Checks")
 
-# Project Level
-datasets = st.Page("pages/datasets.py", title="Datasets", icon=":material/dashboard:")
-recipes = st.Page("pages/recipes.py", title="Recipes", icon=":material/dashboard:")
-scenarios = st.Page("pages/scenarios.py", title="Scenarios", icon=":material/dashboard:")
+# Metrics and Graphs
+projects = st.Page("pages/metrics_graphs/projects.py", title="Projects", icon=":material/dashboard:")
+users = st.Page("pages/metrics_graphs/users.py", title="Users", icon=":material/dashboard:")
+datasets = st.Page("pages/metrics_graphs/datasets.py", title="Datasets", icon=":material/dashboard:")
+recipes = st.Page("pages/metrics_graphs/recipes.py", title="Recipes", icon=":material/dashboard:")
+scenarios = st.Page("pages/metrics_graphs/scenarios.py", title="Scenarios", icon=":material/dashboard:")
 
+# Navigation Panel
 pg = st.navigation(
     {
         "Sage Insights": [home],
-        "Instance Level": [users],
-        "Project Level": [projects, datasets, recipes, scenarios]
+        "Administartion": [instance_checks],
+        "Metrics and Graphs": [users, projects, datasets, recipes, scenarios]
     }
 )
 pg.run()
