@@ -1,5 +1,10 @@
 import streamlit as st
 
+if st.session_state.instance_name == "mazzei_designer":
+    if st.button("rerun"):
+        st.rerun()
+
+
 st.markdown("""# 📊 Dataiku Sage Dashboard
 
 ## Overview
@@ -42,3 +47,4 @@ This dashboard provides key administrative insights into the Dataiku platform to
 
 
 """)
+

@@ -12,7 +12,7 @@ def main(category, dss_objects):
     data_category = category.lower()
     df = dss_folder.read_folder_input(
         folder_name = "base_data",
-        path = f"/mazzei_designer/{data_category}/metadata.csv"
+        path = f"/{st.session_state.instance_name}/{data_category}/metadata.csv"
     )
     # load toml config
     with open(".streamlit/.sage_config.toml", "rb") as f:

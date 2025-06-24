@@ -1,5 +1,4 @@
 import dataiku
-import re
 from datetime import datetime
 
 from sage.src import dss_funcs
@@ -12,10 +11,7 @@ def main():
 
     # Get Instance Name
     client = dataiku.api_client()
-    instance_info = client.get_instance_info()
-    instance_name = instance_info.node_name.lower()
-    instance_name = re.sub(r'[^a-zA-Z0-9]', ' ', instance_name)
-    instance_name = re.sub(r'\s+', '_', instance_name)
+    instance_name = dss_funcs.get_dss_name(client)
 
     # Datetime
     dt = datetime.utcnow()
