@@ -1,5 +1,9 @@
 ## 🧱 Dashboard Sections
 
+if st.session_state.instance_name == "mazzei_designer":
+    if st.button("rerun"):
+        st.rerun()
+        
 ### 1. 🏁 Platform Summary
 
 - **Active Nodes**

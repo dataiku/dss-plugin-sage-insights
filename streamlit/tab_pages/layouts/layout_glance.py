@@ -25,7 +25,7 @@ def body(category, dss_objects, df):
 
     # -------------------------------------------------------------------------
     # Display
-    col = st.columns((1, 3, 2), gap='medium', border=True)
+    col = st.columns((1, 3, 2), gap='small', border=True)
     with col[0]:
         st.markdown(f'#### {category} Insights')
         for metric in metrics:

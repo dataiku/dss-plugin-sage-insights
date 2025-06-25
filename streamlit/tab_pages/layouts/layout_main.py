@@ -2,20 +2,21 @@ import streamlit as st
 import tomllib
 
 from sage.src import dss_folder
-from sage.streamlit.pages.layouts import layout_glance
-from sage.streamlit.pages.layouts import layout_filter
-from sage.streamlit.pages.layouts import layout_custom
+from sage.streamlit.tab_pages.layouts import layout_glance
+from sage.streamlit.tab_pages.layouts import layout_filter
+from sage.streamlit.tab_pages.layouts import layout_custom
 
 
 def main(category, dss_objects):
     # Load base metdata df
     data_category = category.lower()
+    data_category = data_category.replace(" ", "_")
     df = dss_folder.read_folder_input(
         folder_name = "base_data",
         path = f"/{st.session_state.instance_name}/{data_category}/metadata.csv"
     )
     # load toml config
-    with open(".streamlit/.sage_config.toml", "rb") as f:
+    with open(".streamlit/sage_config.toml", "rb") as f:
         config_data = tomllib.load(f)
     try:
         config = config_data[data_category]
@@ -35,3 +36,5 @@ def main(category, dss_objects):
         layout_filter.main(data_category, df, config)
     with tab4:
         layout_custom.main(category)
+    
+    return

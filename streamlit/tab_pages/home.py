@@ -1,11 +1,12 @@
 import streamlit as st
 
-if st.session_state.instance_name == "mazzei_designer":
-    if st.button("rerun"):
-        st.rerun()
+st.markdown("""# 📊 Dataiku Sage Dashboard asdfasdfs
 
-
-st.markdown("""# 📊 Dataiku Sage Dashboard
+- [Overview](#overview)
+- [🧭 Goals TBD](#%F0%9F%A7%AD-goals-tbd)
+- [📅 Refresh Schedule](#-refresh-schedule)
+- [👤 Access & Permissions](#-access--permissions)
+- [📌 Notes](#-notes)
 
 ## Overview
 
@@ -43,8 +44,4 @@ This dashboard provides key administrative insights into the Dataiku platform to
 
 - This dashboard is built to be modular. Designed for ease of use and scale.
 - For questions or enhancements, contact the **Platform Admin Team** at `Stephen.Mazzei@dataiku.com`.
-
-
-
 """)
-

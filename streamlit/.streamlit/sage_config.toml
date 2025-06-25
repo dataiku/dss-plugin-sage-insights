@@ -33,3 +33,9 @@ filter = []
 about = """ ### Scenarios
 - **Total Scenarios / Active Scenarios**
 """
+
+[disk_space]
+filter = []
+about = """ ### Disk Space
+- Discover which dss objects are consuming disk space
+"""

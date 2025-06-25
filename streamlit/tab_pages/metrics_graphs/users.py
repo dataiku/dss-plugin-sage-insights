@@ -1,4 +1,4 @@
-from sage.streamlit.pages.layouts import layout_main
+from sage.streamlit.tab_pages.layouts import layout_main
 try:
     from sage.insights import users as dss_objects # change this line
 except:

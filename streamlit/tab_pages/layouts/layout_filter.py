@@ -95,8 +95,10 @@ def main(data_category, df, config):
 
             # Display metadata df with custom filter on rows
             display_df = filter_dataframe(df, filter)
+
     with col2:
         with st.container(border=True):
+            display_df.drop_duplicates(inplace=True)
             st.dataframe(display_df)
 
     # Metrics
