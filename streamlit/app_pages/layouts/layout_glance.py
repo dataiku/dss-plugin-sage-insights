@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
-
 from sage.src import dss_funcs
 
 
-def body(category, dss_objects, df):
+def body(category, dss_objects, df, config):
     # -------------------------------------------------------------------------
     # Load the INSIGHTS information
     metrics = []
@@ -27,7 +26,6 @@ def body(category, dss_objects, df):
     # Display
     col = st.columns((1, 3, 2), gap='small', border=True)
     with col[0]:
-        st.markdown(f'#### {category} Insights')
         for metric in metrics:
             meta, data = metric
             title = meta['title']
@@ -50,4 +48,6 @@ def body(category, dss_objects, df):
             title = meta['title']
             st.markdown(f"##### {title}")
             st.dataframe(top10_df, hide_index=True)
-    return
+
+if __name__ == "__main__":
+    body(category, dss_objects, df, config)

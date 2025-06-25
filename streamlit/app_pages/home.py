@@ -1,12 +1,6 @@
 import streamlit as st
 
-st.markdown("""# 📊 Dataiku Sage Dashboard asdfasdfs
-
-- [Overview](#overview)
-- [🧭 Goals TBD](#%F0%9F%A7%AD-goals-tbd)
-- [📅 Refresh Schedule](#-refresh-schedule)
-- [👤 Access & Permissions](#-access--permissions)
-- [📌 Notes](#-notes)
+st.markdown("""# 📊 Dataiku Sage Dashboard
 
 ## Overview
 

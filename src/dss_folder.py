@@ -1,12 +1,7 @@
-# src/helper.py
 import dataiku
 import pandas as pd
 import json
 import warnings
-
-
-client = dataiku.api_client()
-project = client.get_default_project()
 
 
 def get_folder(folder_name):
@@ -23,6 +18,8 @@ def get_folder(folder_name):
 
 
 def create_folder(folder_name):
+    client = dataiku.api_client()
+    project = client.get_default_project()    
     # Create Folder
     folder_handle = project.create_managed_folder(
         name = folder_name,
@@ -78,4 +75,3 @@ def function_with_warning(df):
             if temp_col.notna().all():
                 df[c] = temp_col
     return df
-        

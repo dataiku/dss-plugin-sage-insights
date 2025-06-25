@@ -5,6 +5,8 @@ from pandas.api.types import (
     is_numeric_dtype,
     is_object_dtype,
 )
+from sage.src import dss_funcs
+
 
 def filter_dataframe(df, filter):
     # Add a filtering block
@@ -71,7 +73,7 @@ def filter_dataframe(df, filter):
 
     return df
 
-def main(data_category, df, config):
+def body(category, dss_objects, df, config):
     try:
         config.get("filter")
     except:
@@ -85,10 +87,10 @@ def main(data_category, df, config):
             if config.get("filter"):
                 for filter in config["filter"]:
                     columns.remove(filter)
-                options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
+                options = st.multiselect(f"Select dataframe columns.", columns)
                 filter = config["filter"] + options
             else:
-                options = st.multiselect(f"Filter Initial {data_category} dataframe columns.", columns)
+                options = st.multiselect(f"Filter dataframe rows.", columns)
                 filter = options
             if options:
                 df = df[filter]
@@ -103,5 +105,9 @@ def main(data_category, df, config):
 
     # Metrics
     with st.container(border=True):
+        d = dss_funcs.collect_modules(dss_objects)
+        st.write(d)
         st.write("hello")
-    return
+
+if __name__ == "__main__":
+    body(category, dss_objects, df, config)
