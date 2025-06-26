@@ -1,12 +1,12 @@
-import streamlit as st
-import altair as alt
-#import dataiku
-#from sage.src import dss_funcs
+DEBUG = False
+if DEBUG:
+    import sys
+    sys.dont_write_bytecode = True
 
 # -----------------------------------------------------------------------------
-# DSS Information
-#client = dataiku.api_client()
-st.session_state.instance_name = "mazzei_designer" #dss_funcs.get_dss_name(client)
+import streamlit as st
+import altair as alt
+import dataiku
 
 # -----------------------------------------------------------------------------
 # Setup streamlit configs
@@ -25,37 +25,36 @@ home = st.Page("app_pages/home.py", title="Home", default=True)
 
 # -----------------------------------------------------------------------------
 # Administration
-#instance_checks = st.Page("app_pages/administration/instance_checks.py", title="Instance Checks")
+instance_checks = st.Page("app_pages/administration/instance_checks.py", title="Instance Checks")
 
 # -----------------------------------------------------------------------------
 # Operating System
-#disk_space = st.Page("app_pages/metrics_graphs/disk_space.py", title="Disk Space")
+disk_space = st.Page("app_pages/metrics_graphs/disk_space.py", title="Disk Space")
 
 # -----------------------------------------------------------------------------
 # Metrics and Graphs
-#projects  = st.Page("app_pages/metrics_graphs/projects.py",  title="Projects")
+projects  = st.Page("app_pages/metrics_graphs/projects.py",  title="Projects")
 users     = st.Page("app_pages/metrics_graphs/users.py",     title="Users")
-#datasets  = st.Page("app_pages/metrics_graphs/datasets.py",  title="Datasets")
-#recipes   = st.Page("app_pages/metrics_graphs/recipes.py",   title="Recipes")
-#scenarios = st.Page("app_pages/metrics_graphs/scenarios.py", title="Scenarios")
+datasets  = st.Page("app_pages/metrics_graphs/datasets.py",  title="Datasets")
+recipes   = st.Page("app_pages/metrics_graphs/recipes.py",   title="Recipes")
+scenarios = st.Page("app_pages/metrics_graphs/scenarios.py", title="Scenarios")
 
 # -----------------------------------------------------------------------------
 # Debug
-#debug = st.Page("app_pages/debug.py", title="Debug")
+debug = st.Page("app_pages/debug.py", title="Debug")
 
 # -----------------------------------------------------------------------------
 # Navigation Panel
 tree = {
     "Sage Insights":    [home],
-    #"Administartion":   [instance_checks],
-    #"Operating System": [disk_space],
-    "Dataiku Objects":  [users], #, projects, datasets, recipes, scenarios],
-    #"DEBUG":            [debug]
+    "Administartion":   [instance_checks],
+    "Operating System": [disk_space],
+    "Dataiku Objects":  [users, projects, datasets, recipes, scenarios],
 }
-#if st.session_state.instance_name != "mazzei_designer":
-#    tree.pop("DEBUG")
+if DEBUG:
+    tree["DEBUG"] = [debug]
 
-pg = st.navigation(tree)
-pg.run()
-
+pg = st.navigation(tree, position="top")
+with st.container(border=True):
+    pg.run()
 # -----------------------------------------------------------------------------

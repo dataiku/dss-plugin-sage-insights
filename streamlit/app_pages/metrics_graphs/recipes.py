@@ -1,4 +1,4 @@
-from sage.streamlit.tab_pages.layouts import layout_main
+from sage.streamlit.app_pages.layouts import layout_main
 try:
     from sage.insights import recipes as dss_objects # change this line
 except:

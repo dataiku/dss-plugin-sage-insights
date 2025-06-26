@@ -105,9 +105,10 @@ def body(category, dss_objects, df, config):
 
     # Metrics
     with st.container(border=True):
-        d = dss_funcs.collect_modules(dss_objects)
-        st.write(d)
-        st.write("hello")
+        if dss_objects:
+            d = dss_funcs.collect_modules(dss_objects)
+            st.write(d)
+            st.write("hello")
 
 if __name__ == "__main__":
     body(category, dss_objects, df, config)

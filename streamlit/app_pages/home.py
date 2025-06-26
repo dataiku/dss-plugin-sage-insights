@@ -1,5 +1,14 @@
 import streamlit as st
+import dataiku
+from sage.src import dss_funcs
 
+# -----------------------------------------------------------------------------
+# DSS Information
+client = dataiku.api_client()
+st.session_state.instance_name = dss_funcs.get_dss_name(client)
+
+# -----------------------------------------------------------------------------
+# Home Page
 st.markdown("""# 📊 Dataiku Sage Dashboard
 
 ## Overview
