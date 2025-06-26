@@ -1,5 +1,7 @@
 # Version History
 
+## V1.2
+
 ## v1.1
 
 1. "At a glance" Metrics / Graphs for the following items:
@@ -8,6 +10,9 @@
     1. Datasets
     1. Recipes
     1. Scenarios
+    1. Instance Checks
+    1. Disk Space
+        1. Add-on Plugin/Macro
 
 ## v1.0
 
