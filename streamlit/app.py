@@ -1,6 +1,15 @@
+DEBUG = False
+if DEBUG:
+    import sys
+    sys.dont_write_bytecode = True
+
+# -----------------------------------------------------------------------------
 import streamlit as st
 import altair as alt
+import dataiku
 
+# -----------------------------------------------------------------------------
+# Setup streamlit configs
 st.set_page_config(
     page_title="Dataiku Sage Dashboard",
     page_icon="🏂",
@@ -10,23 +19,42 @@ st.set_page_config(
 
 alt.themes.enable("dark")
 
-# home
-home = st.Page("pages/home.py", title="Home", icon=":material/login:", default=True)
+# -----------------------------------------------------------------------------
+# Home
+home = st.Page("app_pages/home.py", title="Home", default=True)
 
-# Instance Level
-projects = st.Page("pages/projects.py", title="Projects", icon=":material/dashboard:")
-users = st.Page("pages/users.py", title="Users", icon=":material/dashboard:")
+# -----------------------------------------------------------------------------
+# Administration
+instance_checks = st.Page("app_pages/administration/instance_checks.py", title="Instance Checks")
 
-# Project Level
-datasets = st.Page("pages/datasets.py", title="Datasets", icon=":material/dashboard:")
-recipes = st.Page("pages/recipes.py", title="Recipes", icon=":material/dashboard:")
-scenarios = st.Page("pages/scenarios.py", title="Scenarios", icon=":material/dashboard:")
+# -----------------------------------------------------------------------------
+# Operating System
+disk_space = st.Page("app_pages/metrics_graphs/disk_space.py", title="Disk Space")
 
-pg = st.navigation(
-    {
-        "Sage Insights": [home],
-        "Instance Level": [users],
-        "Project Level": [projects, datasets, recipes, scenarios]
-    }
-)
-pg.run()
+# -----------------------------------------------------------------------------
+# Metrics and Graphs
+projects  = st.Page("app_pages/metrics_graphs/projects.py",  title="Projects")
+users     = st.Page("app_pages/metrics_graphs/users.py",     title="Users")
+datasets  = st.Page("app_pages/metrics_graphs/datasets.py",  title="Datasets")
+recipes   = st.Page("app_pages/metrics_graphs/recipes.py",   title="Recipes")
+scenarios = st.Page("app_pages/metrics_graphs/scenarios.py", title="Scenarios")
+
+# -----------------------------------------------------------------------------
+# Debug
+debug = st.Page("app_pages/debug.py", title="Debug")
+
+# -----------------------------------------------------------------------------
+# Navigation Panel
+tree = {
+    "Sage Insights":    [home],
+    "Administartion":   [instance_checks],
+    "Operating System": [disk_space],
+    "Dataiku Objects":  [users, projects, datasets, recipes, scenarios],
+}
+if DEBUG:
+    tree["DEBUG"] = [debug]
+
+pg = st.navigation(tree, position="top")
+with st.container(border=True):
+    pg.run()
+# -----------------------------------------------------------------------------

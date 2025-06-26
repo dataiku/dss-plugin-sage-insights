@@ -1,14 +1,12 @@
-import dataiku
 import os
 import importlib
 import pandas as pd
-from datetime import datetime
 
 from sage.base_data import client_handle  as dss_object
 from sage.src import dss_folder
 
 
-def run_modules(client, dt):
+def run_modules(client, instance_name, dt):
     directory = dss_object.__path__[0]
     for root, _, files in os.walk(directory):
         for f in files:
@@ -32,21 +30,20 @@ def run_modules(client, dt):
                 dt_day   = str(f'{dt.day:02d}')
                 dss_folder.write_folder_output(
                     folder_name = "partitioned_data",
-                    path = f"{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv",
+                    path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv",
                     data = results[1]
                 )
                 dss_folder.write_folder_output(
                     folder_name = "base_data",
-                    path = f"{path}/{module_name}.csv",
+                    path = f"/{instance_name}/{path}/{module_name}.csv",
                     data = results[1]
                 )
     return
 
 
-def main():
-    dt = datetime.utcnow()
-    client = dataiku.api_client()
-    run_modules(client, dt)
+def main(client, instance_name, dt):
+    # Gather data
+    run_modules(client, instance_name, dt)
     return
 
 

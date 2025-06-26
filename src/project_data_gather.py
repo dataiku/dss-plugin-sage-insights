@@ -1,14 +1,12 @@
-import dataiku
 import os
 import importlib
 import pandas as pd
-from datetime import datetime
 
 from sage.base_data import project_handle as dss_object
 from sage.src import dss_folder
 
 
-def run_modules(project_handle, project_key, dt):
+def run_modules(project_handle, project_key, instance_name, dt):
     directory = dss_object.__path__[0]
     for root, _, files in os.walk(directory):
         for f in files:
@@ -33,19 +31,19 @@ def run_modules(project_handle, project_key, dt):
                 dt_day   = str(f'{dt.day:02d}')
                 dss_folder.write_folder_output(
                     folder_name = "partitioned_data",
-                    path = f"/{category}/{module_name}/{project_key}/{dt_year}/{dt_month}/{dt_day}/data.csv",
+                    path = f"/{instance_name}/{category}/{module_name}/{project_key}/{dt_year}/{dt_month}/{dt_day}/data.csv",
                     data_type = "DF",
                     data = results[1]
                 )
     return
 
 
-def stack_project_data():
+def stack_project_data(instance_name):
     # create a partitioned folder dataframe
     folder = dss_folder.get_folder(folder_name="partitioned_data")
     d = folder.list_partitions()
     folder_df = pd.DataFrame(d, columns=["partitions"])
-    folder_df[["category", "module", "project_key", "dt"]] = folder_df["partitions"].str.split("|", expand=True)
+    folder_df[["instance_name", "category", "module", "project_key", "dt"]] = folder_df["partitions"].str.split("|", expand=True)
     # Loop over the sets and gather
     for i,grp in folder_df.groupby(by=["category", "module"]):
         # get latest dt partition
@@ -63,22 +61,21 @@ def stack_project_data():
         # Write consolidated DF to folder
         dss_folder.write_folder_output(
             folder_name = "base_data",
-            path = f"/{i[0]}/{i[1]}.csv",
+            path = f"/{instance_name}/{i[0]}/{i[1]}.csv",
             data_type = "DF",
             data = df
         )
     return
 
 
-def main():
-    dt = datetime.utcnow()
-    client = dataiku.api_client()
+def main(client, instance_name, dt):
+    # Gather data
     project_keys = client.list_project_keys()
     for project_key in project_keys:
         project_handle = client.get_project(project_key=project_key)
-        run_modules(project_handle, project_key, dt)
+        run_modules(project_handle, project_key, instance_name, dt)
     # Stack individual results
-    stack_project_data()
+    stack_project_data(instance_name)
     return
 
 

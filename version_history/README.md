@@ -1,6 +1,15 @@
 # Version History
 
-## Alpha
+## v1.1
+
+1. "At a glance" Metrics / Graphs for the following items:
+    1. Users
+    1. Projects
+    1. Datasets
+    1. Recipes
+    1. Scenarios
+
+## v1.0
 
 1. Scope out context and design
 1. Initial data gather

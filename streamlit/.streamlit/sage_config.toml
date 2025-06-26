@@ -1,0 +1,41 @@
+[users]
+filter = ["login"]
+about = """ ### User Profiling
+- **Total Users / Active in Last 30 Days**
+- **Admin vs Non-Admin Ratio**
+- **Login Trends Over Time**
+- **Top Users by Job Count**
+- **Users with No Recent Activity**
+"""
+
+[projects]
+filter = []
+about = """ ### Projects
+- **Total Projects / Active Projects**
+- **Projects by Team / Owner**
+- **Orphan Projects (No Activity in 60+ Days)**
+- **Top Projects by Job Count / Runtime**
+- **Scheduled Scenario Success/Failure Rate**
+"""
+
+[datasets]
+filter = []
+about = """ ### Datasets
+"""
+
+[recipes]
+filter = []
+about = """ ### Recipes
+"""
+
+[scenarios]
+filter = []
+about = """ ### Scenarios
+- **Total Scenarios / Active Scenarios**
+"""
+
+[disk_space]
+filter = []
+about = """ ### Disk Space
+- Discover which dss objects are consuming disk space
+"""
