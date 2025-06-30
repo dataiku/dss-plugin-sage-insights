@@ -1,25 +1,14 @@
 import streamlit as st
 import pandas as pd
 import tomllib
-from sage.src import dss_folder
-from sage.streamlit.app_pages.layouts import layout_glance
-from sage.streamlit.app_pages.layouts import layout_filter
-from sage.streamlit.app_pages.layouts import layout_custom
+from sage.src import dss_folder, dss_funcs
+from sage.streamlit.app_pages.layouts import layout_display
 
 
 def main(category, dss_objects):
-    # Load base metdata df
+    # load toml config
     data_category = category.lower()
     data_category = data_category.replace(" ", "_")
-    try:
-        df = dss_folder.read_folder_input(
-            folder_name = "base_data",
-            path = f"/{st.session_state.instance_name}/{data_category}/metadata.csv"
-        )
-    except:
-        df = pd.DataFrame()
-    
-    # load toml config
     with open(".streamlit/sage_config.toml", "rb") as f:
         config_data = tomllib.load(f)
     try:
@@ -29,20 +18,12 @@ def main(category, dss_objects):
     
     # initialize the module
     st.title(f"{category} Metadata")
-    tab1, tab2, tab3, tab4 = st.tabs(["About", "At a glance", "Drill Down", "Custom Metrics & Graphs"])
+    tab1, tab2, tab3, tab4 = st.tabs(["About", "Metrics", "Charts & Graphs", "Drill Down"])
     with tab1:
         about = config.get("about", "#### No information found.")
         st.markdown(about)
     with tab2:
-        if (dss_objects and not df.empty):
-            layout_glance.body(category, dss_objects, df, config)
-        else:
-            st.error("No Insights Found!!")
+        layout_display.body("metrics", dss_objects)
     with tab3:
-        if not df.empty:
-            layout_filter.body(category, dss_objects, df, config)
-        else:
-            st.error("No Metadata Found!!")
-    with tab4:
-        layout_custom.body(category, dss_objects, df, config)
+        layout_display.body("graphs", dss_objects)
         
