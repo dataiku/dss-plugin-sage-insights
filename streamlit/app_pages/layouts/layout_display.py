@@ -22,7 +22,7 @@ def body(display_type, dss_objects):
         st.error(f"No {display_type} to display.")
         return
 
-    if display_type == "metrics":
+    if display_type == "Future Metrics Layout":
         items_per_row = 3
         for i in range(0, len(display_data), items_per_row):
             row_items = display_data[i : i + items_per_row]
@@ -33,6 +33,13 @@ def body(display_type, dss_objects):
                     fp = d[key][1]
                     data = dss_funcs.load_insights(module_name, fp)
                     display_graph.main(data)
+    elif display_type == "metrics":
+        for key in display_data:
+            with st.container(border=True):
+                module_name = d[key][0]
+                fp = d[key][1]
+                data = dss_funcs.load_insights(module_name, fp)
+                display_graph.main(data)
     elif display_type == "graphs":
         for key in display_data:
             with st.container(border=True):

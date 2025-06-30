@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from sage.src import dss_folder
@@ -11,13 +10,17 @@ def main(df_filter={}):
     # Load additional data
     df = dss_folder.read_folder_input(
         folder_name="base_data",
-        path=f"/mazzei_designer/datasets/metadata.csv"
+        path=f"/mazzei_designer/users/metadata.csv" # change this line
     )
 
     # Perform logic here
+    total_users = df["login"].nunique()
+    enabled_users = int(df.groupby("enabled")["login"].nunique().loc[True])
+    delta_users = total_users - enabled_users
+    total_users, enabled_users, delta_users
 
     # Set values
-    data["label"] = "Average number of Datasets per Project"
-    data["data"] = int(round(df.groupby("project_key")["dataset_name"].size().mean(), 0))
+    data["label"] = "Enabled Users"
+    data["data"] = enabled_users
 
     return data
