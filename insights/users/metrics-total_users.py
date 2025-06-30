@@ -10,7 +10,7 @@ def main(df_filter={}):
     # Load additional data
     df = dss_folder.read_folder_input(
         folder_name="base_data",
-        path=f"/mazzei_designer/users/metadata.csv" # change this line
+        path=f"/{st.session_state.instance_name}/users/metadata.csv" # change this line
     )
 
     # Perform logic here
