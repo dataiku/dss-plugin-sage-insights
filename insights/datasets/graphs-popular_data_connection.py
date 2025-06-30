@@ -10,7 +10,7 @@ def main(df_filter={}):
     # Load additional data
     df = dss_folder.read_folder_input(
         folder_name="base_data",
-        path=f"/mazzei_designer/datasets/metadata.csv"
+        path=f"/{st.session_state.instance_name}/datasets/metadata.csv"
     )
     df = df.groupby("dataset_type")["project_key"].count()
     df = df.reset_index()

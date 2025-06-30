@@ -5,6 +5,7 @@ from sage.src import dss_funcs
 client = dataiku.api_client()
 instance_name = dss_funcs.get_dss_name(client)
 
+DEBUG = False
 if instance_name == "mazzei_designer":
     import sys
     sys.dont_write_bytecode = True
