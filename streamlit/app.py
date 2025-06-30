@@ -1,12 +1,21 @@
-DEBUG = False
-if DEBUG:
+# -----------------------------------------------------------------------------
+# Setup some header information
+import dataiku
+from sage.src import dss_funcs
+client = dataiku.api_client()
+instance_name = dss_funcs.get_dss_name(client)
+
+if instance_name == "mazzei_designer":
     import sys
     sys.dont_write_bytecode = True
+    DEBUG = True
 
 # -----------------------------------------------------------------------------
 import streamlit as st
 import altair as alt
 import dataiku
+
+st.session_state.instance_name = instance_name
 
 # -----------------------------------------------------------------------------
 # Setup streamlit configs

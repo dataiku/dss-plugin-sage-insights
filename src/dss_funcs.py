@@ -51,15 +51,18 @@ def load_module(module_name, fp, df_filter={}):
     return results
 
 
-def load_insights(module_name, fp, df, df_filter={}):
+def load_insights(module_name, fp, df_filter={}):
+    results = {}
     spec = importlib.util.spec_from_file_location(module_name, fp)
     try:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         if hasattr(module, 'main'):
-            results = module.main(df, df_filter)
+            results = module.main(df_filter)
     except Exception as e:
-        results = [{"pass": False}, f"Error importing or running ({fp}) {module_name}: {e}"]
+        import streamlit as st
+        st.error(f"Error importing or running ({fp}) {module_name}: {e}")
+        results = {}
         return results
     return results
 
