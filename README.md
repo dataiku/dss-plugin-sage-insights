@@ -1,7 +1,7 @@
 # Sage Dashboard
 
 * Author - Stephen Mazzei
-* Email - Stephen.Mazzei@dataiku.com
+* Email - <Stephen.Mazzei@dataiku.com>
 * Version - 1.2.0
 
 ## Scope
@@ -30,7 +30,7 @@ Due to the web application being built on Streamlit, installation requires a bit
             matplotlib
             plotly
             ```
-        1. No containers, Code Studios will buuild that
+        1. No containers, Code Studios will build that
         1. Save and build local
 1. Dedicated Code Studio 
     1. Create a new Code Studio template, use the label of `sage_dashboard`
