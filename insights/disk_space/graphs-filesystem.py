@@ -3,15 +3,16 @@ import pandas as pd
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
-def main(df_filter={}):
+def main(df=pd.DataFrame()):
     # load data structure
     data = structures.get("bar_chart")
 
     # Load additional data
-    df = dss_folder.read_folder_input(
-        folder_name="base_data",
-        path=f"/{st.session_state.instance_name}/disk_space/filesystem.csv"
-    )
+    if df.empty:
+        df = dss_folder.read_folder_input(
+            folder_name="base_data",
+            path=f"/{st.session_state.instance_name}/disk_space/filesystem.csv"
+        )
 
     # Data Cleanse
     del df["filesystem"]
@@ -26,6 +27,6 @@ def main(df_filter={}):
     data["y"] = "used_pct"
     data["x_label"] = "% Used"
     data["y_label"] = "Mounted On"
-    data["horrizontal"] = True
+    data["horizontal"] = True
     
     return data
