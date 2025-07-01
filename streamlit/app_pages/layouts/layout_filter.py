@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from pandas.api.types import (
     is_categorical_dtype,
     is_datetime64_any_dtype,
