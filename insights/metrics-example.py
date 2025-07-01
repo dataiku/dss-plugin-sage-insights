@@ -3,14 +3,15 @@ import pandas as pd
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
-def main(df_filter={}):
+def main(df=pd.DataFrame()):
     # load data structure
     data = structures.get("metric")
+    # st.write(data)
 
     # Load additional data
     df = dss_folder.read_folder_input(
         folder_name="base_data",
-        path=f"/{st.session_state.instance_name}/datasets/metadata.csv" # change this line
+        path=f"/{st.session_state.instance_name}/CATEGORY/DATAFRAME.csv" # change this line
     )
 
     # Perform logic here
@@ -18,6 +19,5 @@ def main(df_filter={}):
     # Set values
     data["label"] = "Example_Label"
     data["data"] = 1
-    data["delta"] = 0
 
     return data

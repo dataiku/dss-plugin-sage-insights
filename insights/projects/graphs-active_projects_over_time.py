@@ -3,15 +3,16 @@ import pandas as pd
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
-def main(df_filter={}):
+def main(df=pd.DataFrame()):
     # load data structure
     data = structures.get("bar_chart") # change this line
 
     # Load additional data
-    df = dss_folder.read_folder_input(
-        folder_name="base_data",
-        path=f"/{st.session_state.instance_name}/projects/metadata.csv" # change this line
-    )
+    if df.empty:
+        df = dss_folder.read_folder_input(
+            folder_name="base_data",
+            path=f"/{st.session_state.instance_name}/projects/metadata.csv" # change this line
+        )
 
     # Perform logic here
     from datetime import date, timedelta

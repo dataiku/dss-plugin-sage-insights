@@ -2,6 +2,7 @@ import dataiku
 import os
 import importlib
 import re
+import pandas as pd
 
 # -----------------------------------------------------------------------------
 def get_dss_name(client):
@@ -22,6 +23,7 @@ def get_nested_value(data, keys):
 
 
 def collect_modules(module):
+    import streamlit as st
     d = {}
     directory = module.__path__[0]
     for root, _, files in os.walk(directory):
@@ -30,8 +32,8 @@ def collect_modules(module):
                 module_name = f[:-3]
                 path = root.replace(directory, "")
                 fp = os.path.join(root, f)
-                delimiter = "_"
-                words = module_name.split(delimiter)
+                delimiters = r'[-_]'
+                words = re.split(delimiters, module_name)
                 capitalized_words = [word.capitalize() for word in words]
                 final_string = " ".join(capitalized_words)
                 d[final_string] = [module_name, fp]
@@ -51,7 +53,7 @@ def load_module(module_name, fp, df_filter={}):
     return results
 
 
-def load_insights(module_name, fp, df_filter={}):
+def load_insights(module_name, fp, df_filter=pd.DataFrame()):
     results = {}
     spec = importlib.util.spec_from_file_location(module_name, fp)
     try:

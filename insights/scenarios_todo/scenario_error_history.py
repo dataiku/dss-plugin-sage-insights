@@ -1,7 +1,9 @@
 import pandas as pd
 from sage.src import dss_folder
 
-
+def form():
+    return
+    
 def main(df):
     j = {
         "chart_type": "DF",
