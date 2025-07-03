@@ -31,9 +31,8 @@ def create_folder(folder_name):
         settings.add_discrete_partitioning_dimension("instance_name")
         settings.add_discrete_partitioning_dimension("category")
         settings.add_discrete_partitioning_dimension("module")
-        settings.add_discrete_partitioning_dimension("project_key")
         settings.add_time_partitioning_dimension("date", period='DAY')
-        settings.set_partitioning_file_pattern("%{instance_name}/%{category}/%{module}/%{project_key}/%Y/%M/%D/.*")
+        settings.set_partitioning_file_pattern("%{instance_name}/%{category}/%{module}/%Y/%M/%D/.*")
         settings.save()
     # Return Folder object
     folder = dataiku.Folder(

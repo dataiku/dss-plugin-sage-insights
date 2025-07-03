@@ -4,6 +4,8 @@ import importlib
 import re
 import pandas as pd
 
+from sage.src import dss_folder
+
 # -----------------------------------------------------------------------------
 def get_dss_name(client):
     instance_info = client.get_instance_info()
@@ -103,3 +105,37 @@ def get_dss_commits():
         }
         r = dataset.set_schema(schema=schema)
     return dataset
+
+def stack_partition_data():
+    # create a partitioned folder dataframe
+    folder = dss_folder.get_folder(folder_name="partitioned_data")
+    partitions = folder.list_partitions()
+    folder_df = pd.DataFrame(partitions, columns=["partitions"])
+    cols = ["instance_name", "category", "module", "dt"]
+    folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+
+    # get latest partition
+    max_date = folder_df['dt'].max()
+    filtered_df = folder_df[folder_df['dt'] == max_date]
+
+    # Loop over the sets and gather
+    groups = filtered_df.groupby(by=["category", "module"])
+    for i, g in groups:
+        category, module = i
+        # loop over and build consolidated df
+        df = pd.DataFrame()
+        for partition in g["partitions"].tolist():
+            path = folder.list_paths_in_partition(partition=partition)[0]
+            tdf = dss_folder.read_folder_input(folder_name="partitioned_data", path=path)
+            if df.empty:
+                df = tdf
+            else:
+                df = pd.concat([df, tdf], ignore_index=True)
+        # Write consolidated DF to folder
+        dss_folder.write_folder_output(
+            folder_name = "base_data",
+            path = f"/{category}/{module}.csv",
+            data_type = "DF",
+            data = df
+        )
+    return
