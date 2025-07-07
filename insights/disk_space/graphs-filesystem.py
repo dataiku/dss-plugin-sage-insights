@@ -11,8 +11,10 @@ def main(df=pd.DataFrame()):
     if df.empty:
         df = dss_folder.read_folder_input(
             folder_name="base_data",
-            path=f"/{st.session_state.instance_name}/disk_space/filesystem.csv"
+            path=f"/disk_space/filesystem.csv"
         )
+
+    df = df[df["instance_name"] == st.session_state.instance_name]
 
     # Data Cleanse
     del df["filesystem"]

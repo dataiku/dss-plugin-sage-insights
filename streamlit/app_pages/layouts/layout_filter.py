@@ -139,7 +139,7 @@ def body(data_category, config, display_type, dss_objects, custom_dss_objects):
             st.button("Clear Display", on_click=uncheck_checkbox)
             
             # Load the df
-            df = dss_folder.read_folder_input( folder_name="base_data", path=f"/{st.session_state.instance_name}/{data_category}/{dataset}.csv")
+            df = dss_folder.read_folder_input( folder_name="base_data", path=f"/{data_category}/{dataset}.csv")
 
             # Filter the metadata df columns for what they are initially interested in
             df, filter = filter_columns(df, config)
