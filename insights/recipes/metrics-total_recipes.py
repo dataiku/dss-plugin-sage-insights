@@ -5,7 +5,7 @@ from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("metric")
+    fig = structures.get("metric")
 
     # Load additional data
     if df.empty:
@@ -17,7 +17,7 @@ def main(df=pd.DataFrame()):
     # Perform logic here
 
     # Set values
-    data["label"] = "Total number of Recipes"
-    data["data"] = df["recipe_name"].nunique()
+    fig["label"] = "Total number of Recipes"
+    fig["data"] = df["recipe_name"].nunique()
 
-    return data
+    return fig

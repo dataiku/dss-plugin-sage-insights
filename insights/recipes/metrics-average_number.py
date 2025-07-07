@@ -5,7 +5,7 @@ from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("metric")
+    fig = structures.get("metric")
 
     # Load additional data
     if df.empty:
@@ -17,7 +17,7 @@ def main(df=pd.DataFrame()):
     # Perform logic here
 
     # Set values
-    data["label"] = "Average number of Recipes per Project"
-    data["data"] = round(df.groupby("project_key")["recipe_name"].size().mean(), 0)
+    fig["label"] = "Average number of Recipes per Project"
+    fig["data"] = round(df.groupby("project_key")["recipe_name"].size().mean(), 0)
 
-    return data
+    return fig
