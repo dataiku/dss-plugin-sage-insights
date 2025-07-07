@@ -2,7 +2,7 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.2.3
+* Version - 1.2.5
 
 ## Scope
 
@@ -29,6 +29,7 @@ Due to the web application being built on Streamlit, installation requires a bit
             urllib3
             matplotlib
             plotly
+            lxml
             ```
         1. No containers, Code Studios will build that
         1. Save and build local
@@ -78,3 +79,4 @@ Due to the web application being built on Streamlit, installation requires a bit
             1. Name: `Sage dashboard`
             1. Add dashbaord
         1. Save all and RUN
+1. For additional metrics and monitoring on Disk Space, please see the add-on section for notes.
