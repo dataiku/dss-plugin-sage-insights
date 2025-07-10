@@ -1,28 +1,56 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("bar_chart") # change this line
+    FIG = structures.get("plotly") # change this line
 
     # Load additional data
     if df.empty:
         df = dss_folder.read_folder_input(
             folder_name="base_data",
-            path=f"/{st.session_state.instance_name}/recipes/metadata.csv" # change this line
+            path=f"/recipes/metadata.csv" # change this line
         )
 
     # Perform logic here
-    df = df.groupby("recipe_type")["project_key"].count()
-    #df = df.reset_index()
+    df = df.groupby(["instance_name", "recipe_type"]).size().reset_index(name="count")
 
-    # Build the data structure
-    data["title"] = "Recipes count by Recipe Type"
-    data["data"] = df
-    data["x_label"] = "Count of Recipe Types"
-    data["y_label"] = "Recipe Type"
-    data["horizontal"] = True
+    # Plot
+    fig = px.bar(
+        df,
+        y="recipe_type",
+        x="count",
+        color="instance_name",
+        barmode="group",
+        text="count",
+        labels={"count": "number of recipe types"},
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+
+    # Customize layout for polish
+    fig.update_layout(
+        yaxis_title="Recipe Type",
+        xaxis_title="Count",
+        legend_title="Instance Name",
+        template="plotly_white",
+        font=dict(size=14),
+        bargap=0.15,
+        bargroupgap=0.1
+    )
+
+    # Add text annotations inside bars and background lines
+    fig.update_traces(textposition="outside")
+    fig.update_layout(
+        xaxis=dict(showgrid=True, gridcolor='lightgray', zeroline=False),
+        yaxis=dict(showgrid=True, gridcolor='lightgray', zeroline=False)
+    )
+
+    # Build the FIG construct to return
+    FIG["title"] = "Number of Recipes per Instance"
+    FIG["data"] = fig
     
-    return data
+    return FIG

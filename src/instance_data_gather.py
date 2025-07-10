@@ -4,6 +4,7 @@ import pandas as pd
 
 from sage.base_data import client_handle  as dss_object
 from sage.src import dss_folder
+from sage.src import dss_init
 
 
 def run_modules(client, instance_name, dt):
@@ -15,33 +16,33 @@ def run_modules(client, instance_name, dt):
                 path = root.replace(directory, "")
                 fp = os.path.join(root, f)
                 spec = importlib.util.spec_from_file_location(module_name, fp)
-                results = False
+                results, data = [False, None]
                 try:
                     module = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(module)
                     if hasattr(module, 'main'):
-                        results = module.main(client)
+                        results, data = module.main(client)
                 except Exception as e:
-                    results = [False, None]
+                    results, data = [False, None]
                     print(f"Error importing or running ({path}) {module_name}: {e}")
-            if results[0]:
+            if results:
+                if "instance_name" not in data.columns:
+                    data["instance_name"] = instance_name
                 dt_year  = str(dt.year)
                 dt_month = str(f'{dt.month:02d}')
                 dt_day   = str(f'{dt.day:02d}')
                 dss_folder.write_folder_output(
                     folder_name = "partitioned_data",
                     path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv",
-                    data = results[1]
-                )
-                dss_folder.write_folder_output(
-                    folder_name = "base_data",
-                    path = f"/{instance_name}/{path}/{module_name}.csv",
-                    data = results[1]
+                    data = data
                 )
     return
 
 
 def main(client, instance_name, dt):
+    # Initialize
+    dss_init.get_dss_commits(client)
+    
     # Gather data
     run_modules(client, instance_name, dt)
     return

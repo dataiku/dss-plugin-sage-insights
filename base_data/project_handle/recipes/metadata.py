@@ -34,4 +34,4 @@ def main(project_handle):
 
 
 if __name__ == "__main__":
-    main(project)
+    main()

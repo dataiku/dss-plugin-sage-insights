@@ -3,6 +3,10 @@ import os
 import importlib
 import re
 import pandas as pd
+import tomllib
+
+
+from sage.src import dss_folder
 
 # -----------------------------------------------------------------------------
 def get_dss_name(client):
@@ -11,6 +15,7 @@ def get_dss_name(client):
     instance_name = re.sub(r'[^a-zA-Z0-9]', ' ', instance_name)
     instance_name = re.sub(r'\s+', '_', instance_name)
     return instance_name
+
 
 def get_nested_value(data, keys):
     current = data
@@ -69,37 +74,69 @@ def load_insights(module_name, fp, df_filter=pd.DataFrame()):
     return results
 
 
-def get_dss_commits():
-    client = dataiku.api_client()
-    project_handle = client.get_project(dataiku.default_project_key())
-    dataset = project_handle.get_dataset("dss_commits")
-    if not dataset.exists():
-        dataset = project_handle.create_dataset(
-            dataset_name = "dss_commits",
-            type = "StatsDB",
-            params = {
-                'view': 'COMMITS',
-                'orderByDate': False,
-                'clusterTasks': {},
-                'commits': {},
-                'jobs': {},
-                'scenarioRuns': {},
-                'flowActions': {}
-            }
+def stack_partition_data():
+    # create a partitioned folder dataframe
+    folder = dss_folder.get_folder(folder_name="partitioned_data")
+    partitions = folder.list_partitions()
+    folder_df = pd.DataFrame(partitions, columns=["partitions"])
+    cols = ["instance_name", "category", "module", "dt"]
+    folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+
+    # get latest partition
+    max_date = folder_df['dt'].max()
+    dss_folder.write_folder_output(
+        folder_name = "base_data",
+        path = f"/partition.csv",
+        data_type = "DF",
+        data = pd.DataFrame([max_date], columns=["latest_partition"])
+    )
+    filtered_df = folder_df[folder_df['dt'] == max_date]
+
+    # Loop over the sets and gather
+    groups = filtered_df.groupby(by=["category", "module"])
+    for i, g in groups:
+        category, module = i
+        # loop over and build consolidated df
+        df = pd.DataFrame()
+        for partition in g["partitions"].tolist():
+            paths = folder.list_paths_in_partition(partition=partition)
+            for path in paths:
+                tdf = dss_folder.read_folder_input(folder_name="partitioned_data", path=path)
+                if df.empty:
+                    df = tdf
+                else:
+                    df = pd.concat([df, tdf], ignore_index=True)
+        # Write consolidated DF to folder
+        dss_folder.write_folder_output(
+            folder_name = "base_data",
+            path = f"/{category}/{module}.csv",
+            data_type = "DF",
+            data = df
         )
-        schema = {
-            "columns": [
-                {"name": "project_key", "type": "string"},
-                {"name": "commit_id", "type": "string"},
-                {"name": "author", "type": "string"},
-                {"name": "timestamp", "type": "bigint"},
-                {"name": "added_files", "type": "int"},
-                {"name": "added_lines", "type": "int"},
-                {"name": "removed_files", "type": "int"},
-                {"name": "removed_lines", "type": "int"},
-                {"name": "changed_files", "type": "int"},
-            ],
-            "userModified": True,
-        }
-        r = dataset.set_schema(schema=schema)
-    return dataset
+    return
+
+
+def get_custom_config(path):
+    client = dataiku.api_client()
+    project_handle = client.get_default_project()
+    library = project_handle.get_library()
+    try:
+        file = library.get_file(path=path)
+        config_data = tomllib.loads(file.read())
+    except:
+        config_data = {}
+    return config_data
+
+
+def collect_display_data(load_modules):
+    display_data = []
+    modules = collect_modules(load_modules)
+    for key in modules.keys():
+        r_type = key.split(" ")
+        r_type = r_type[0].lower()
+        display_data.append(key)
+    return modules, display_data
+
+
+if __name__ == "__main__":
+    main()

@@ -12,7 +12,7 @@ def main(df=pd.DataFrame()):
     if df.empty:
         df = dss_folder.read_folder_input(
             folder_name="base_data",
-            path=f"/{st.session_state.instance_name}/CATEGORYDATAFRAME.csv" # change this line
+            path=f"/CATEGORYDATAFRAME.csv" # change this line
         )
 
     # Perform logic here

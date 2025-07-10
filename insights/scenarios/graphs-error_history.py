@@ -1,35 +1,62 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("bar_chart") # change this line
+    FIG = structures.get("plotly")
 
     # Load additional data
+    top = False
     if df.empty:
+        top = True
         df = dss_folder.read_folder_input(
             folder_name="base_data",
-            path=f"/{st.session_state.instance_name}/scenarios/run_history.csv" # change this line
+            path=f"/scenarios/run_history.csv" # change this line
         )
 
     # Perform logic here
-    filtered = df[~df["run_outcome"].str.contains("SUCESS", na=False)]
-    if filtered.empty:
-        data["pass"] = False
-        return data
-    grouped = filtered.groupby('scenario_id')['step_error_message'].value_counts()
-    percentage_split = grouped.groupby(level=0).apply(lambda x: 100 * x / float(x.sum()))
-    percentage_split_df = percentage_split.unstack()
-    percentage_split_df = percentage_split_df.reset_index(drop=True)
-    percentage_split_df = percentage_split_df.rename_axis(None, axis=1)
-    percentage_split_df = percentage_split_df.T
-    new_header = percentage_split_df.iloc[0]
-    percentage_split_df.columns = new_header
-    percentage_split_df = percentage_split_df[1:]
+    filtered_df = df[~df["run_outcome"].str.contains("SUCESS", na=False)]
+    grouped = filtered_df.groupby(["instance_name", 'scenario_id'])['step_error_message'].value_counts().reset_index(name="count")
+    if top:
+        grouped = grouped.sort_values("count", ascending=False)[:3]
+    grouped["error_pct"] = grouped["count"].apply(lambda x: 100 * x / float(grouped["count"].sum()))
+    grouped["error_pct"] = round(grouped["error_pct"], 2)
+    grouped["instance_name.scenario_id"] = grouped["instance_name"] + "." + grouped["scenario_id"]
+    del grouped["count"]
 
-    # Build the data structure
-    data["title"] = "Number of Users by GIT Actions per 'X' Days"
-    data["pass"] = False
-    return data
+
+    # Initial fig
+    fig = px.bar(
+        grouped,
+        x="instance_name",
+        y="error_pct",
+        color="instance_name.scenario_id",
+        barmode="group",
+        labels={"error_pct": "Error Percent"},
+        hover_data=['step_error_message'],
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+
+    # Customize layout for polish
+    fig.update_layout(
+        xaxis_title="Instance Name",
+        yaxis_title="Percent of Status Failures",
+        legend_title="Instance Name & Scenario ID",
+        template="plotly_white",
+        font=dict(size=14),
+        bargap=0.15,
+        bargroupgap=0.1
+    )
+
+    # Add text annotations inside bars
+    fig.update_traces(textposition="outside")
+
+   # Build the FIG construct to return
+    FIG["title"] = "Percent of Scenario Failures"
+    FIG["data"] = fig
+    
+    return FIG

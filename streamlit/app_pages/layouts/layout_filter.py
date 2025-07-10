@@ -6,12 +6,14 @@ from pandas.api.types import (
     is_numeric_dtype,
     is_object_dtype,
 )
+import random
+
 from sage.src import dss_funcs
 from sage.src import dss_folder
 from sage.insights.data_structures import display_graph
 
 
-def filter_columns(df, config):
+def filter_columns(df):
     # Add a filtering block
     modify = st.checkbox("Add Custom Column Filters", key="col_filter")
     if not modify:
@@ -103,29 +105,22 @@ def filter_dataframe(df, filter=[]):
 
     return df
 
-def collect_display_data(module):
-    display_data = []
-    d = dss_funcs.collect_modules(module)
-    for key in d.keys():
-        display_data.append(key)
-    return display_data, d
-
 
 def uncheck_checkbox():
     st.session_state.checkbox_state = False
     return
 
 
-def body(data_category, config, display_type, dss_objects, custom_dss_objects):
+def body(data_category, modules, display_data):
     with st.container():
         # Select a Dataset
-        ds = []
+        datasets = []
         folder = dss_folder.get_folder(folder_name="base_data")
         for p in folder.list_paths_in_partition():
             if data_category in p:
                 csv = p.split("/")[-1].replace(".csv", "")
-                ds.append(csv)
-        dataset = st.selectbox("Which dataset would you like to review?", ds)
+                datasets.append(csv)
+        dataset = st.selectbox("Which dataset would you like to review?", datasets)
         # Every form must have a submit button.
         if 'checkbox_state' not in st.session_state:
             st.session_state.checkbox_state = False
@@ -139,33 +134,26 @@ def body(data_category, config, display_type, dss_objects, custom_dss_objects):
             st.button("Clear Display", on_click=uncheck_checkbox)
             
             # Load the df
-            df = dss_folder.read_folder_input( folder_name="base_data", path=f"/{st.session_state.instance_name}/{data_category}/{dataset}.csv")
+            df = dss_folder.read_folder_input( folder_name="base_data", path=f"/{data_category}/{dataset}.csv")
 
             # Filter the metadata df columns for what they are initially interested in
-            df, filter = filter_columns(df, config)
+            df, filter = filter_columns(df)
             df = filter_dataframe(df, filter)
 
             # Check box which added graph you want
             load_custom = st.checkbox("Load Custom Graphs/Charts", key="custom_graphs_charts")
             if load_custom:
-                display_data = []
-                d = {}
-                if dss_objects:
-                    tmp_display_data, tmp_d = collect_display_data(dss_objects)
-                    display_data += tmp_display_data
-                    d = d | tmp_d
-                if custom_dss_objects:
-                    tmp_display_data, tmp_d = collect_display_data(custom_dss_objects)
-                    display_data += tmp_display_data
-                    d = d | tmp_d
                 display_data_options = st.multiselect( "Select an added graph/chart to display", display_data)
                 if display_data_options:
                     for key in display_data_options:
-                        module_name = d[key][0]
-                        fp = d[key][1]
-                        data = dss_funcs.load_insights(module_name, fp, df)
-                        if isinstance(data, dict) and "pass" in data and data["pass"]:
-                            display_graph.main(data)
-            
-            # Display the DF
-            st.dataframe(df)
+                        module_name = modules[key][0]
+                        fp = modules[key][1]
+                        FIG = dss_funcs.load_insights(module_name, fp, df)
+                        if isinstance(FIG, dict) and "pass" in FIG and FIG["pass"]:
+                            if "key" in FIG:
+                                random_integer = random.randint(1, 10)
+                                FIG["key"] = FIG["key"] + f"_display.{random_integer}"
+                            display_graph.main(FIG)
+            else:
+                # Display the DF
+                st.dataframe(df)
