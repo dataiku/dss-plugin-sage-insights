@@ -6,8 +6,9 @@ from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    FIG = structures.get("plotly")
+    """
+    Number of Current Active Users Per Year / Month
+    """
 
     # Load additional data
     if df.empty:
@@ -58,6 +59,7 @@ def main(df=pd.DataFrame()):
     fig.update_traces(textposition="outside")
     
     # Build the FIG construct to return
+    FIG = structures.get("plotly")
     FIG["title"] = "Number of Active Users (Commits) Per Year / Month"
     FIG["data"] = fig
     
