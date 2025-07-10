@@ -14,17 +14,8 @@ def main():
     # Datetime
     dt = datetime.utcnow()
 
-    # Initialize
-    r = dss_funcs.get_dss_commits()
-
     # load config if doing parallel
-    path = "../project-lib-resources/api_configs.toml"
-    try:
-        with open(path, "rb") as f:
-            config_data = tomllib.load(f)
-    except:
-        config_data = {}
-
+    config_data = dss_funcs.get_custom_config("/python/sage_custom/api_configs.toml")
     if config_data:
         for key in config_data:
             client = dataikuapi.DSSClient(host=config_data[key]["url"], api_key=config_data[key]["api"])

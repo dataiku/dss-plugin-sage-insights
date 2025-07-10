@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import random
+
 from sage.src import dss_funcs
 from sage.insights.data_structures import display_graph
 
@@ -25,7 +27,6 @@ def body(display_type, dss_objects, custom_dss_objects):
         display_data += tmp_display_data
         d = d | tmp_d
     if custom_dss_objects:
-        st.write("Found custom modules")
         tmp_display_data, tmp_d = collect_display_data(display_type, custom_dss_objects)
         display_data += tmp_display_data
         d = d | tmp_d
@@ -36,29 +37,31 @@ def body(display_type, dss_objects, custom_dss_objects):
         st.error(f"No {display_type} to display.")
         return
 
-    if display_type == "Future Metrics Layout":
-        st.write()
-        #items_per_row = 3
-        #for i in range(0, len(display_data), items_per_row):
-        #    row_items = display_data[i : i + items_per_row]
-        #    cols = st.columns(len(row_items))
-        #    for j, item in enumerate(row_items):
-        #        with cols[j]:
-        #            module_name = d[key][0]
-        #            fp = d[key][1]
-        #            data = dss_funcs.load_insights(module_name, fp)
-        #            display_graph.main(data)
-    elif display_type == "metrics":
+    # Display Metrics TAB
+    if display_type == "metrics":
         for key in display_data:
             with st.container(border=True):
                 module_name = d[key][0]
                 fp = d[key][1]
-                data = dss_funcs.load_insights(module_name, fp)
-                display_graph.main(data)
+                FIGS = dss_funcs.load_insights(module_name, fp)
+                if isinstance(FIGS, list):
+                    ncol = len(FIGS)
+                    cols = st.columns(ncol, gap="small", border=True)
+                    for i in range(ncol):
+                        with cols[i]:
+                            display_graph.main(FIGS[i])
+                else:
+                    FIG = FIGS       
+                    display_graph.main(FIG)
+    
+    # Display Graphs TAB                
     elif display_type == "graphs":
         for key in display_data:
             with st.container(border=True):
                 module_name = d[key][0]
                 fp = d[key][1]
-                data = dss_funcs.load_insights(module_name, fp)
-                display_graph.main(data)
+                FIG = dss_funcs.load_insights(module_name, fp)
+                if "key" in FIG:
+                    random_integer = random.randint(1, 10)
+                    FIG["key"] = FIG["key"] + f"_display.{random_integer}"
+                display_graph.main(FIG)

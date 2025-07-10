@@ -44,5 +44,6 @@ def main(client):
 
     return [True, df]
 
+
 if __name__ == "__main__":
-    main(client)
+    main()

@@ -1,15 +1,19 @@
 import streamlit as st
 import dataiku
-from sage.src import dss_funcs
+from sage.src import dss_folder
 
+df = dss_folder.read_folder_input("base_data", "/partition.csv")
+partition = df.iloc[0, 0]
 
 # -----------------------------------------------------------------------------
 # Home Page
-st.markdown("""# 📊 Dataiku Sage Dashboard
+st.markdown(f"""# 📊 Dataiku Sage Dashboard
 
 ## Overview
 
 This dashboard provides key administrative insights into the Dataiku platform to help platform owners, administrators, and governance teams monitor usage, performance, project activity, and compliance metrics.
+
+* **Latest Snapshot Partition:** {partition}
 
 ---
 

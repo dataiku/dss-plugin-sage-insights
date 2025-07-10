@@ -1,26 +1,13 @@
 import dataiku
 import pandas as pd
 import io
-import tomllib
 
 from sage.src import dss_folder
-
-
-def get_config():
-    client = dataiku.api_client()
-    project_handle = client.get_default_project()
-    library = project_handle.get_library()
-    try:
-        file = library.get_file(path="/python/sage_custom/macro_configs.toml")
-        config_data = tomllib.loads(file.read())
-    except:
-        config_data = {}
-    return config_data
+from sage.src import dss_funcs
 
 
 def run_macro(client, instance_name, config_data, key):
-    pkey = client.list_project_keys()[0]
-    project_handle = client.get_project(pkey)
+    project_handle = client.get_project("SAGE_WORKER")
     macro = project_handle.get_macro(runnable_type=config_data[key]["id"])
     if config_data[key]["params"]:
         macro_run = macro.run(wait=True, params=config_data[key]["params"])
@@ -37,9 +24,8 @@ def run_macro(client, instance_name, config_data, key):
 
 def main(client, instance_name, dt):
     # load config if doing parallel
-    config_data = get_config()
+    config_data = dss_funcs.get_custom_config("/python/sage_custom/macro_configs.toml")
     if not config_data:
-        print("no config")
         return
 
     # Loop and run
@@ -65,3 +51,7 @@ def main(client, instance_name, dt):
             data = df
         )
     return
+
+
+if __name__ == "__main__":
+    main()

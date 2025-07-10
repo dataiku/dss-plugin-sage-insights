@@ -19,7 +19,7 @@ def main(FIG):
         if FIG["type"] == "metric":
             st.metric(
                 FIG["label"], FIG["data"], delta=FIG["delta"], delta_color="normal",
-                help=None, label_visibility="visible", border=False, width="stretch"
+                help=None, label_visibility="visible", border=False, width="content"
             )
 
         elif FIG["type"] == "bar_chart":

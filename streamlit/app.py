@@ -57,7 +57,7 @@ debug = st.Page("app_pages/debug.py", title="Debug")
 # Navigation Panel
 tree = {
     "Sage Insights":    [home],
-    "Administartion":   [instance_checks],
+    "Administration":   [instance_checks],
     "Operating System": [disk_space],
     "Dataiku Objects":  [users, projects, datasets, recipes, scenarios],
 }

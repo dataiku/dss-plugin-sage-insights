@@ -6,7 +6,7 @@ def get(type):
         "data": None
     }
     if type == "plotly":
-        FIG["key"] = None
+        FIG["key"] = "default"
         FIG["on_select"] = "rerun"
         FIG["selection_mode"] = "points"
     elif type == "metric":

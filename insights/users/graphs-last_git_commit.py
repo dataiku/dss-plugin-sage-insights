@@ -1,44 +1,64 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("bar_chart") # change this line
+    FIG = structures.get("plotly")
 
     # Load additional data
     if df.empty:
         df = dss_folder.read_folder_input(
             folder_name="base_data",
-            path=f"/users/metadata.csv" # change this line
+            path=f"/users/metadata.csv"
         )
 
     # Perform logic here
-    from datetime import date, timedelta
-    today = date.today()
-    for n in [30, 60, 90, 365]:
-        activity = df[df["last_commit_date"].dt.date >= (today - timedelta(n))]
-        counts = activity.groupby(["userProfile"]).agg(
-            count_value = ("login", "count")
-        ).reset_index()
-        counts.columns = ["userProfile", n]
-        if n == 30:
-            total_counts = counts
-            continue
-        total_counts = pd.merge(total_counts, counts, on=["userProfile"], how="left")
+    df['year'] = df['last_commit_date'].dt.year
+    df['month'] = df['last_commit_date'].dt.month
+    filtered_df = pd.DataFrame()
+    for i,g in df.groupby(by=["year", "month"]):
+        year, month = i
+        tdf = g.groupby(["instance_name"]).size().reset_index(name="count")
+        tdf["year_month"] = f"{year}-{month}"
+        if filtered_df.empty:
+            filtered_df = tdf
+        else:
+            filtered_df = pd.concat([filtered_df, tdf], ignore_index=True)
+    filtered_df["year_month"] = pd.to_datetime(filtered_df["year_month"])
+    filtered_df = filtered_df[filtered_df["year_month"] != "1970-01-01"]
 
-    df_transposed = total_counts.T.reset_index()
-    new_columns = df_transposed.iloc[0].tolist()
-    df_transposed.columns = new_columns
-    df = df_transposed[1:]
-    df = df.set_index("userProfile")
-    df = df.rename_axis('count')
+    # Initial fig
+    fig = px.bar(
+        filtered_df,
+        x="year_month",
+        y="count",
+        color="instance_name",
+        barmode="group",
+        text="count",
+        labels={"count": "Users with last GIT commits"},
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
 
-    # Build the data structure
-    data["title"] = "Number of Users by GIT Actions per 'X' Days"
-    data["data"] = df
-    data["x_label"] = "Number of Days"
-    data["y_label"] = "Number of Users Active"
+    # Customize layout for polish
+    fig.update_layout(
+        xaxis_title="Year / Month",
+        yaxis_title="Active Users",
+        legend_title="Users with last GIT commits",
+        template="plotly_white",
+        font=dict(size=14),
+        bargap=0.15,
+        bargroupgap=0.1
+    )
+
+    # Add text annotations inside bars
+    fig.update_traces(textposition="outside")
     
-    return data
+    # Build the FIG construct to return
+    FIG["title"] = "Number of Active Users (Commits) Per Year / Month"
+    FIG["data"] = fig
+    
+    return FIG

@@ -6,6 +6,8 @@ from pandas.api.types import (
     is_numeric_dtype,
     is_object_dtype,
 )
+import random
+
 from sage.src import dss_funcs
 from sage.src import dss_folder
 from sage.insights.data_structures import display_graph
@@ -163,9 +165,12 @@ def body(data_category, config, display_type, dss_objects, custom_dss_objects):
                     for key in display_data_options:
                         module_name = d[key][0]
                         fp = d[key][1]
-                        data = dss_funcs.load_insights(module_name, fp, df)
-                        if isinstance(data, dict) and "pass" in data and data["pass"]:
-                            display_graph.main(data)
+                        FIG = dss_funcs.load_insights(module_name, fp, df)
+                        if isinstance(FIG, dict) and "pass" in FIG and FIG["pass"]:
+                            if "key" in FIG:
+                                random_integer = random.randint(1, 10)
+                                FIG["key"] = FIG["key"] + f"_display.{random_integer}"
+                            display_graph.main(FIG)
             
             # Display the DF
             st.dataframe(df)
