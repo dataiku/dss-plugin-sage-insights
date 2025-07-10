@@ -155,5 +155,6 @@ def main(project_handle):
     
     return [True, df]
 
+
 if __name__ == "__main__":
-    main(project)
+    main()

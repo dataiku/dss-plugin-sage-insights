@@ -4,9 +4,6 @@ from sage.src import dss_folder
 from sage.insights.data_structures import structures
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    data = structures.get("metric")
-
     # Load additional data
     if df.empty:
         df = dss_folder.read_folder_input(
@@ -14,10 +11,20 @@ def main(df=pd.DataFrame()):
             path=f"/scenarios/metadata.csv" # change this line
         )
 
+    # load data structure
+    FIG = structures.get("metric")
+    
     # Perform logic here
+    FIGS = []
+    FIG["label"] = "Total number of Scenarios -- All"
+    FIG["data"] = df["scenario_id"].count()
+    FIGS.append(FIG)
 
-    # Set values
-    data["label"] = "Total number of Scenarios"
-    data["data"] = df["scenario_id"].count()
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"Total number of Scenarios -- {i}"
+        FIG["data"] = g["scenario_id"].count()
+        FIGS.append(FIG)
 
-    return data
+    return FIGS

@@ -74,3 +74,7 @@ def function_with_warning(df):
             if temp_col.notna().all():
                 df[c] = temp_col
     return df
+
+
+if __name__ == "__main__":
+    main()

@@ -4,6 +4,7 @@ import pandas as pd
 
 from sage.base_data import client_handle  as dss_object
 from sage.src import dss_folder
+from sage.src import dss_init
 
 
 def run_modules(client, instance_name, dt):
@@ -39,6 +40,9 @@ def run_modules(client, instance_name, dt):
 
 
 def main(client, instance_name, dt):
+    # Initialize
+    dss_init.get_dss_commits(client)
+    
     # Gather data
     run_modules(client, instance_name, dt)
     return

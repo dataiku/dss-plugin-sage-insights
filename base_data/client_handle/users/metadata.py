@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def main(client):
-    project_handle = client.get_project(project_key=dataiku.default_project_key())
+    project_handle = client.get_project(project_key="SAGE_WORKER")
 
     # Pull in DSS Commits table to see user activity better
     dataset_handle = project_handle.get_dataset("dss_commits")
@@ -50,4 +50,4 @@ def main(client):
 
 
 if __name__ == "__main__":
-    main(client)
+    main()

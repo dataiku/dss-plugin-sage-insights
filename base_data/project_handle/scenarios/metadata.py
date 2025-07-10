@@ -37,5 +37,6 @@ def main(project_handle):
         df = pd.concat([df, tdf], ignore_index=True)
     return [True, df]
 
+
 if __name__ == "__main__":
-    main(project)
+    main()
