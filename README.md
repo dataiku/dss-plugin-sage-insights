@@ -23,13 +23,17 @@ Due to the web application being built on Streamlit, installation requires a bit
     1. Create a new Code Environment template, use the label or `sage_dashbaord` use `PYTHON 3.11`
         1. Packages:
             ```python
-            streamlit
+            streamlit==1.46.1
             streamlit-aggrid
             altair
-            urllib3
-            matplotlib
-            plotly
+            tomli
+            tabulate
             lxml
+            plotly
+            scipy
+            nbformat>=4.2.0
+            orjson
+            matplotlib
             ```
         1. No containers, Code Studios will build that
         1. Save and build local
