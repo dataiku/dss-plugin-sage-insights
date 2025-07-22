@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "label": "Initialize Worker Host",
+        "description": "Create worker host project and initial datasets / scenarios",
+        "icon": "fas fa-puzzle-piece",
+        "category": "sage insights"
+    },
+    "impersonate": false,
+    "params": [],
+    "permissions": ["ADMIN"],
+    "requiresGlobalAdmin": true,
+    "resultType": "HTML",
+    "resultLabel": "my production",
+    "extension": "txt",
+    "mimeType": "text/plain",
+    "macroRoles": [],
+    "params": [
+        {
+            "type": "BOOLEAN",
+            "name": "update_github",
+            "label": "Check to force refresh latest git repo (Will not undo settings)",
+            "defaultValue": false
+        }
+    ]
+}

@@ -2,8 +2,8 @@ import streamlit as st
 import importlib
 
 from sage.src import dss_funcs
-from sage.streamlit.app_pages.layouts import layout_display
-from sage.streamlit.app_pages.layouts import layout_filter
+from sage.app_pages.layouts import layout_display
+from sage.app_pages.layouts import layout_filter
 
 
 def main(category, dss_objects, custom_dss_objects):

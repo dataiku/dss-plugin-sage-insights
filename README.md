@@ -2,7 +2,7 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.2.9
+* Version - 1.3.1
 
 ## Scope
 
@@ -16,71 +16,31 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 
 Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
 
-**(V13.5.5 and below)**
+**TESTED ON VERSIONS:**
+1. v13.5.5
 
-1. Login in as an `admin` permissioned account and open `Code Environments`
-1. Dedicated Code Environment
-    1. Create a new Code Environment template, use the label or `sage_dashbaord` use `PYTHON 3.11`
-        1. Packages:
-            ```python
-            streamlit==1.46.1
-            streamlit-aggrid
-            altair
-            tomli
-            tabulate
-            lxml
-            plotly
-            scipy
-            nbformat>=4.2.0
-            orjson
-            matplotlib
-            ```
-        1. No containers, Code Studios will build that
-        1. Save and build local
-1. Dedicated Code Studio 
-    1. Create a new Code Studio template, use the label of `sage_dashboard`
-    1. General
-        1. Short Description: `**ADMIN USE ONLY**`
-        1. Decscription: `This is a custom Streamlit Code Studio template for the Sag Dashbaord`
-        1. Select the smallest K8S container, do not allow override
-    1. Defnition
-        1. Add Streamlit
-        1. Code Env: `sage_dashboard` from the code environment we built
-        1. Starting File: `__PROJECT_LIB_VERSIONED__/python/sage/streamlit/app.py`
-        1. Settings Folder: `__PROJECT_LIB_VERSIONED__/python/sage/streamlit`
-        1. Add Code Environment block --> `sage_dashbaord`
-    1. Permissions
-        1. Admin only
-    1. Save and Build
-1. Create a project called `Sage Dashboard`
-    1. Pull the git repo into Library
-        1. Import `https://github.com/dataiku/sage-dashboard.git`
-        1. No login/pass
-        1. Brach: `main`
-        1. Path in git repo: `leave blank`
-        1. Local Target Path: `python/sage`
-    1. Create the streamlit web application
-        1. Open Code Studios and create a new new studio for `sage_dashboard` using the Sage Code Studio template from before
-        1. No need to start, simply go back to CS page
-        1. Check the box, right panel `Publish` --> name `Sage Dashboard`
-        1. Enable `Auto-Start`, which will save and run the application
-        1. It will fail since no data has been gathered
-    1. Create a new Scenario for data refresh
-        1. Scenario Name: `Refresh Dashboard`
-        1. Setup Run As as an Admin
-        1. Run `DAILY at 4AM`
-        1. Step 1
-            1. Custom Python
-            1. Name: `gather data`
-            1. Custom code environment --> `sage_dashboard`
-            1. Add the following code
-                ```python
-                from sage.src import main
-                main.main()
-                ```
-        1. Step 2
-            1. Restart webap
-            1. Name: `Sage dashboard`
-            1. Add dashbaord
-        1. Save all and RUN
-1. For additional metrics and monitoring on Disk Space, please see the add-on section for notes.
+##
+
+1. Plugin
+    1. Login as an admin account
+    1. Migrate to plugins and install from GIT: https://github.com/mazzei-dataiku/sage.git
+    1. Build the code-environment, no containers needed
+    1. After the plugin is installed, switch to the plugin settings/paramets page and fill in the information
+        1. "EXAMPLE"
+        1. SAGE_DASHBOARD | HOST | API_KEY | SAGE_WORKER
+        1. Fill out each host including the local host if you want to track the local host
+1. Code Studios
+    1. Create the template name `sage` # this name is important
+    1. Setup K8s to run on
+    1. Add the `Sage Dashboard - Streamlit` block
+    1. Disable permissions for users
+    1. Build
+1. Create the Sage Dashboard project based off 1.4.2 information
+    1. Go to Macros
+    1. Filter on `sage insights`
+    1. Run `Initialize Dashboard`
+    1. Run `Initialize Workers`
+    1. Switch to Code Studios page under the Code tab
+        1. Click the checkbox and publish as a Web Application (No API for this)
+        1. Start the Web Application (Auto-Start)
+        1. Nothing may be available at first while the first day cycle needs to run to gather data
