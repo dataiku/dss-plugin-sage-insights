@@ -1,0 +1,11 @@
+streamlit==1.46.1
+streamlit-aggrid
+altair
+tomli
+tabulate
+lxml
+plotly
+scipy
+nbformat>=4.2.0
+orjson
+matplotlib

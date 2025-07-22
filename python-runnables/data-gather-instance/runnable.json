@@ -1,0 +1,18 @@
+{
+    "meta": {
+        "label": "Data Gather Instance level",
+        "description": "Data gather the instance level metadata",
+        "icon": "fas fa-puzzle-piece",
+        "category": "sage insights"
+    },
+    "impersonate": false,
+    "permissions": ["ADMIN"],
+    "requiresGlobalAdmin": true,
+    "permissions": [],
+    "resultType": "HTML",
+    "resultLabel": "my production",
+    "extension": "txt",
+    "mimeType": "text/plain",
+    "macroRoles": [],
+    "params": []
+}

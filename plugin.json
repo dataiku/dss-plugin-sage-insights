@@ -1,0 +1,78 @@
+{
+    "id": "sage",
+    "version": "2025.07.21.01",
+    "meta": {
+        "label": "Sage - Dataiku Administration Insights",
+        "description": "This plugin contains the current and future framework for the Admin Sage Dashbaord information.",
+        "author": "Stephen Mazzei",
+        "icon": "fas fa-puzzle-piece",
+        "tags": ["Administration", "Sage", "Insights"],
+        "url": "",
+        "licenseInfo": "Apache Software License"
+    },
+    "params": [
+        {
+            "name": "sep1",
+            "label": "Sage Dashboard Information",
+            "type": "SEPARATOR"
+        },
+        {
+            "name": "sage_project_key",
+            "label": "Sage Dashboard Project Key",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sage_project_url",
+            "label": "Sage Dashboard Main Host URL",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sage_project_api",
+            "label": "Sage Dashboard Main Host API",
+            "type": "PASSWORD",
+            "description": "API Key running as an ADMIN level user",
+            "mandatory": true
+        },
+        {
+            "name": "sep2",
+            "label": "Sage Worker Information",
+            "type": "SEPARATOR"
+        },
+        {
+            "name": "sage_worker_key",
+            "label": "Sage Worker Project Key",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "api_configs",
+            "label": "Sage Worker Host URLs and API Keys",
+            "type": "OBJECT_LIST",
+            "subParams": [
+                {
+                    "type": "SEPARATOR",
+                    "label": "Enter Host Information"
+                },
+                {
+                    "name": "worker_url",
+                    "label": "Worker Host URL",
+                    "type": "STRING",
+                    "description": "",
+                    "mandatory": true
+                },
+                {
+                    "name": "worker_api",
+                    "label": "Worker Host API",
+                    "type": "PASSWORD",
+                    "description": "API Key running as an ADMIN level user",
+                    "mandatory": true
+                }
+            ]
+        }
+    ]
+}
