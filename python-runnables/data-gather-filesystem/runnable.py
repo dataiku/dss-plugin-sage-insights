@@ -15,6 +15,7 @@ class MyRunnable(Runnable):
         self.sage_project_key = plugin_config.get("sage_project_key", None)
         self.sage_project_url = plugin_config.get("sage_project_url", None)
         self.sage_project_api = plugin_config.get("sage_project_api", None)
+        self.ignore_certs     = plugin_config.get("ignore_certs", False)
         self.dt = datetime.utcnow()
         
     def get_progress_target(self):
@@ -42,7 +43,7 @@ class MyRunnable(Runnable):
         results.append(["read/parse", True, None])
 
         # loop topics and save data
-        remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api)
+        remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
         dt_year  = str(self.dt.year)
         dt_month = str(f'{self.dt.month:02d}')
         dt_day   = str(f'{self.dt.day:02d}')

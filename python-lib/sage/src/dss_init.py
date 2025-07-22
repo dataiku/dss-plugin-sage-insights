@@ -2,7 +2,7 @@ import tomllib
 import json
 
 
-t = """
+worker_scenarios = """
 [default]
 trigger = '{"type": "temporal", "name": "Time-based", "delay": 5, "active": true, "params": {"repeatFrequency": 1, "frequency": "Daily", "startingFrom": "2025-07-16", "daysOfWeek": ["Wednesday"], "monthlyRunOn": "ON_THE_DAY", "minute": 0, "hour": 17, "timezone": "Canada/Eastern"}}'
 step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowComment": false, "runConditionType": "RUN_IF_STATUS_MATCH", "runConditionStatuses": ["SUCCESS", "WARNING"], "runConditionExpression": "", "resetScenarioStatus": false, "delayBetweenRetries": 10, "maxRetriesOnFail": 0, "params": {"runnableType": "REPLACE_MACRO_HERE",   "config": {}, "adminConfig": {}, "proceedOnFailure": false}}'
@@ -23,6 +23,15 @@ macro = "pyrunnable_sage_data-gather-diskspace"
 macro = "pyrunnable_sage_data-gather-filesystem"
 """
 
+dashboard_scenarios = """
+[default]
+trigger = '{"type": "temporal", "name": "Time-based", "delay": 5, "active": true, "params": {"repeatFrequency": 1, "frequency": "Daily", "startingFrom": "2025-07-16", "daysOfWeek": ["Wednesday"], "monthlyRunOn": "ON_THE_DAY", "minute": 0, "hour": 18, "timezone": "Canada/Eastern"}}'
+step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowComment": false, "runConditionType": "RUN_IF_STATUS_MATCH", "runConditionStatuses": ["SUCCESS", "WARNING"], "runConditionExpression": "", "resetScenarioStatus": false, "delayBetweenRetries": 10, "maxRetriesOnFail": 0, "params": {"runnableType": "REPLACE_MACRO_HERE",   "config": {}, "adminConfig": {}, "proceedOnFailure": false}}'
+
+[refresh_base_data]
+macro = "pyrunnable_sage_data-smoothing-base"
+"""
+
 
 def install_plugin(self, remote_client):
     # Only install if not found
@@ -31,6 +40,9 @@ def install_plugin(self, remote_client):
         if plugin["id"] == "sage":
             sage_found = True
     if sage_found:
+        if self.update_github:
+            plugin = remote_client.get_plugin(plugin_id="sage")
+            plugin.update_from_git(repository_url=self.repo, checkout="dev-mazeei-v1.3")
         return
     
     # install the plugin
@@ -104,8 +116,11 @@ def get_dss_commits(project_handle):
     return
 
 
-def create_scenarios(project_handle):
-    macros = tomllib.loads(t)
+def create_scenarios(project_handle, location):
+    if location ==  "WORKER":
+        macros = tomllib.loads(worker_scenarios)
+    else:
+        macros = tomllib.loads(dashboard_scenarios)
     for key in macros:
         # skip default
         if key == "default":

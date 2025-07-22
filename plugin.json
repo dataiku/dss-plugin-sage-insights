@@ -1,16 +1,22 @@
 {
     "id": "sage",
-    "version": "2025.07.21.01",
+    "version": "2025.07.22.01",
     "meta": {
         "label": "Sage - Dataiku Administration Insights",
         "description": "This plugin contains the current and future framework for the Admin Sage Dashbaord information.",
         "author": "Stephen Mazzei",
         "icon": "fas fa-puzzle-piece",
         "tags": ["Administration", "Sage", "Insights"],
-        "url": "",
+        "url": "https://github.com/mazzei-dataiku/sage",
         "licenseInfo": "Apache Software License"
     },
     "params": [
+        {
+            "type": "BOOLEAN",
+            "name": "ignore_certs",
+            "label": "Ignore Certificates and force trust TLS",
+            "defaultValue": false
+        },
         {
             "name": "sep1",
             "label": "Sage Dashboard Information",

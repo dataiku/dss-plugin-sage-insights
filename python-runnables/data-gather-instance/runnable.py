@@ -4,6 +4,7 @@ except:
     dss_objs = False
 from sage.src import dss_funcs
 
+import os
 import pandas as pd
 from datetime import datetime
 
@@ -20,12 +21,16 @@ class MyRunnable(Runnable):
         self.sage_project_key = plugin_config.get("sage_project_key", None)
         self.sage_project_url = plugin_config.get("sage_project_url", None)
         self.sage_project_api = plugin_config.get("sage_project_api", None)
+        self.sage_worker_key  = plugin_config.get("sage_worker_key", None)
         self.dt = datetime.utcnow()
         
     def get_progress_target(self):
         return None
 
     def run(self, progress_callback):
+        # Set environment variable
+        os.environ["SAGE_WORKER"] = self.sage_worker_key
+        
         # Test if modules are found
         if not dss_objs:
             raise Exception("No categories or modules found")

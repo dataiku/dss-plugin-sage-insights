@@ -14,5 +14,12 @@
     "extension": "txt",
     "mimeType": "text/plain",
     "macroRoles": [],
-    "params": []
+    "params": [
+        {
+            "type": "BOOLEAN",
+            "name": "update_github",
+            "label": "Check to force refresh latest git repo (Will not undo settings)",
+            "defaultValue": false
+        }
+    ]
 }

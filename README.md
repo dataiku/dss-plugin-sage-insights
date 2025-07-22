@@ -2,7 +2,7 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.3.0
+* Version - 1.3.1
 
 ## Scope
 

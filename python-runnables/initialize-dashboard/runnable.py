@@ -1,4 +1,7 @@
-from sage.src import dss_funcs, dss_folder
+from sage.src import dss_folder
+from sage.src import dss_funcs
+from sage.src import dss_init
+
 import os
 import shutil
 import pandas as pd
@@ -22,6 +25,8 @@ class MyRunnable(Runnable):
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
+        project_handle = local_client.get_project(self.sage_project_key)
+        library = project_handle.get_library()
         
         # Get plugin directory
         if cont:
@@ -43,9 +48,9 @@ class MyRunnable(Runnable):
         if cont:
             project_path = f"{root_path}/config/projects/{self.sage_project_key}/lib/python"
             if not os.path.isdir(project_path):
-                results.append(["project library", False, "Cannot find project library"])
+                results.append(["Project Library Confirmed", False, "Cannot find project library"])
                 cont = False
-            results.append(["project library", True, None])
+            results.append(["Project Library Confirmed", True, None])
         
         # Delete the current running version
         if cont:
@@ -57,12 +62,16 @@ class MyRunnable(Runnable):
                 except OSError as e:
                     results.append(["Delete Existing", False, f"Error deleting directory '{project_path}': {e}"])
                     cont = False
+            else:
+                results.append(["Delete Existing", True, "Initial Setup"])
 
         # Copy the streamlit application
         if cont:
             try:
                 r = shutil.copytree(f"{source_path}/streamlit", project_path)
-                r = shutil.copytree(f"{source_path}/python-lib/sage/src", f"{project_path}/src")
+                os.mkdir(f"{project_path}/src/")
+                r = shutil.copy(f"{source_path}/python-lib/sage/src/dss_funcs.py", f"{project_path}/src/")
+                r = shutil.copy(f"{source_path}/python-lib/sage/src/dss_folder.py", f"{project_path}/src/")
                 results.append(["Copy Streamlit", True, None])
             except Exception as e:
                 results.append(["Copy Streamlit", False, f"An error occurred: {e}"])
@@ -71,9 +80,7 @@ class MyRunnable(Runnable):
         # Clean up Library
         if cont:
             try:
-                project_handle = local_client.get_project(self.sage_project_key)
-                library = project_handle.get_library()
-                file = library.get_file("python/sage/src/dss_init.py")
+                file = library.add_file("python/sage_init.txt")
                 file.delete()
                 results.append(["Library Refresh", True, None])
             except Exception as e:
@@ -111,7 +118,13 @@ class MyRunnable(Runnable):
                 cont = False
                 
         # Create scenario to gather base data 
-        
+        if cont:
+            try:
+                dss_init.create_scenarios(project_handle, "DASHBOARD")
+                results.append(["Update Scenarios", True, None])
+            except Exception as e:
+                cont = False
+                results.append(["Update Scenarios", False, e])
         
         # return results
         if results:
