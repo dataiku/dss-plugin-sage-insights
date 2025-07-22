@@ -7,7 +7,7 @@
         "author": "Stephen Mazzei",
         "icon": "fas fa-puzzle-piece",
         "tags": ["Administration", "Sage", "Insights"],
-        "url": "https://github.com/mazzei-dataiku/sage",
+        "url": "https://github.com/dataiku/dss-plugin-sage-insights",
         "licenseInfo": "Apache Software License"
     },
     "params": [

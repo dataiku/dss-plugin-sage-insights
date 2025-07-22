@@ -23,7 +23,7 @@ Due to the web application being built on Streamlit, installation requires a bit
 
 1. Plugin
     1. Login as an admin account
-    1. Migrate to plugins and install from GIT: https://github.com/mazzei-dataiku/sage.git
+    1. Migrate to plugins and install from GIT: https://github.com/dataiku/dss-plugin-sage-insights
     1. Build the code-environment, no containers needed
     1. After the plugin is installed, switch to the plugin settings/paramets page and fill in the information
         1. "EXAMPLE"
