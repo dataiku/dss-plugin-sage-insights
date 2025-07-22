@@ -17,7 +17,7 @@ class MyRunnable(Runnable):
         self.ignore_certs     = plugin_config.get("ignore_certs", False)
         self.update_github    = config.get("update_github", False)
         self.repo = "https://github.com/dataiku/dss-plugin-sage-insights"
-        self.branch = ""
+        self.branch = "dev-mazzei-v1.3"
         
     def get_progress_target(self):
         return None
