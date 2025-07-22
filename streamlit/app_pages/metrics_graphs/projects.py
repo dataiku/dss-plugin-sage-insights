@@ -1,4 +1,4 @@
-from sage.streamlit.app_pages.layouts import layout_main
+from sage.app_pages.layouts import layout_main
 try:
     from sage.insights import projects as dss_objects # change this line
 except:

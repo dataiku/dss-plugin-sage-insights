@@ -12,6 +12,9 @@ from sage.src import dss_funcs
 from sage.src import dss_folder
 from sage.insights.data_structures import display_graph
 
+local_client = dss_funcs.build_local_client()
+project_handle = local_client.get_default_project()
+sage_project_key = project_handle.project_key
 
 def filter_columns(df):
     # Add a filtering block
@@ -19,19 +22,9 @@ def filter_columns(df):
     if not modify:
         return df, []
     df = df.copy()
-    try:
-        config.get("filter")
-    except:
-        config["filter"] = []
     columns = list(df.columns)
-    if config.get("filter"):
-        for filter in config["filter"]:
-            columns.remove(filter)
-        options = st.multiselect(f"Select dataframe columns to limit dataframe on", columns)
-        filter = config["filter"] + options
-    else:
-        options = st.multiselect(f"Select dataframe columns to limit dataframe on", columns)
-        filter = options
+    options = st.multiselect(f"Select dataframe columns to limit dataframe on", columns)
+    filter = options
     if options:
         df = df[filter]
     df.drop_duplicates(keep='first', inplace=True, ignore_index=True)
@@ -115,7 +108,9 @@ def body(data_category, modules, display_data):
     with st.container():
         # Select a Dataset
         datasets = []
-        folder = dss_folder.get_folder(folder_name="base_data")
+        folder = dss_folder.get_folder(
+            sage_project_key=sage_project_key, project_handle=project_handle, folder_name="base_data"
+        )
         for p in folder.list_paths_in_partition():
             if data_category in p:
                 csv = p.split("/")[-1].replace(".csv", "")
@@ -134,7 +129,12 @@ def body(data_category, modules, display_data):
             st.button("Clear Display", on_click=uncheck_checkbox)
             
             # Load the df
-            df = dss_folder.read_folder_input( folder_name="base_data", path=f"/{data_category}/{dataset}.csv")
+            df = dss_folder.read_local_folder_input(
+                sage_project_key = sage_project_key,
+                project_handle = project_handle,
+                folder_name = "base_data",
+                path = f"/{data_category}/{dataset}.csv"
+            )
 
             # Filter the metadata df columns for what they are initially interested in
             df, filter = filter_columns(df)
