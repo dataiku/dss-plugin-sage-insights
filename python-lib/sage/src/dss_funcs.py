@@ -52,6 +52,7 @@ def run_modules(self, dss_objs, handle, project_key = None):
                 df = pd.DataFrame()
                 results.append([project_key, path, module_name, "load/run", False, e])
             if df.empty:
+                results.append([project_key, path, module_name, "load/run", False, "DF CAME BACK EMPTY"])
                 continue # nothing to write, skip
             instance_name = get_dss_name(build_local_client())
             if "instance_name" not in df.columns:
