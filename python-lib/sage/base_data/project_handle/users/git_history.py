@@ -3,11 +3,11 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle):
-    d = {}
     try:
         git_log = project_handle.get_project_git().log()
     except:
         return pd.DataFrame()
+    d = {}
     for entry in git_log["entries"]:
         if "recipe" in entry["message"] and "recipe:" in entry["message"]:
             author = entry["author"]
