@@ -33,6 +33,16 @@ macro = "pyrunnable_sage_data-smoothing-base"
 """
 
 def update_plugin_config(plugin_handle):
+    # Configure SAGE
+    settings = plugin_handle.get_settings()
+    settings.settings["config"]["sage_project_key"] = self.sage_project_key
+    settings.settings["config"]["sage_project_api"] = self.sage_project_api
+    settings.settings["config"]["sage_project_url"] = self.sage_project_url
+    settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
+    settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
+    settings.settings["config"]["sage_repo_branch"] = self.sage_repo_branch
+    settings.settings["codeEnvName"] = "plugin_sage_managed"
+    settings.save()
     return
 
     
@@ -67,16 +77,7 @@ def install_plugin(self, remote_client):
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
         raise Exception(r["messages"]["messages"])
         
-    # Configure SAGE
-    settings = plugin_handle.get_settings()
-    settings.settings["config"]["sage_project_key"] = self.sage_project_key
-    settings.settings["config"]["sage_project_api"] = self.sage_project_api
-    settings.settings["config"]["sage_project_url"] = self.sage_project_url
-    settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
-    settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
-    settings.settings["config"]["sage_repo_branch"] = self.sage_repo_branch
-    settings.settings["codeEnvName"] = "plugin_sage_managed"
-    settings.save()
+
     
     return
 
