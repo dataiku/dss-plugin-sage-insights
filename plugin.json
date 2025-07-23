@@ -21,6 +21,7 @@
             "label": "Sage Github Repo",
             "type": "STRING",
             "description": "",
+            "defaultValue": "",
             "mandatory": true
         },
         {
@@ -28,6 +29,7 @@
             "label": "Sage Github Repo",
             "type": "STRING",
             "description": "",
+            "defaultValue": "",
             "mandatory": true
         },
         {
