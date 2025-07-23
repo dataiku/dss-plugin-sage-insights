@@ -27,5 +27,5 @@ def main(project_handle):
                 continue
     
     # Create DF
-    df = pd.DataFrame(d).T
+    df = pd.DataFrame(d).T.reset_index(names="login")
     return df
