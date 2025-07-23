@@ -9,7 +9,7 @@ def main(project_handle):
     try:
         git_log = project_handle.get_project_git().log()
     except:
-        continue
+        return pd.DataFrame()
     for entry in git_log["entries"]:
         if "recipe" in entry["message"] and "recipe:" in entry["message"]:
             author = entry["author"]
