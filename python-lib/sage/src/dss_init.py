@@ -77,7 +77,7 @@ def install_plugin(self, remote_client):
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
         raise Exception(r["messages"]["messages"])
         
-
+    update_plugin_config(self, plugin_handle)
     
     return
 
