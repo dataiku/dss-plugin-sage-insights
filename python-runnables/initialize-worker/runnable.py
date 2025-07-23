@@ -71,4 +71,4 @@ class MyRunnable(Runnable):
         if results:
             df = pd.DataFrame(results, columns=["worker_url", "step", "results", "message"])
             html = df.to_html()
-            return #html      
+            return html      
