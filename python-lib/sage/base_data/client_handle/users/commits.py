@@ -42,6 +42,7 @@ def main(client):
     
     # Clean the date fields
     for c in ["first_commit_date", "last_commit_date"]:
+        df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = pd.to_datetime(df[c], utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")

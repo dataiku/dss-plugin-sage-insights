@@ -19,6 +19,7 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
+        results = []
         # get partitioned folder
         local_client = dss_funcs.build_local_client()
         project_handle = local_client.get_project(project_key=self.sage_project_key)
@@ -29,6 +30,7 @@ class MyRunnable(Runnable):
         folder_df = pd.DataFrame(partitions, columns=["partitions"])
         cols = ["instance_name", "category", "module", "dt"]
         folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+        results.append(["List Partitions", True, None])
         
         # get latest partition
         max_date = folder_df['dt'].max()
@@ -41,6 +43,7 @@ class MyRunnable(Runnable):
             data = pd.DataFrame([max_date], columns=["latest_partition"])
         )
         filtered_df = folder_df[folder_df['dt'] == max_date]
+        results.append(["Newest Partition", True, None])
         
         # Loop over the sets and gather
         groups = filtered_df.groupby(by=["category", "module"])
@@ -70,5 +73,12 @@ class MyRunnable(Runnable):
                     data_type = "DF",
                     data = df
                 )
+        results.append(["Stack newest datasets", True, None])
+                
         
-        return
+        # return results
+        if results:
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
+            html = df.to_html()
+            return html
+        raise Exception("FAILED TO RUN PROJECT CHECKS")
