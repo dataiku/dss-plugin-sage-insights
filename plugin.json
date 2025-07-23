@@ -12,12 +12,6 @@
     },
     "params": [
         {
-            "type": "BOOLEAN",
-            "name": "ignore_certs",
-            "label": "Ignore Certificates and force trust TLS",
-            "defaultValue": false
-        },
-        {
             "name": "sep_sage_dashboard",
             "label": "Sage Dashboard Information",
             "type": "SEPARATOR"
@@ -42,6 +36,12 @@
             "type": "PASSWORD",
             "description": "API Key running as an ADMIN level user",
             "mandatory": true
+        },
+        {
+            "type": "BOOLEAN",
+            "name": "ignore_certs",
+            "label": "Ignore Certificates and force trust TLS",
+            "defaultValue": false
         },
         {
             "name": "sep_sage_workers",
