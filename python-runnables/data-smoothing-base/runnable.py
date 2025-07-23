@@ -30,7 +30,7 @@ class MyRunnable(Runnable):
         folder_df = pd.DataFrame(partitions, columns=["partitions"])
         cols = ["instance_name", "category", "module", "dt"]
         folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
-        results.append([""])
+        results.append(["List Partitions", True, None])
         
         # get latest partition
         max_date = folder_df['dt'].max()
@@ -43,6 +43,7 @@ class MyRunnable(Runnable):
             data = pd.DataFrame([max_date], columns=["latest_partition"])
         )
         filtered_df = folder_df[folder_df['dt'] == max_date]
+        results.append(["Newest Partition", True, None])
         
         # Loop over the sets and gather
         groups = filtered_df.groupby(by=["category", "module"])
