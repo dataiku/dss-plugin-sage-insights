@@ -17,6 +17,13 @@
             "type": "SEPARATOR"
         },
         {
+            "name": "sage_repo",
+            "label": "Sage Github Repo",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
             "name": "sep_sage_dashboard",
             "label": "Sage Dashboard Information",
             "type": "SEPARATOR"
