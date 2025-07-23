@@ -42,11 +42,11 @@ def install_plugin(self, remote_client):
     if sage_found:
         if self.update_github:
             plugin = remote_client.get_plugin(plugin_id="sage")
-            plugin.update_from_git(repository_url=self.repo, checkout=self.branch)
+            plugin.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
         return
     
     # install the plugin
-    plugin_install = remote_client.install_plugin_from_git(repository_url=self.repo, checkout='master', subpath=None)
+    plugin_install = remote_client.install_plugin_from_git(repository_url=self.sage_repo_url, checkout="main", subpath=None)
     r = plugin_install.wait_for_result()
     r = plugin_install.get_result()
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
