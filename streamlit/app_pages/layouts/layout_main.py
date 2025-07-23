@@ -5,6 +5,7 @@ from sage.src import dss_funcs
 from sage.app_pages.layouts import layout_display
 from sage.app_pages.layouts import layout_filter
 
+st.session_state.rando = []
 
 def main(category, dss_objects, custom_dss_objects):
     data_category = category.lower()
