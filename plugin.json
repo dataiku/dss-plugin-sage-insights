@@ -18,7 +18,7 @@
             "defaultValue": false
         },
         {
-            "name": "sep1",
+            "name": "sep_sage_dashboard",
             "label": "Sage Dashboard Information",
             "type": "SEPARATOR"
         },
@@ -44,7 +44,7 @@
             "mandatory": true
         },
         {
-            "name": "sep2",
+            "name": "sep_sage_workers",
             "label": "Sage Worker Information",
             "type": "SEPARATOR"
         },
