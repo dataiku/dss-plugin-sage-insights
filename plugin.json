@@ -1,6 +1,6 @@
 {
     "id": "sage",
-    "version": "2025.07.22.01",
+    "version": "1.3.2",
     "meta": {
         "label": "Sage - Dataiku Administration Insights",
         "description": "This plugin contains the current and future framework for the Admin Sage Dashbaord information.",
@@ -12,13 +12,26 @@
     },
     "params": [
         {
-            "type": "BOOLEAN",
-            "name": "ignore_certs",
-            "label": "Ignore Certificates and force trust TLS",
-            "defaultValue": false
+            "name": "sep_sage_repo",
+            "label": "Sage Dashboard Information",
+            "type": "SEPARATOR"
         },
         {
-            "name": "sep1",
+            "name": "sage_repo_url",
+            "label": "Sage Github Repo",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sage_repo_branch",
+            "label": "Sage Github Branch",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sep_sage_dashboard",
             "label": "Sage Dashboard Information",
             "type": "SEPARATOR"
         },
@@ -44,7 +57,13 @@
             "mandatory": true
         },
         {
-            "name": "sep2",
+            "type": "BOOLEAN",
+            "name": "ignore_certs",
+            "label": "Ignore Certificates and force trust TLS",
+            "defaultValue": false
+        },
+        {
+            "name": "sep_sage_workers",
             "label": "Sage Worker Information",
             "type": "SEPARATOR"
         },

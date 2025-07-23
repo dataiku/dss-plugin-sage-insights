@@ -32,7 +32,19 @@ step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowCo
 macro = "pyrunnable_sage_data-smoothing-base"
 """
 
+def update_plugin_config(self, plugin_handle):
+    settings = plugin_handle.get_settings()
+    settings.settings["config"]["sage_project_key"] = self.sage_project_key
+    settings.settings["config"]["sage_project_api"] = self.sage_project_api
+    settings.settings["config"]["sage_project_url"] = self.sage_project_url
+    settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
+    settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
+    settings.settings["config"]["sage_repo_branch"] = self.sage_repo_branch
+    settings.settings["codeEnvName"] = "plugin_sage_managed"
+    settings.save()
+    return
 
+    
 def install_plugin(self, remote_client):
     # Only install if not found
     sage_found = False
@@ -41,12 +53,15 @@ def install_plugin(self, remote_client):
             sage_found = True
     if sage_found:
         if self.update_github:
-            plugin = remote_client.get_plugin(plugin_id="sage")
-            plugin.update_from_git(repository_url=self.repo, checkout=self.branch)
+            plugin_handle = remote_client.get_plugin(plugin_id="sage")
+            plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
+            update_plugin_config(self, plugin_handle)
         return
     
     # install the plugin
-    plugin_install = remote_client.install_plugin_from_git(repository_url=self.repo, checkout='master', subpath=None)
+    plugin_install = remote_client.install_plugin_from_git(
+        repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None
+    )
     r = plugin_install.wait_for_result()
     r = plugin_install.get_result()
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
@@ -62,14 +77,7 @@ def install_plugin(self, remote_client):
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
         raise Exception(r["messages"]["messages"])
         
-    # Configure SAGE
-    settings = plugin_handle.get_settings()
-    settings.settings["config"]["sage_project_key"] = self.sage_project_key
-    settings.settings["config"]["sage_project_api"] = self.sage_project_api
-    settings.settings["config"]["sage_project_url"] = self.sage_project_url
-    settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
-    settings.settings["codeEnvName"] = "plugin_sage_managed"
-    settings.save()
+    update_plugin_config(self, plugin_handle)
     
     return
 
