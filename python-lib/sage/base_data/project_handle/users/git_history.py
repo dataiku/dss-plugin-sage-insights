@@ -27,3 +27,7 @@ def main(project_handle):
                     d[author][recipe_type] = 1
             except:
                 continue
+    
+    # Create DF
+    df = pd.DataFrame(d).T
+    return df
