@@ -17,7 +17,14 @@
             "type": "SEPARATOR"
         },
         {
-            "name": "sage_repo",
+            "name": "sage_repo_url",
+            "label": "Sage Github Repo",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sage_repo_branch",
             "label": "Sage Github Repo",
             "type": "STRING",
             "description": "",
