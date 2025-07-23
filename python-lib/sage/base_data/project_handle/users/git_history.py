@@ -4,8 +4,6 @@ from sage.src.dss_funcs import get_nested_value
 
 def main(project_handle):
     d = {}
-    
-    project_handle = local_client.get_project(project_key=project_key)
     try:
         git_log = project_handle.get_project_git().log()
     except:
