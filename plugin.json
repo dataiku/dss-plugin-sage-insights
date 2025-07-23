@@ -12,6 +12,11 @@
     },
     "params": [
         {
+            "name": "sep_sage_repo",
+            "label": "Sage Dashboard Information",
+            "type": "SEPARATOR"
+        },
+        {
             "name": "sep_sage_dashboard",
             "label": "Sage Dashboard Information",
             "type": "SEPARATOR"
