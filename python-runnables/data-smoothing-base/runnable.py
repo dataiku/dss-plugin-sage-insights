@@ -19,6 +19,7 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
+        results = []
         # get partitioned folder
         local_client = dss_funcs.build_local_client()
         project_handle = local_client.get_project(project_key=self.sage_project_key)
