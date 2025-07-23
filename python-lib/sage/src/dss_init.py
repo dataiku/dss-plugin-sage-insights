@@ -32,7 +32,8 @@ step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowCo
 macro = "pyrunnable_sage_data-smoothing-base"
 """
 
-
+def update_plugin_config():
+    
 def install_plugin(self, remote_client):
     # Only install if not found
     sage_found = False
@@ -41,8 +42,8 @@ def install_plugin(self, remote_client):
             sage_found = True
     if sage_found:
         if self.update_github:
-            plugin = remote_client.get_plugin(plugin_id="sage")
-            plugin.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
+            plugin_handle = remote_client.get_plugin(plugin_id="sage")
+            plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
         return
     
     # install the plugin
