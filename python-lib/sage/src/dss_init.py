@@ -33,7 +33,6 @@ macro = "pyrunnable_sage_data-smoothing-base"
 """
 
 def update_plugin_config(plugin_handle):
-    # Configure SAGE
     settings = plugin_handle.get_settings()
     settings.settings["config"]["sage_project_key"] = self.sage_project_key
     settings.settings["config"]["sage_project_api"] = self.sage_project_api
@@ -56,6 +55,7 @@ def install_plugin(self, remote_client):
         if self.update_github:
             plugin_handle = remote_client.get_plugin(plugin_id="sage")
             plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
+            update_plugin_config(plugin_handle)
         return
     
     # install the plugin
