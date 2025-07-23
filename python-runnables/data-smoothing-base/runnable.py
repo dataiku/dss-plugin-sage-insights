@@ -73,6 +73,8 @@ class MyRunnable(Runnable):
                     data_type = "DF",
                     data = df
                 )
+        results.append(["Stack newest datasets", True, None])
+                
         
         # return results
         if results:
