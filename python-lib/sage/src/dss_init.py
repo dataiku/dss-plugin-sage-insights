@@ -46,7 +46,9 @@ def install_plugin(self, remote_client):
         return
     
     # install the plugin
-    plugin_install = remote_client.install_plugin_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None)
+    plugin_install = remote_client.install_plugin_from_git(
+        repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None
+    )
     r = plugin_install.wait_for_result()
     r = plugin_install.get_result()
     if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
