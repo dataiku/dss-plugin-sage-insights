@@ -21,7 +21,7 @@
             "label": "Sage Github Repo",
             "type": "STRING",
             "description": "",
-            "defaultValue": "",
+            "defaultValue": "https://github.com/dataiku/dss-plugin-sage-insights",
             "mandatory": true
         },
         {
