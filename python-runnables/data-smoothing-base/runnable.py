@@ -30,6 +30,7 @@ class MyRunnable(Runnable):
         folder_df = pd.DataFrame(partitions, columns=["partitions"])
         cols = ["instance_name", "category", "module", "dt"]
         folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+        results.append([""])
         
         # get latest partition
         max_date = folder_df['dt'].max()
@@ -74,7 +75,7 @@ class MyRunnable(Runnable):
         
         # return results
         if results:
-            df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
             html = df.to_html()
             return html
         raise Exception("FAILED TO RUN PROJECT CHECKS")
