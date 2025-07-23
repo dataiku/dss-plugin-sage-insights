@@ -29,7 +29,7 @@
             "label": "Sage Github Repo",
             "type": "STRING",
             "description": "",
-            "defaultValue": "",
+            "defaultValue": "dev-mazzei-v1.3",
             "mandatory": true
         },
         {
