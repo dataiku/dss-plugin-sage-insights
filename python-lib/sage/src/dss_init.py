@@ -32,7 +32,9 @@ step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowCo
 macro = "pyrunnable_sage_data-smoothing-base"
 """
 
-def update_plugin_config():
+def update_plugin_config(plugin_handle):
+    return
+
     
 def install_plugin(self, remote_client):
     # Only install if not found
