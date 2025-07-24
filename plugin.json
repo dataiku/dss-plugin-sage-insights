@@ -13,7 +13,6 @@
     "params": [
         {
             "name": "sep_sage_repo",
-            "description": "Sage Dashboard Information",
             "type": "SEPARATOR"
         },
         {
