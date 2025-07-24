@@ -71,7 +71,7 @@
         },
         {
             "name": "sep_sage_workers",
-            "description": "<hr/><h3>Sage Worker Information</h3>",
+            "description": "<hr color='#000000' size='3' noshade><h3>Sage Worker Information</h3>",
             "type": "SEPARATOR"
         },
         {
