@@ -129,7 +129,7 @@ def create_scenarios(project_handle, location):
     for scenario in project_handle.list_scenarios():
         if "data_gather_" in scenario["name"]:
             scenario_handle = project.get_scenario(scenario["id"])
-            scenario_handle.delete()
+            r = scenario_handle.delete()
     
     # Create the scenarios
     if location ==  "WORKER":
