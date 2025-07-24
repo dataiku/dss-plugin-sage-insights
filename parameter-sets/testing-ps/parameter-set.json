@@ -1,13 +1,7 @@
-/* This file is the descriptor for the parameter set testing-ps */
 {
     "meta" : {
-        // label: name of the parameter set as displayed, should be short
         "label": "Parameter set testing-ps",
-
-        // description: longer string to help end users understand what these parameter correspond to
         "description": "",
-
-        // icon: must be one of the FontAwesome 5.15.4 icons, complete list here at https://fontawesome.com/v5/docs/
         "icon": "fas fa-puzzle-piece"
     },
 
