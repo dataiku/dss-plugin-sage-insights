@@ -71,7 +71,7 @@
         },
         {
             "name": "sep_sage_workers",
-            "label": "<hr/><h3>Sage Worker Information</h3>",
+            "description": "<hr/><h3>Sage Worker Information</h3>",
             "type": "SEPARATOR"
         },
         {
