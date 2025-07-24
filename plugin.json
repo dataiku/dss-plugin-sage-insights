@@ -13,6 +13,7 @@
     "params": [
         {
             "name": "sep_sage_repo",
+            "label": "apple",
             "description": "<hr/>",
             "type": "SEPARATOR"
         },
