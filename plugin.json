@@ -75,13 +75,6 @@
             "type": "SEPARATOR"
         },
         {
-          "type": "PRESETS",
-          "name": "sage_workers",
-          "label": "Choose which hosts to monitor",
-          "parameterSetId": "testing-ps"
-        },
-
-        {
             "name": "api_configs",
             "label": "Sage Worker Host URLs and API Keys",
             "type": "OBJECT_LIST",
