@@ -71,7 +71,7 @@
         },
         {
             "name": "sep_sage_workers",
-            "description": "Sage Worker Information",
+            "label": "Sage Worker Information",
             "type": "SEPARATOR"
         },
         {
