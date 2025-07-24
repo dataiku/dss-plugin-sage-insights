@@ -13,7 +13,7 @@
     "params": [
         {
             "name": "sep_sage_repo",
-            "description": "<hr/><h3>Apple</h3>",
+            "description": "<hr/><h3>Sage Dashboard Information</h3>",
             "type": "SEPARATOR"
         },
         {
