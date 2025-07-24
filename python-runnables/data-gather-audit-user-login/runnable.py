@@ -56,7 +56,7 @@ class MyRunnable(Runnable):
         jdf.dropna(subset=["login"], inplace=True)
         data = []
         for login in jdf.login.unique():
-            data.append([today, login])
+            data.append([yesterday, login])
         df = pd.DataFrame(data, columns=["date", "login"])
         
         # loop topics and save data
