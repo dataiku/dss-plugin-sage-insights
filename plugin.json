@@ -57,17 +57,17 @@
             "mandatory": true
         },
         {
-            "type": "BOOLEAN",
-            "name": "ignore_certs",
-            "label": "Ignore Certificates and force trust TLS",
-            "defaultValue": false
-        },
-        {
             "name": "sage_worker_key",
             "label": "Sage Worker Project Key",
             "type": "STRING",
             "description": "",
             "mandatory": true
+        },
+        {
+            "type": "BOOLEAN",
+            "name": "ignore_certs",
+            "label": "Ignore Certificates and force trust TLS",
+            "defaultValue": false
         },
         {
             "name": "sep_sage_workers",
