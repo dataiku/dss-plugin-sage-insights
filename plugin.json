@@ -80,10 +80,6 @@
             "type": "OBJECT_LIST",
             "subParams": [
                 {
-                    "type": "SEPARATOR",
-                    "label": "Enter Host Information"
-                },
-                {
                     "name": "worker_url",
                     "label": "Worker Host URL",
                     "type": "STRING",
