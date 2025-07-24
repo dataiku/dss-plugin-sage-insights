@@ -12,11 +12,6 @@
     },
     "params": [
         {
-            "name": "sep_sage_repo",
-            "label": "Sage Dashboard Information",
-            "type": "SEPARATOR"
-        },
-        {
             "name": "sage_repo_url",
             "label": "Sage Github Repo",
             "type": "STRING",
@@ -32,7 +27,7 @@
         },
         {
             "name": "sep_sage_dashboard",
-            "label": "Sage Dashboard Information",
+            "description": "<hr color='#000000' size='3' noshade><h3>Sage Dashboard Information</h3>",
             "type": "SEPARATOR"
         },
         {
@@ -57,17 +52,6 @@
             "mandatory": true
         },
         {
-            "type": "BOOLEAN",
-            "name": "ignore_certs",
-            "label": "Ignore Certificates and force trust TLS",
-            "defaultValue": false
-        },
-        {
-            "name": "sep_sage_workers",
-            "label": "Sage Worker Information",
-            "type": "SEPARATOR"
-        },
-        {
             "name": "sage_worker_key",
             "label": "Sage Worker Project Key",
             "type": "STRING",
@@ -75,14 +59,21 @@
             "mandatory": true
         },
         {
+            "type": "BOOLEAN",
+            "name": "ignore_certs",
+            "label": "Ignore Certificates and force trust TLS",
+            "defaultValue": false
+        },
+        {
+            "name": "sep_sage_workers",
+            "description": "<hr color='#000000' size='3' noshade><h3>Sage Worker Information</h3>",
+            "type": "SEPARATOR"
+        },
+        {
             "name": "api_configs",
             "label": "Sage Worker Host URLs and API Keys",
             "type": "OBJECT_LIST",
             "subParams": [
-                {
-                    "type": "SEPARATOR",
-                    "label": "Enter Host Information"
-                },
                 {
                     "name": "worker_url",
                     "label": "Worker Host URL",

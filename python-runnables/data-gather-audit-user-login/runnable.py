@@ -50,18 +50,26 @@ class MyRunnable(Runnable):
             ]
         results.append(["read/parse", True, None])
         
+        # Grab only the data we need
+        df = df[df["topic"] == "generic"]
+        jdf = pd.json_normalize(df["message"])
+        jdf.dropna(subset=["login"], inplace=True)
+        data = []
+        for login in jdf.login.unique():
+            data.append([yesterday, login])
+        df = pd.DataFrame(data, columns=["date", "login"])
+        
         # loop topics and save data
         remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
         dt_year  = str(self.dt.year)
         dt_month = str(f'{self.dt.month:02d}')
         dt_day   = str(f'{self.dt.day:02d}')
-        for topic in df.topic.unique():
-            try:
-                write_path = f"/{instance_name}/audit/{topic}/{dt_year}/{dt_month}/{dt_day}/data.csv"
-                dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
-                results.append(["write/save", True, None])
-            except Exception as e:
-                results.append(["write/save", False, e])
+        try:
+            write_path = f"/{instance_name}/users/daily_login/{dt_year}/{dt_month}/{dt_day}/data.csv"
+            dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
+            results.append(["write/save", True, None])
+        except Exception as e:
+            results.append(["write/save", False, e])
             
         # return results
         if results:
