@@ -63,6 +63,13 @@
             "defaultValue": false
         },
         {
+            "name": "sage_worker_key",
+            "label": "Sage Worker Project Key",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
             "name": "sep_sage_workers",
             "label": "Sage Worker Information",
             "type": "SEPARATOR"
@@ -73,13 +80,7 @@
           "label": "Choose which hosts to monitor",
           "parameterSetId": "testing-ps"
         },
-        {
-            "name": "sage_worker_key",
-            "label": "Sage Worker Project Key",
-            "type": "STRING",
-            "description": "",
-            "mandatory": true
-        },
+
         {
             "name": "api_configs",
             "label": "Sage Worker Host URLs and API Keys",
