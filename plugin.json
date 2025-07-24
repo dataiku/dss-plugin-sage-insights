@@ -32,7 +32,7 @@
         },
         {
             "name": "sep_sage_dashboard",
-            "label": "Sage Dashboard Information",
+            "description": "Sage Dashboard Information",
             "type": "SEPARATOR"
         },
         {
