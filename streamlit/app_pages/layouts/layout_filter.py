@@ -151,7 +151,11 @@ def body(data_category, modules, display_data):
                         FIG = dss_funcs.load_insights(module_name, fp, df)
                         if isinstance(FIG, dict) and "pass" in FIG and FIG["pass"]:
                             if "key" in FIG:
-                                random_integer = random.randint(1, 10)
+                                while True:
+                                    random_integer = random.randint(1, 100)
+                                    if random_integer not in st.session_state.rando:
+                                        st.session_state.rando.append(random_integer)
+                                        break
                                 FIG["key"] = FIG["key"] + f"_display.{random_integer}"
                             display_graph.main(FIG)
             else:
