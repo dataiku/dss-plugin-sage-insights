@@ -12,11 +12,11 @@
     },
     "params": [
         {
-  "type": "PRESET",
-  "name": "aws_account",
-  "label": "Choose which account to use",
-  "parameterSetId": "testing-ps"
-},
+          "type": "PRESETS",
+          "name": "aws_account",
+          "label": "Choose which account to use",
+          "parameterSetId": "testing-ps"
+        },
         {
             "name": "sep_sage_repo",
             "label": "Sage Dashboard Information",
