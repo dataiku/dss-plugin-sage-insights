@@ -13,7 +13,7 @@
     "params": [
         {
             "name": "sep_sage_repo",
-            "description": "<hr/><h3>Sage Repository Information</h3>",
+            "description": "<hr color='#000000' size='3' noshade><h3>Sage Repository Information</h3>",
             "type": "SEPARATOR"
         },
         {
