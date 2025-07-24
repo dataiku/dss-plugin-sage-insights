@@ -14,7 +14,7 @@ macro = "pyrunnable_sage_data-gather-instance"
 macro = "pyrunnable_sage_data-gather-project"
 
 [data_gather_audit_user_login]
-macro = "pyrunnable_sage_data-gather-audit"
+macro = "pyrunnable_sage_data-gather-audit-user-login"
 
 [data_gather_diskspace]
 macro = "pyrunnable_sage_data-gather-diskspace"
