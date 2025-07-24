@@ -12,11 +12,6 @@
     },
     "params": [
         {
-            "name": "sep_sage_repo",
-            "description": "<hr color='#000000' size='3' noshade><h3>Sage Repository Information</h3>",
-            "type": "SEPARATOR"
-        },
-        {
             "name": "sage_repo_url",
             "label": "Sage Github Repo",
             "type": "STRING",
