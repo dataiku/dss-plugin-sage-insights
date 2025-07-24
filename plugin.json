@@ -32,7 +32,7 @@
         },
         {
             "name": "sep_sage_dashboard",
-            "description": "<hr/ size='50'><h3>Sage Dashboard Information</h3>",
+            "description": "<hr/><h3>Sage Dashboard Information</h3>",
             "type": "SEPARATOR"
         },
         {
