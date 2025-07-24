@@ -127,8 +127,8 @@ def get_dss_commits(project_handle):
 def create_scenarios(project_handle, location):
     # Clear out any old
     for scenario in project_handle.list_scenarios():
-        scenario = project.get_scenario(scenario["id"])
-        scenario.delete()
+        scenario_handle = project.get_scenario(scenario["id"])
+        scenario_handle.delete()
     
     # Create the scenarios
     if location ==  "WORKER":
