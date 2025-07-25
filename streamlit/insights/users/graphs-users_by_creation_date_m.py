@@ -39,7 +39,7 @@ def main(df=pd.DataFrame()):
     # Compute cumulative sum
     monthly_counts['cumulative_users'] = monthly_counts['user_count'].cumsum()
 
-    # ✅ Create the figure here
+    # Create the figure here
     fig = px.line(
         monthly_counts,
         x='creationMonth',
