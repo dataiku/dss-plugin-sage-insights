@@ -1,7 +1,7 @@
 {
     "meta": {
-        "label": "Data Gather Audit Logs",
-        "description": "Data gather the Audit Logs",
+        "label": "Data Gather Audit User Login",
+        "description": "Review Audit logs for any user activity to confirm a login",
         "icon": "fas fa-puzzle-piece",
         "category": "sage insights"
     },

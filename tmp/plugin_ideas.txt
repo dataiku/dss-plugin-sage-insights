@@ -1,0 +1,13 @@
+# Parameter-sets with the following
+    - Host URL
+    - API Key
+    - Run Times
+    - Perform "macro"
+    
+
+        {
+          "type": "PRESETS",
+          "name": "sage_workers",
+          "label": "Choose which hosts to monitor",
+          "parameterSetId": "testing-ps" <--- this is the folder_id value for adding a param preset
+        },

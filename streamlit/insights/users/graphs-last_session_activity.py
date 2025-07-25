@@ -54,7 +54,7 @@ def main(df=pd.DataFrame()):
     fig.update_layout(
         xaxis_title="Year / Month",
         yaxis_title="Active Users",
-        legend_title="Users with last session activity",
+        legend_title="Instance Names",
         template="plotly_white",
         font=dict(size=14),
         bargap=0.15,
@@ -65,7 +65,7 @@ def main(df=pd.DataFrame()):
     fig.update_traces(textposition="outside")
     
     # Build the FIG construct to return
-    FIG["title"] = "Number of Login Users Per Year / Month"
+    FIG["title"] = "All User Attrition Over Time"
     FIG["data"] = fig
     
     return FIG

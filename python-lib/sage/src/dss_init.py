@@ -13,8 +13,8 @@ macro = "pyrunnable_sage_data-gather-instance"
 [data_gather_project]
 macro = "pyrunnable_sage_data-gather-project"
 
-[data_gather_audit]
-macro = "pyrunnable_sage_data-gather-audit"
+[data_gather_audit_user_login]
+macro = "pyrunnable_sage_data-gather-audit-user-login"
 
 [data_gather_diskspace]
 macro = "pyrunnable_sage_data-gather-diskspace"
@@ -125,6 +125,13 @@ def get_dss_commits(project_handle):
 
 
 def create_scenarios(project_handle, location):
+    # Clear out any old
+    for scenario in project_handle.list_scenarios():
+        if "data_gather_" in scenario["name"]:
+            scenario_handle = project_handle.get_scenario(scenario["id"])
+            r = scenario_handle.delete()
+    
+    # Create the scenarios
     if location ==  "WORKER":
         macros = tomllib.loads(worker_scenarios)
     else:
