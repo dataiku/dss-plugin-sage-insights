@@ -48,7 +48,7 @@ def main(df=pd.DataFrame()):
     fig.update_layout(
         xaxis_title="Login Name",
         yaxis_title="Total GIT Commits",
-        legend_title="Top 10 Users with GIT commits",
+        legend_title="Instance Names",
         template="plotly_white",
         font=dict(size=14),
         bargap=0.15,
@@ -60,7 +60,7 @@ def main(df=pd.DataFrame()):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Top 10 Users with GIT commits over the last Year"
+    FIG["title"] = "Top 10 Active Users over the last 365 Days"
     FIG["data"] = fig
 
     return FIG
