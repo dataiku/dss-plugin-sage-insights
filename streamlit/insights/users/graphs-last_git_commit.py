@@ -55,7 +55,7 @@ def main(df=pd.DataFrame()):
     fig.update_layout(
         xaxis_title="Year / Month",
         yaxis_title="Active Users",
-        legend_title="Users with last GIT commits",
+        legend_title="Instance Names",
         template="plotly_white",
         font=dict(size=14),
         bargap=0.15,
@@ -67,7 +67,7 @@ def main(df=pd.DataFrame()):
     
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Number of Active Users (Commits) Per Year / Month"
+    FIG["title"] = "Active User Attrition Over Time"
     FIG["data"] = fig
     
     return FIG
