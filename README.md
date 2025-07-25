@@ -17,18 +17,27 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
 
 **TESTED ON VERSIONS:**
+
 1. v13.5.5
 
 ##
 
 1. Plugin
     1. Login as an admin account
-    1. Migrate to plugins and install from GIT: https://github.com/dataiku/dss-plugin-sage-insights
+    1. Migrate to `Waffle::Plugins` and install from GIT: <https://github.com/dataiku/dss-plugin-sage-insights>
     1. Build the code-environment, no containers needed
-    1. After the plugin is installed, switch to the plugin settings/paramets page and fill in the information
-        1. "EXAMPLE"
-        1. SAGE_DASHBOARD | HOST | API_KEY | SAGE_WORKER
-        1. Fill out each host including the local host if you want to track the local host
+    1. After the plugin is installed, switch to the plugin settings page and fill in the information ("EXAMPLE BELOW")
+        1. Sage Github Repo
+            1. <https://github.com/dataiku/dss-plugin-sage-insights>
+            1. `main`
+        1. Sage Dashboard Information
+            1. `SAGE_DASHBOARD`
+            1. Hostname or IP:Port
+            1. Admin Level Api Key
+            1. `SAGE_WORKER`
+            1. Ignore certs if needed, Default is `False`
+        1. Sage Worker Information
+            1. Fill out each host including the local host if you want to track the local host. Need both Hostname or IP:Port and Admin level API Key
 1. Code Studios
     1. Create the template name `sage` # this name is important
     1. Setup K8s to run on
