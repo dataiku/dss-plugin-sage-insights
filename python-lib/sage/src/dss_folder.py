@@ -3,6 +3,7 @@ import dataiku
 import pandas as pd
 import json
 import warnings
+import os
 
 try:
     SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
