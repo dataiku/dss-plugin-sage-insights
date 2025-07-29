@@ -40,14 +40,18 @@ class MyRunnable(Runnable):
         df = pd.DataFrame()
         for log in logs:
             tdf = pd.read_json(log, lines=True)
+            tdf = tdf[tdf["topic"] == "generic"]
+            tdf = tdf[
+                (tdf["timestamp"].dt.date < today)
+                & (tdf["timestamp"].dt.date >= yesterday)
+            ]
+            if tdf.empty:
+                continue
             if df.empty:
                 df = tdf
             else:
                 df = pd.concat([df, tdf], ignore_index=True)
-            df = df[
-                (df["timestamp"].dt.date < today)
-                & (df["timestamp"].dt.date >= yesterday)
-            ]
+
         results.append(["read/parse", True, None])
         
         # Grab only the data we need
