@@ -11,7 +11,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Rolling Active Users per Month Year
+    Average monthly Active User login
     """
 
     # Load additional data
@@ -20,20 +20,22 @@ def main(df=pd.DataFrame()):
             sage_project_key = sage_project_key,
             project_handle = project_handle,
             folder_name="base_data",
-            path=f"/users/rolling_commit_user_counts.csv"
+            path=f"/users/active_users.csv"
         )
 
     # Perform logic here
-    df = df.sort_values("date")
+    df["month"] = df["timestamp"].dt.to_period("M")
+    df = df.groupby(["instance_name", "month"])["count"].mean().reset_index()
+    df["month"] = df["month"].dt.to_timestamp()
 
     # Initial fig
     fig = px.line(
         df,
-        x="date",
-        y="author",
+        x="month",
+        y="count",
         color="instance_name",
-        text="author",
-        labels={"author": "total active users"},
+        text="count",
+        labels={"count": "total active users"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
@@ -50,10 +52,10 @@ def main(df=pd.DataFrame()):
 
     # Add text annotations inside bars
     fig.update_traces(textposition="top center")
-
+    
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Rolling Active Users per Month Year"
+    FIG["title"] = "Average monthly Active User login"
     FIG["data"] = fig
     
     return FIG

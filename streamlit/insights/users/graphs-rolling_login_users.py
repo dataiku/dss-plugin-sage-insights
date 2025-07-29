@@ -11,7 +11,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Users with lat GIT
+    Average monthly Login User login
     """
 
     # Load additional data
@@ -20,41 +20,29 @@ def main(df=pd.DataFrame()):
             sage_project_key = sage_project_key,
             project_handle = project_handle,
             folder_name="base_data",
-            path=f"/users/metadata.csv"
+            path=f"/users/login_users.csv"
         )
 
     # Perform logic here
-    df["last_commit_date"] = pd.to_datetime(df["last_commit_date"])
-    df["year"] = df["last_commit_date"].dt.year
-    df["month"] = df["last_commit_date"].dt.month
-    filtered_df = pd.DataFrame()
-    for i,g in df.groupby(by=["year", "month"]):
-        year, month = i
-        tdf = g.groupby(["instance_name"]).size().reset_index(name="count")
-        tdf["year_month"] = f"{year}-{month}"
-        if filtered_df.empty:
-            filtered_df = tdf
-        else:
-            filtered_df = pd.concat([filtered_df, tdf], ignore_index=True)
-    filtered_df["year_month"] = pd.to_datetime(filtered_df["year_month"])
-    filtered_df = filtered_df[filtered_df["year_month"] != "1970-01-01"]
+    df["month"] = df["timestamp"].dt.to_period("M")
+    df = df.groupby(["instance_name", "month"])["count"].mean().reset_index()
+    df["month"] = df["month"].dt.to_timestamp()
 
     # Initial fig
-    fig = px.bar(
-        filtered_df,
-        x="year_month",
+    fig = px.line(
+        df,
+        x="month",
         y="count",
         color="instance_name",
-        barmode="group",
         text="count",
-        labels={"count": "Users with last GIT commits"},
+        labels={"count": "total login users"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
-        xaxis_title="Year / Month",
-        yaxis_title="Active Users",
+        xaxis_title="Month Year",
+        yaxis_title="Total Login Users",
         legend_title="Instance Names",
         template="plotly_white",
         font=dict(size=14),
@@ -63,11 +51,11 @@ def main(df=pd.DataFrame()):
     )
 
     # Add text annotations inside bars
-    fig.update_traces(textposition="outside")
+    fig.update_traces(textposition="top center")
     
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Active User Attrition Over Time"
+    FIG["title"] = "Average Monthly User login"
     FIG["data"] = fig
     
     return FIG
