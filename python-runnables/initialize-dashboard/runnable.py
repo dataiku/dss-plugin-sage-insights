@@ -22,7 +22,6 @@ class MyRunnable(Runnable):
     def run(self, progress_callback):
         # Set environment variable
         os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
-        return os.environ["SAGE_FOLDER_CONNECTION"]
         
         # Start
         results = []
