@@ -1,3 +1,5 @@
+import dataiku
+
 from dataiku.runnables import Runnable
 
 class MyRunnable(Runnable):
@@ -14,11 +16,10 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
-        results = []
-        # get partitioned folder
-        local_client = dss_funcs.build_local_client()
-        project_handle = local_client.get_project(project_key=self.sage_project_key)
-        folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
+        folder = dataiku.Folder(
+            lookup="partitioned_data",
+            project_key=self.sage_project_key
+        )
         
         # list partitions and turn into a df
         partitions = folder.list_partitions()
