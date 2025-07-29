@@ -22,6 +22,8 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
+        results = []
+
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
@@ -34,7 +36,6 @@ class MyRunnable(Runnable):
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
 
         # Open and read each log
-        results = []
         today = date.today()
         yesterday = today - timedelta(days=1)
         df = pd.DataFrame()
@@ -51,7 +52,6 @@ class MyRunnable(Runnable):
                 df = tdf
             else:
                 df = pd.concat([df, tdf], ignore_index=True)
-
         results.append(["read/parse", True, None])
         
         # Grab only the data we need
