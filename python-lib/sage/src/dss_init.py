@@ -164,5 +164,6 @@ def create_scenarios(project_handle, location):
         settings.active = True
         settings.save()
         # RUN
-        run = scenario_handle.run()
+        if location ==  "WORKER":
+            run = scenario_handle.run()
     return
