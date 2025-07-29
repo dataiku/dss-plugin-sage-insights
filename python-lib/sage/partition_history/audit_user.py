@@ -16,6 +16,7 @@ def main(df):
         for path in folder.get_partition_info(partition)["paths"]:
             with folder.get_download_stream(path=path) as r:
                 df = pd.read_csv(r)
+            
             # Login Users
             login_users = df[df["message.msgType"] == "application-open"]["message.authUser"].unique()
             login_users_tmp_df = pd.DataFrame([len(login_users)], columns=["count"])
