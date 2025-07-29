@@ -1,6 +1,8 @@
 import dataiku
 import pandas as pd
 
+from sage.partition_history import audit_user
+
 from dataiku.runnables import Runnable
 
 class MyRunnable(Runnable):
