@@ -24,8 +24,6 @@ def split_work(project_keys):
             df = pd.concat([df, tdf], ignore_index=True)
         df["project_key"] = project_key
     return df
-    
-
 
 
 def main(client):
