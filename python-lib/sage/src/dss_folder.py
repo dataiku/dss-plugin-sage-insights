@@ -4,6 +4,11 @@ import pandas as pd
 import json
 import warnings
 
+try:
+    SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
+except:
+    SAGE_FOLDER_CONNECTION = "filesystem_folders"
+
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
 def get_folder(sage_project_key, project_handle, folder_name):
