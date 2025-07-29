@@ -5,7 +5,25 @@ from joblib import Parallel, delayed
 from datetime import datetime, date, timedelta
 
 
-def split_work():
+def split_work(project_keys):
+    df = pd.DataFrame()
+    for project_key in project_keys:
+        project_handle = client.get_project(project_key=project_key)
+        git_log = project_handle.get_project_git().log()
+        tdf = pd.DataFrame(git_log["entries"])
+        if tdf.empty:
+            continue
+        tdf["timestamp"] = pd.to_datetime(tdf["timestamp"])
+        tdf = tdf[
+            (tdf["timestamp"].dt.date < today)
+            & (tdf["timestamp"].dt.date >= yesterday)
+        ]
+        if df.empty:
+            df = tdf
+        else:
+            df = pd.concat([df, tdf], ignore_index=True)
+        df["project_key"] = project_key
+    return df
     
 
 
