@@ -31,7 +31,7 @@ class MyRunnable(Runnable):
         
         # Audit log User information
         try:
-            audit_user.main(df)
+            audit_user.main(self, project_handle, df)
             results.append(["User Aduit", True, None])
         except Exception as e:
             results.append(["User Aduit", False, e])
