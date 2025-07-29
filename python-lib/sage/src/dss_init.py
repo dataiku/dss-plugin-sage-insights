@@ -30,6 +30,9 @@ step = '{"type": "runnable", "name": "run_macro", "enabled": true, "alwaysShowCo
 
 [refresh_base_data]
 macro = "pyrunnable_sage_data-smoothing-base"
+
+[addon_base_data]
+macro = "pyrunnable_sage_data-gather-partition-history"
 """
 
 def update_plugin_config(self, plugin_handle):
