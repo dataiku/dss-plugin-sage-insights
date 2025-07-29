@@ -64,7 +64,10 @@ class MyRunnable(Runnable):
         jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
         df = df.drop(columns="message").reset_index(drop=True)
         df = pd.concat([df, jdf], axis=1)
-        df.drop(columns=["severity", "logger", "topic", "mdc", "callTime"], inplace=True)
+        drop_cols = [
+            "severity", "logger", "topic", "mdc", "callTime", "timestamp"
+        ]
+        df.drop(columns=drop_cols, inplace=True)
         
         # Remove scenarios, job and NaN's
         df = df[df["message.scenarioId"].isna()]
@@ -74,6 +77,8 @@ class MyRunnable(Runnable):
         df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
+        df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        df = df.drop_duplicates()
         try:
             write_path = f"/{instance_name}/users/audit/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
