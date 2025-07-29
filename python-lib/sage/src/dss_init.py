@@ -160,4 +160,6 @@ def create_scenarios(project_handle, location):
         # Save
         settings.active = True
         settings.save()
+        # RUN
+        run = scenario_handle.run()
     return
