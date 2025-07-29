@@ -1,7 +1,7 @@
 {
     "meta": {
-        "label": "Data Gather Base Data",
-        "description": "Grab the latest partition data across all instances and create one dataset per category/module.",
+        "label": "Data Gather Partition History",
+        "description": "Build trends off the Partition Data history.",
         "icon": "fas fa-puzzle-piece",
         "category": "sage insights"
     },
