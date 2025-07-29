@@ -14,6 +14,7 @@ class MyRunnable(Runnable):
         self.config = config
         self.plugin_config = plugin_config
         self.sage_project_key = plugin_config.get("sage_project_key", None)
+        self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
 
     def get_progress_target(self):
         return None
