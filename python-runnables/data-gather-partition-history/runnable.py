@@ -28,6 +28,7 @@ class MyRunnable(Runnable):
         )
         df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
+        results.append(["Gather Partitions", True, None])
         
         # Audit log User information
         try:
