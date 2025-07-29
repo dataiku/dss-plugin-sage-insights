@@ -1,4 +1,5 @@
 import dataiku
+import pandas as pd
 
 from dataiku.runnables import Runnable
 
@@ -21,12 +22,9 @@ class MyRunnable(Runnable):
             project_key=self.sage_project_key
         )
         
-        # list partitions and turn into a df
-        partitions = folder.list_partitions()
-        folder_df = pd.DataFrame(partitions, columns=["partitions"])
-        cols = ["instance_name", "category", "module", "dt"]
-        folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
-        results.append(["List Partitions", True, None])
+        # build partition table
+        df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
+        df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
         
         # get latest partition
         max_date = folder_df['dt'].max()
