@@ -5,8 +5,6 @@ import json
 import warnings
 import os
 
-#
-
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
 def get_folder(sage_project_key, project_handle, folder_name):
