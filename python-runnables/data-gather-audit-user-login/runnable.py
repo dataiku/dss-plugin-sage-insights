@@ -23,6 +23,10 @@ class MyRunnable(Runnable):
 
     def run(self, progress_callback):
         results = []
+        remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
+        dt_year  = str(self.dt.year)
+        dt_month = str(f'{self.dt.month:02d}')
+        dt_day   = str(f'{self.dt.day:02d}')
 
         # Get local client and name
         local_client = dss_funcs.build_local_client()
@@ -68,10 +72,6 @@ class MyRunnable(Runnable):
         df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
-        remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
-        dt_year  = str(self.dt.year)
-        dt_month = str(f'{self.dt.month:02d}')
-        dt_day   = str(f'{self.dt.day:02d}')
         try:
             write_path = f"/{instance_name}/users/audit/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
