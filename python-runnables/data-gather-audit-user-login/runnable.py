@@ -54,14 +54,18 @@ class MyRunnable(Runnable):
                 df = pd.concat([df, tdf], ignore_index=True)
         results.append(["read/parse", True, None])
         
-        # Grab only the data we need
-        df = df[df["topic"] == "generic"]
-        jdf = pd.json_normalize(df["message"])
-        jdf.dropna(subset=["login"], inplace=True)
-        data = []
-        for login in jdf.login.unique():
-            data.append([yesterday, login])
-        df = pd.DataFrame(data, columns=["date", "login"])
+        # Expand Messages and join
+        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
+        df = df.drop(columns="message").reset_index(drop=True)
+        df = pd.concat([df, jdf], axis=1)
+        df.drop(columns=["severity", "logger", "topic", "mdc", "callTime"], inplace=True)
+        
+        # Remove scenarios, job and NaN's
+        df = df[df["message.scenarioId"].isna()]
+        df = df[df["message.jobId"].isna()]
+        df = df[df["message.authSource"] == "USER_FROM_UI"]
+        df = df.dropna(subset=["message.authUser"])
+        df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
         remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
