@@ -27,7 +27,7 @@ def get_folder(sage_project_key, project_handle, folder_name):
 def create_folder(project_handle, folder_name):
     folder_handle = project_handle.create_managed_folder(
         name = folder_name,
-        connection_name = "filesystem_folders"
+        connection_name = SAGE_FOLDER_CONNECTION
     )
     if folder_name == "partitioned_data":
         settings = folder_handle.get_settings()
