@@ -43,9 +43,7 @@ def main(self, project_handle, df):
                 active_users_df = active_users_tmp_df
             else:
                 active_users_df = pd.concat([active_users_df, active_users_tmp_df], ignore_index=True)
-                
-                
-                
+
     # Write consolidated DF to folder
     dss_folder.write_local_folder_output(
         sage_project_key = self.sage_project_key,
