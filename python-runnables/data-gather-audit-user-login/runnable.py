@@ -101,6 +101,8 @@ class MyRunnable(Runnable):
         remove_strings = ["list", "dataset-clear-samples", "dataset-save-schema", "project-save-variables"]
         pattern = "|".join(remove_strings)
         tdf = tdf[~tdf["message.msgType"].str.contains(pattern, na=False)]
+        active_users = tdf["message.authUser"].unique()
+        tdf = pd.DataFrame(active_users, columns=["login"])
         try:
             write_path = f"/{instance_name}/users/audit_active_login/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, tdf)
