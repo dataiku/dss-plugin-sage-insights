@@ -1,6 +1,7 @@
 import dataiku
 import pandas as pd
 import numpy as np
+from joblib import Parallel, delayed
 from datetime import datetime, date, timedelta
 
 
@@ -11,6 +12,8 @@ def split_work():
 
 def main(client):
     project_keys = client.list_project_keys()
+    
+    
     d = {}
     for project_key in project_keys:
         project_handle = client.get_project(project_key=project_key)
