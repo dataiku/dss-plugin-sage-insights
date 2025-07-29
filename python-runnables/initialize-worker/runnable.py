@@ -15,10 +15,13 @@ class MyRunnable(Runnable):
         self.sage_project_api = plugin_config.get("sage_project_api", None)
         self.sage_worker_key  = plugin_config.get("sage_worker_key", None)
         self.ignore_certs     = plugin_config.get("ignore_certs", False)
-        self.sage_folder_connection = plugin_config.get("sage_folder_connection", False)
         self.sage_repo_url    = plugin_config.get("sage_repo_url", "https://github.com/dataiku/dss-plugin-sage-insights")
         self.sage_repo_branch = plugin_config.get("sage_repo_branch", "main")
         self.update_github    = config.get("update_github", False)
+        
+        # Set environment variable
+        self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
+        os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
         
     def get_progress_target(self):
         return None
