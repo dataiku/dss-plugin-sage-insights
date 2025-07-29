@@ -30,7 +30,11 @@ class MyRunnable(Runnable):
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
         
         # Audit log User information
-        
+        try:
+            audit_user.main(df)
+            results.append(["User Aduit", True, None])
+        except Exception as e:
+            results.append(["User Aduit", False, e])
         
         # return results
         if results:
