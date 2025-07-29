@@ -1,8 +1,3 @@
-from sage.src import dss_funcs, dss_folder
-
-import pandas as pd
-from datetime import datetime
-
 from dataiku.runnables import Runnable
 
 class MyRunnable(Runnable):
@@ -64,15 +59,7 @@ class MyRunnable(Runnable):
                         df = tdf
                     else:
                         df = pd.concat([df, tdf], ignore_index=True)
-                # Write consolidated DF to folder
-                dss_folder.write_local_folder_output(
-                    sage_project_key = self.sage_project_key,
-                    project_handle = project_handle,
-                    folder_name = "base_data",
-                    path = f"/{category}/{module}.csv",
-                    data_type = "DF",
-                    data = df
-                )
+
         results.append(["Stack newest datasets", True, None])
                 
         
