@@ -5,7 +5,7 @@ import json
 import warnings
 import os
 
-SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
+#SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
 
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
