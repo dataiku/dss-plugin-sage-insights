@@ -14,9 +14,9 @@ class MyRunnable(Runnable):
         self.config = config
         self.plugin_config = plugin_config
         self.sage_project_key = plugin_config.get("sage_project_key", None)
-        self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
 
         # Set environment variable
+        self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
         os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
         
     def get_progress_target(self):
