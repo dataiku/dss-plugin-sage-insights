@@ -21,11 +21,10 @@ class MyRunnable(Runnable):
     def run(self, progress_callback):
         results = []
         
-        # build partition table
-        folder = dataiku.Folder(
-            lookup="partitioned_data",
-            project_key=self.sage_project_key
-        )
+        # get partitioned folder
+        local_client = dss_funcs.build_local_client()
+        project_handle = local_client.get_project(project_key=self.sage_project_key)
+        folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
         df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
         results.append(["Gather Partitions", True, None])
