@@ -2,7 +2,7 @@ from sage.src import dss_funcs, dss_folder
 
 import pandas as pd
 
-def main(df):
+def main(self, project_handle, df):
     # Select the partition
     partitions = df[
         (df["category"] == "users")
