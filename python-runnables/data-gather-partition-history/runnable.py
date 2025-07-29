@@ -27,6 +27,8 @@ class MyRunnable(Runnable):
         df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
         
+        # Audit log User information
+        
         
         # return results
         if results:
