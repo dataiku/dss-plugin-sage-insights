@@ -5,7 +5,7 @@ from joblib import Parallel, delayed
 from datetime import datetime, date, timedelta
 
 
-def split_work(project_keys):
+def split_work(client, project_keys):
     df = pd.DataFrame()
     for project_key in project_keys:
         project_handle = client.get_project(project_key=project_key)
@@ -31,6 +31,6 @@ def main(client):
     pkey_array = np.array_split(project_keys, 4)
     today = date.today()
     yesterday = today - timedelta(days=1)
-    results = Parallel(n_jobs=4)(delayed(split_work)(i) for i in pkey_array)
+    results = Parallel(n_jobs=4)(delayed(split_work)(client=client, project_keys=i) for i in pkey_array)
     df = pd.concat(results, ignore_index=True)
     return df
