@@ -2,6 +2,7 @@ import dataiku
 import pandas as pd
 from datetime import datetime
 
+from sage.src import dss_funcs
 from sage.partition_history import audit_user
 
 from dataiku.runnables import Runnable
