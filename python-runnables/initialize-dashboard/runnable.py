@@ -23,6 +23,7 @@ class MyRunnable(Runnable):
         # Set environment variable
         os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
         
+        # Start
         results = []
         cont = True
         
