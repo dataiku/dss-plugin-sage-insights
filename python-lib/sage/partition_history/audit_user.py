@@ -49,7 +49,7 @@ def main(self, project_handle, folder, df):
         sage_project_key = self.sage_project_key,
         project_handle = project_handle,
         folder_name = "base_data",
-        path = f"/users/login_users.csv",
+        path = f"/users/rolling_login_users.csv",
         data_type = "DF",
         data = login_users_df
     )
@@ -57,7 +57,7 @@ def main(self, project_handle, folder, df):
         sage_project_key = self.sage_project_key,
         project_handle = project_handle,
         folder_name = "base_data",
-        path = f"/users/active_users.csv",
+        path = f"/users/rolling_active_users.csv",
         data_type = "DF",
         data = active_users_df
     )
