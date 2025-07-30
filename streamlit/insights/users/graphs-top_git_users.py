@@ -12,7 +12,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Top 10 users with GIT commits
+    Top 10 Active Users (GIT) over the last 365 Days
     """
 
     # Load additional data
@@ -20,39 +20,37 @@ def main(df=pd.DataFrame()):
         sage_project_key = sage_project_key,
         project_handle = project_handle,
         folder_name="base_data",
-        path=f"/users/commits.csv"
+        path=f"/users/rolling_git_history.csv"
     )
-    from datetime import datetime, timedelta
 
-    # Perform logic here
+    # Logic
+    from datetime import datetime, timedelta
     today = datetime.now()
     one_year_ago = today - timedelta(days=365)
-    df = df[df["last_commit_date"] >= one_year_ago]
-    df = df.groupby(["login", "instance_name"])["num_commits"].sum().sort_values(ascending=False)
+    df = df[df["timestamp"] >= one_year_ago]
+    df = df[~df["author"].str.contains("api:")]
+    df = df.groupby(["instance_name", "author"])["count"].sum().sort_values(ascending=False)
     df = df.groupby("instance_name").head(10)
     df = df.reset_index()
+    df = df.sort_values(by=["instance_name", "count"])
 
     # Initial fig
     fig = px.bar(
         df,
-        x="login",
-        y="num_commits",
+        x="author",
+        y="count",
         color="instance_name",
         barmode="group",
-        text="num_commits",
-        labels={"num_commits": "Number of GIT commits"},
+        text="count",
+        labels={"count": "Number of total GIT commits"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
-        xaxis_title="Login Name",
+        xaxis_title="Dataiku login",
         yaxis_title="Total GIT Commits",
-        legend_title="Instance Names",
-        template="plotly_white",
-        font=dict(size=14),
-        bargap=0.15,
-        bargroupgap=0.1
+        legend_title="Instance Names"
     )
 
     # Add text annotations inside bars
@@ -60,7 +58,7 @@ def main(df=pd.DataFrame()):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Top 10 Active Users over the last 365 Days"
+    FIG["title"] = "Top 10 Active Users (GIT) over the last 365 Days"
     FIG["data"] = fig
 
     return FIG

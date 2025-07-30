@@ -1,0 +1,18 @@
+{
+    "meta": {
+        "label": "Data Gather Partition History",
+        "description": "Build trends off the Partition Data history.",
+        "icon": "fas fa-puzzle-piece",
+        "category": "sage insights"
+    },
+    "impersonate": false,
+    "params": [],
+    "permissions": ["ADMIN"],
+    "requiresGlobalAdmin": true,
+    "resultType": "HTML",
+    "resultLabel": "my production",
+    "extension": "txt",
+    "mimeType": "text/plain",
+    "macroRoles": [],
+    "params": []
+}

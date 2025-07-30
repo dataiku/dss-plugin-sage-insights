@@ -22,6 +22,14 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
+        results = []
+        remote_client = dss_funcs.build_remote_client(
+            self.sage_project_url, self.sage_project_api, self.ignore_certs
+        )
+        dt_year  = str(self.dt.year)
+        dt_month = str(f'{self.dt.month:02d}')
+        dt_day   = str(f'{self.dt.day:02d}')
+
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
@@ -34,42 +42,51 @@ class MyRunnable(Runnable):
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
 
         # Open and read each log
-        results = []
         today = date.today()
         yesterday = today - timedelta(days=1)
         df = pd.DataFrame()
         for log in logs:
             tdf = pd.read_json(log, lines=True)
+            tdf = tdf[tdf["topic"] == "generic"]
+            tdf = tdf[
+                (tdf["timestamp"].dt.date < today)
+                & (tdf["timestamp"].dt.date >= yesterday)
+            ]
+            if tdf.empty:
+                continue
             if df.empty:
                 df = tdf
             else:
                 df = pd.concat([df, tdf], ignore_index=True)
-            df = df[
-                (df["timestamp"].dt.date < today)
-                & (df["timestamp"].dt.date >= yesterday)
-            ]
         results.append(["read/parse", True, None])
         
-        # Grab only the data we need
-        df = df[df["topic"] == "generic"]
-        jdf = pd.json_normalize(df["message"])
-        jdf.dropna(subset=["login"], inplace=True)
-        data = []
-        for login in jdf.login.unique():
-            data.append([yesterday, login])
-        df = pd.DataFrame(data, columns=["date", "login"])
+        # Expand Messages and join
+        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
+        df = df.drop(columns="message").reset_index(drop=True)
+        df = pd.concat([df, jdf], axis=1)
+        drop_cols = [
+            "severity", "logger", "topic", "mdc", "callTime", "timestamp"
+        ]
+        df.drop(columns=drop_cols, inplace=True)
+        
+        # Remove scenarios, job and NaN's
+        df = df[df["message.scenarioId"].isna()]
+        df = df[df["message.jobId"].isna()]
+        df = df[df["message.authSource"] == "USER_FROM_UI"]
+        df = df.dropna(subset=["message.authUser"])
+        df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
-        remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
-        dt_year  = str(self.dt.year)
-        dt_month = str(f'{self.dt.month:02d}')
-        dt_day   = str(f'{self.dt.day:02d}')
+        df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        df = df.drop_duplicates()
+        df["instance_name"] = instance_name
+        df["timestamp"] = yesterday
         try:
-            write_path = f"/{instance_name}/users/daily_login/{dt_year}/{dt_month}/{dt_day}/data.csv"
+            write_path = f"/{instance_name}/users/audit/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
             results.append(["write/save", True, None])
         except Exception as e:
-            results.append(["write/save", False, e])
+            results.append(["write/save - All", False, e])
             
         # return results
         if results:

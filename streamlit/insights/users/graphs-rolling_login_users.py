@@ -11,45 +11,47 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Dataiku Active Profile Usage
+    Average monthly all User(s) login
     """
+
     # Load additional data
     if df.empty:
         df = dss_folder.read_local_folder_input(
             sage_project_key = sage_project_key,
             project_handle = project_handle,
             folder_name="base_data",
-            path=f"/users/metadata.csv" # change this line
+            path=f"/users/rolling_login_users.csv"
         )
 
     # Perform logic here
-    df = df[df["enabled"] == True]
-    df = df.groupby(["instance_name", "userProfile"])["login"].nunique()
-    df = df.reset_index(name="profile_count")
+    df["month"] = df["timestamp"].dt.to_period("M")
+    df = df.groupby(["instance_name", "month"])["count"].mean().round(0).reset_index()
+    df["month"] = df["month"].dt.to_timestamp()
 
     # Initial fig
-    fig = px.bar(
+    fig = px.line(
         df,
-        x="userProfile",
-        y="profile_count",
+        x="month",
+        y="count",
         color="instance_name",
-        barmode="group",
-        text="profile_count",
-        labels={"userProfile": "Dataiku profile", "profile_count": "Cumulative Profile Usage"},
+        text="count",
+        labels={"count": "total login users"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
+        xaxis_title="Date Range",
+        yaxis_title="Total Login Users",
         legend_title="Instance Names"
     )
 
     # Add text annotations inside bars
-    fig.update_traces(textposition="outside")
-
+    fig.update_traces(textposition="top center")
+    
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Dataiku Active Profile Usage"
+    FIG["title"] = "Average Monthly User login"
     FIG["data"] = fig
     
     return FIG
