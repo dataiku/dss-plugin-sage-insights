@@ -32,7 +32,7 @@ def main(self, project_handle, folder, df):
         folder_name = "base_data",
         path = f"/users/rolling_git_history.csv",
         data_type = "DF",
-        data = login_users_df
+        data = git_history_df
     )
     
     return
