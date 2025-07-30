@@ -6,6 +6,9 @@ local_client = dss_funcs.build_local_client()
 project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
 
+if "rando" not in st.session_state:
+    st.session_state.rando = []
+
 try:
     df = dss_folder.read_local_folder_input(
         sage_project_key = sage_project_key,
