@@ -11,7 +11,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Average monthly Active User login
+    Average monthly Active User(s) login
     """
 
     # Load additional data
@@ -20,12 +20,12 @@ def main(df=pd.DataFrame()):
             sage_project_key = sage_project_key,
             project_handle = project_handle,
             folder_name="base_data",
-            path=f"/users/active_users.csv"
+            path=f"/users/rolling_active_users.csv"
         )
 
     # Perform logic here
     df["month"] = df["timestamp"].dt.to_period("M")
-    df = df.groupby(["instance_name", "month"])["count"].mean().reset_index()
+    df = df.groupby(["instance_name", "month"])["count"].mean().round(0).reset_index()
     df["month"] = df["month"].dt.to_timestamp()
 
     # Initial fig
@@ -41,13 +41,9 @@ def main(df=pd.DataFrame()):
 
     # Customize layout for polish
     fig.update_layout(
-        xaxis_title="Month Year",
+        xaxis_title="Date Range",
         yaxis_title="Total Active Users",
-        legend_title="Instance Names",
-        template="plotly_white",
-        font=dict(size=14),
-        bargap=0.15,
-        bargroupgap=0.1
+        legend_title="Instance Names"
     )
 
     # Add text annotations inside bars
