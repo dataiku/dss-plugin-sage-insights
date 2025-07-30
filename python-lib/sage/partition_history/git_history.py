@@ -6,7 +6,7 @@ def main(self, project_handle, folder, df):
     # Select the partition
     partitions = df[
         (df["category"] == "users")
-        & (df["module"] == "audit")
+        & (df["module"] == "git_history")
     ]["partition"].tolist()
     
     # Load the df
@@ -52,14 +52,6 @@ def main(self, project_handle, folder, df):
         path = f"/users/login_users.csv",
         data_type = "DF",
         data = login_users_df
-    )
-    dss_folder.write_local_folder_output(
-        sage_project_key = self.sage_project_key,
-        project_handle = project_handle,
-        folder_name = "base_data",
-        path = f"/users/active_users.csv",
-        data_type = "DF",
-        data = active_users_df
     )
     
     return
