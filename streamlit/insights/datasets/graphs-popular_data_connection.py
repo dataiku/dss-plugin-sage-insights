@@ -25,7 +25,7 @@ def main(df=pd.DataFrame()):
     df = df.reset_index()
 
     # Build the data structure
-    data["title"] = "Filesystem % Usage"
+    data["title"] = "Total Count of Dataset Types per Instance"
     data["data"] = df
     data["x"] = "dataset_type"
     data["y"] = ["project_key", "instance_name"]
