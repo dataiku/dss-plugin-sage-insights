@@ -16,8 +16,8 @@ def main(project_handle):
         d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
         d["tags"] = recipe["tags"]
         
-        d["lastModifiedOn"] = pd.to_datetime(d["lastModifiedOn"], unit="ms")
-        d["creationOn"] = pd.to_datetime(d["creationOn"], unit="ms")
+        d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
+        d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
