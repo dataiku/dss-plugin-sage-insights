@@ -18,6 +18,7 @@ def main(project_handle):
         d["scenario_version_num"] = version.get('versionNumber', None)
         d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
         d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
+        d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
         # turn to dataframe
         tdf = pd.DataFrame([d])
         if df.empty:
