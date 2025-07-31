@@ -11,11 +11,11 @@ def main(project_handle):
         ["dataset_name"] = dataset.get("name", False)
         ["dataset_type"] = dataset.get("type", False)
         ["dataset_managed"] = dataset.get("managed", False)
-        ["formatType"] = get_nested_value(dataset, ["formatType"])
-        ["lastModifiedBy"] = get_nested_value(dataset, ["versionTag", "lastModifiedBy", "login"])
-        ["lastModifiedOn"] = get_nested_value(dataset, ["versionTag", "lastModifiedOn"])
-        ["creationBy"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
-        ["creationOn"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
+        ["dataset_formatType"] = get_nested_value(dataset, ["formatType"])
+        ["dataset_last_mod_by"] = get_nested_value(dataset, ["versionTag", "lastModifiedBy", "login"])
+        ["dataset_last_mod_dt"] = get_nested_value(dataset, ["versionTag", "lastModifiedOn"])
+        ["dataset_last_create_by"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
+        ["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
         ["tags"] = dataset.get("tags", False)
         
         # turn to dataframe
