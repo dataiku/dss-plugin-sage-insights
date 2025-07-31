@@ -8,6 +8,7 @@ def main(project_handle):
         # Poll Data
         scenario_handle = project_handle.get_scenario(scenario['id'])
         raw_settings    = scenario_handle.get_settings().get_raw()
+        d["projectKey"] = project_handle.project_key
         d["scenario_type"]   = raw_settings.get('type', None)
         d["scenario_runas"]  = raw_settings.get('runAsUser', None)
         d["sceanrio_active"] = raw_settings.get('active', False)
