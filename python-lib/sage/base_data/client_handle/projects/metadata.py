@@ -3,12 +3,7 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(client):
-    cols = [
-        "project_key", "project_name", "login", "login_displayname",
-        "lastModifiedBy", "lastModifiedOn", "creationBy", "creationOn",
-        "shortDesc", "tags"
-    ]
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for project in client.list_projects():
         projectKey = project.get("projectKey", False)
         ownerLogin = project.get("ownerLogin", False)
