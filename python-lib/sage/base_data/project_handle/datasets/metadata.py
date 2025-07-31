@@ -8,15 +8,15 @@ def main(project_handle):
         d = {"projectKey": project_handle.project_key}
         
         # Poll Data
-        ["dataset_name"] = dataset.get("name", False)
-        ["dataset_type"] = dataset.get("type", False)
-        ["dataset_managed"] = dataset.get("managed", False)
-        ["dataset_formatType"] = get_nested_value(dataset, ["formatType"])
-        ["dataset_last_mod_by"] = get_nested_value(dataset, ["versionTag", "lastModifiedBy", "login"])
-        ["dataset_last_mod_dt"] = get_nested_value(dataset, ["versionTag", "lastModifiedOn"])
-        ["dataset_last_create_by"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
-        ["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
-        ["tags"] = dataset.get("tags", False)
+        d["dataset_name"] = dataset.get("name", False)
+        d["dataset_type"] = dataset.get("type", False)
+        d["dataset_managed"] = dataset.get("managed", False)
+        d["dataset_formatType"] = get_nested_value(dataset, ["formatType"])
+        d["dataset_last_mod_by"] = get_nested_value(dataset, ["versionTag", "lastModifiedBy", "login"])
+        d["dataset_last_mod_dt"] = get_nested_value(dataset, ["versionTag", "lastModifiedOn"])
+        d["dataset_last_create_by"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
+        d["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
+        d["tags"] = dataset.get("tags", False)
         
         d["dataset_last_mod_dt"] = pd.to_datetime(d["dataset_last_mod_dt"], unit="ms")
         d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
