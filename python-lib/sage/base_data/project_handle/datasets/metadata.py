@@ -5,7 +5,7 @@ from sage.src.dss_funcs import get_nested_value
 def main(project_handle):
     df = pd.DataFrame()
     for dataset in project_handle.list_datasets():
-        d = {"projectKey": project_handle.project_key}
+        d = {"project_key": project_handle.project_key}
         
         # Poll Data
         d["dataset_name"] = dataset.get("name", False)
