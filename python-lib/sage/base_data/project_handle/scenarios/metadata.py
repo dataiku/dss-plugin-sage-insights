@@ -4,7 +4,7 @@ import pandas as pd
 def main(project_handle):
     df = pd.DataFrame()
     for scenario in project_handle.list_scenarios():
-        d = {"projectKey": project_handle.project_key}
+        d = {"project_key": project_handle.project_key}
         
         # Poll Data
         scenario_handle = project_handle.get_scenario(scenario['id'])
