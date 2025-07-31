@@ -5,9 +5,8 @@ from sage.src.dss_funcs import get_nested_value
 def main(project_handle):
     df = pd.DataFrame()
     for recipe in project_handle.list_recipes():
-        d = {}
+        d = {"projectKey": project_handle.project_key}
         # Poll Data
-        d["projectKey"] = project_handle.project_key
         d["recipe_name"] = recipe["name"]
         d["recipe_type"] = recipe["type"]
         d["lastModifiedBy"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
