@@ -10,10 +10,10 @@ def main(project_handle):
         # Poll Data
         d["recipe_name"] = recipe["name"]
         d["recipe_type"] = recipe["type"]
-        d["lastModifiedBy"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
-        d["lastModifiedOn"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"])
-        d["creationBy"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
-        d["creationOn"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
+        d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
+        d["recipe_last_mod_dt"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"])
+        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
+        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
         d["tags"] = recipe["tags"]
         
         d["lastModifiedOn"] = pd.to_datetime(d["lastModifiedOn"], unit="ms")
