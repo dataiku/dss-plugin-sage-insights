@@ -23,4 +23,3 @@ def main(project_handle):
         else:
             df = pd.concat([df, tdf], ignore_index=True)
     return df
-    return df
