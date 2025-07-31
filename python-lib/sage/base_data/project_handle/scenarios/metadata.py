@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def main(project_handle):
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for scenario in project_handle.list_scenarios():
         d = {}
         scenario_handle = project_handle.get_scenario(scenario['id'])
@@ -16,9 +16,9 @@ def main(project_handle):
         d["scenario_tags"]   = raw_settings.get('tags', None)
         
         version = scenario_handle.get_settings().get_raw()["versionTag"]
-        ["scenario_version_num"] = version.get('versionNumber', None)
-        ["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
-        ["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
+        d["scenario_version_num"] = version.get('versionNumber', None)
+        d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
+        d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
