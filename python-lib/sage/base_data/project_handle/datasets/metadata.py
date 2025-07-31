@@ -18,8 +18,8 @@ def main(project_handle):
         ["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
         ["tags"] = dataset.get("tags", False)
         
-        d["dataset_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
-        d["dataset_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
+        d["dataset_last_mod_dt"] = pd.to_datetime(d["dataset_last_mod_dt"], unit="ms")
+        d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
