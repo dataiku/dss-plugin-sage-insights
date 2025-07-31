@@ -16,6 +16,9 @@ def main(project_handle):
         d["creationOn"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
         d["tags"] = recipe["tags"]
         
+        d["lastModifiedOn"] = pd.to_datetime(d["lastModifiedOn"], unit="ms")
+        d["creationOn"] = pd.to_datetime(d["creationOn"], unit="ms")
+        
         # turn to dataframe
         tdf = pd.DataFrame([d])
         if df.empty:
