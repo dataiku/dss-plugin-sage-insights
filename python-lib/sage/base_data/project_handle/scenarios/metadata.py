@@ -15,15 +15,27 @@ def main(project_handle):
     df = pd.DataFrame(columns=cols)
     for scenario in project_handle.list_scenarios():
         scenario_handle = project_handle.get_scenario(scenario['id'])
-        data = scenario_handle.get_settings().get_raw()
-        scenario_type = data.get('type', None)
-        scenario_owner = data.get('runAsUser', None)
+        raw_settings    = scenario_handle.get_settings().get_raw()
+        
+        scenario_type   = raw_settings.get('type', None)
+        scenario_runas  = raw_settings.get('runAsUser', None)
         if not scenario_owner:
-            scenario_owner = data['versionTag']['lastModifiedBy']['login']
-        sceanrio_active = data.get('active', False)
-        scenario_id = data.get('id', None)
-        scenario_name = data.get('name', None)
-        scenario_tags = data.get('tags', None)
+            scenario_owner = raw_settings['versionTag']['lastModifiedBy']['login']
+        sceanrio_active = raw_settings.get('active', False)
+        scenario_id     = raw_settings.get('id', None)
+        scenario_name   = raw_settings.get('name', None)
+        scenario_tags   = raw_settings.get('tags', None)
+        
+        # Get additional information
+        scenario_handle = project_handle.get_scenario(scenario_id=scenario_id)
+        raw_settings = scenario_handle.get_settings().get_raw()
+        try:
+            version = scenario_handle.get_settings().get_raw()["versionTag"]
+            version_num = version.get('versionNumber', None)
+            version_num = version.get('tags', None)
+            version_num = version.get('tags', None)
+        
+        # turn to dataframe
         d = [
             project_handle.project_key,
             scenario_id,
