@@ -3,31 +3,22 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle):
-    cols = [
-        "project_key", 
-        "recipe_name",
-        "recipe_type", 
-        "lastModifiedBy",
-        "lastModifiedOn",
-        "creationBy",
-        "creationOn",
-        "tags"
-    ]
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for recipe in project_handle.list_recipes():
-        projectKey = recipe["projectKey"]
-        recipe_name = recipe["name"]
-        recipe_type = recipe["type"]
-        lastModifiedBy = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
-        lastModifiedOn = get_nested_value(recipe, ["versionTag", "lastModifiedOn"])
-        creationBy = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
-        creationOn = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
-        tags = recipe["tags"]
-        d = [
-            projectKey, recipe_name, recipe_type,
-            lastModifiedBy, lastModifiedOn, creationBy, creationOn,
-            tags
-        ]
-        tdf = pd.DataFrame([d], columns=cols)
-        df = pd.concat([df, tdf], ignore_index=True)
+        d = {}
+        # Poll Data
+        d["projectKey"] = project_handle.project_key
+        d["recipe_name"] = recipe["name"]
+        d["recipe_type"] = recipe["type"]
+        d["lastModifiedBy"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
+        d["lastModifiedOn"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"])
+        d["creationBy"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
+        d["creationOn"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
+        d["tags"] = recipe["tags"]
+        # turn to dataframe
+        tdf = pd.DataFrame([d])
+        if df.empty:
+            df = tdf
+        else:
+            df = pd.concat([df, tdf], ignore_index=True)
     return df
