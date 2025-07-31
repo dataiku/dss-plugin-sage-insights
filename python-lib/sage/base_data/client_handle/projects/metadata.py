@@ -9,9 +9,9 @@ def main(client):
         
         # Poll Data
         d["projectKey"] = project.get("projectKey", False)
-        d["ownerLogin"] = project.get("ownerLogin", False)
-        d["name"] = project.get("name", False)
-        d["ownerDisplayName"] = get_nested_value(project, ["ownerDisplayName"])
+        d["project_name"] = project.get("name", False)
+        d["project_login"] = project.get("ownerLogin", False)
+        d["project_login_dn"] = get_nested_value(project, ["ownerDisplayName"])
         d["lastModifiedBy"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
         d["lastModifiedOn"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
         d["creationBy"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
