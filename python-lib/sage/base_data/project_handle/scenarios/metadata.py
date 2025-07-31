@@ -18,7 +18,6 @@ def main(project_handle):
         d["scenario_version_num"] = version.get('versionNumber', None)
         d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
         d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
-        
         # turn to dataframe
         tdf = pd.DataFrame([d])
         if df.empty:
