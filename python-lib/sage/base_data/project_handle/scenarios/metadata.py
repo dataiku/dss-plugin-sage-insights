@@ -5,6 +5,7 @@ def main(project_handle):
     df = pd.DataFrame()
     for scenario in project_handle.list_scenarios():
         d = {"projectKey": project_handle.project_key}
+        
         # Poll Data
         scenario_handle = project_handle.get_scenario(scenario['id'])
         raw_settings    = scenario_handle.get_settings().get_raw()
@@ -19,6 +20,7 @@ def main(project_handle):
         d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
         d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
         d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
+        
         # turn to dataframe
         tdf = pd.DataFrame([d])
         if df.empty:
