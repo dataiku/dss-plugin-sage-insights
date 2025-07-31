@@ -3,12 +3,7 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle):
-    cols = [
-        "project_key", "dataset_name", "dataset_type", "dataset_managed", "formatType",
-        "lastModifiedBy", "lastModifiedOn", "creationBy", "creationOn",
-        "tags"            
-    ]
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for dataset in project_handle.list_datasets():
         projectKey = dataset.get("projectKey", False)
         dataset_name = dataset.get("name", False)
