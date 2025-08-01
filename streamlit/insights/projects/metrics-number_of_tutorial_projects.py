@@ -4,7 +4,6 @@ import plotly.express as px
 
 from sage.insights.data_structures import structures
 from sage.src import dss_funcs, dss_folder
-from datetime import date, timedelta
 
 local_client = dss_funcs.build_local_client()
 project_handle = local_client.get_default_project()
@@ -23,19 +22,18 @@ def main(df=pd.DataFrame()):
 
     # load data structure
     FIG = structures.get("metric")
-    count = len(df[df["creationOn"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+    
     # Perform logic here
     FIGS = []
-    FIG["label"] = "Total new projects last 30 days -- All"
-    FIG["data"] = len(df[df["creationOn"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+    FIG["label"] = "Total number of Tutorial Projects -- All"
+    FIG["data"] = df['tags'].apply(lambda x: 'tutorial' in x).sum()
     FIGS.append(FIG)
 
     # Split by Instance
     for i, g in df.groupby("instance_name"):
         FIG = structures.get("metric")
-        FIG["label"] = f"Total new projects last 30 days -- {i}"
-        recent_projects = g[g["creationOn"].dt.date >= (date.today() - timedelta(30))]
-        FIG["data"] = recent_projects["project_key"].nunique()
+        FIG["label"] = f"Total number of Tutorial Projects -- {i}"
+        FIG["data"] = g['tags'].apply(lambda x: 'tutorial' in x).sum()
         FIGS.append(FIG)
 
     return FIGS

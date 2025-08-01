@@ -48,7 +48,6 @@ def main(df=pd.DataFrame()):
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
-    # Customize layout for polish
     fig.update_layout(
         xaxis_title="Year / Month",
         yaxis_title="Active Project Count",

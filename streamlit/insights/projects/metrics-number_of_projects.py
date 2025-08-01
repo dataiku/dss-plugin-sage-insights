@@ -11,7 +11,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     # load data structure
-    data = structures.get("metric")
+    # data = structures.get("metric")
 
     # Load additional data
     if df.empty:
@@ -22,10 +22,20 @@ def main(df=pd.DataFrame()):
             path=f"/projects/metadata.csv" # change this line
         )
 
+    # load data structure
+    FIG = structures.get("metric")
+    
     # Perform logic here
+    FIGS = []
+    FIG["label"] = "Total number of Projects -- All"
+    FIG["data"] = df["project_key"].nunique()
+    FIGS.append(FIG)
 
-    # Set values
-    data["label"] = "Total DSS Projects"
-    data["data"] = df["project_key"].nunique()
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"Total number of Projects -- {i}"
+        FIG["data"] = g["project_key"].nunique()
+        FIGS.append(FIG)
 
-    return data
+    return FIGS
