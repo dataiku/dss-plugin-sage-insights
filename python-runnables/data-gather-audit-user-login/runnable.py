@@ -49,9 +49,9 @@ class MyRunnable(Runnable):
             tdf = pd.read_json(log, lines=True)
             tdf = tdf[tdf["topic"] == "generic"]
             tdf = tdf[
-                (tdf["timestamp"].dt.date < today)
-                & (tdf["timestamp"].dt.date >= yesterday)
+                (tdf["timestamp"].dt.date >= today)
             ]
+            #& (tdf["timestamp"].dt.date >= yesterday)
             if tdf.empty:
                 continue
             if df.empty:
