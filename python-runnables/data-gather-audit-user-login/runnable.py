@@ -70,8 +70,10 @@ class MyRunnable(Runnable):
         df.drop(columns=drop_cols, inplace=True)
         
         # Remove scenarios, job and NaN's
-        df = df[df["message.scenarioId"].isna()]
-        df = df[df["message.jobId"].isna()]
+        if "message.scenarioId" in df.columns:
+            df = df[df["message.scenarioId"].isna()]
+        if "message.jobId" in df.columns:
+            df = df[df["message.jobId"].isna()]
         df = df[df["message.authSource"] == "USER_FROM_UI"]
         df = df.dropna(subset=["message.authUser"])
         df = df.dropna(axis=1, how='all')
