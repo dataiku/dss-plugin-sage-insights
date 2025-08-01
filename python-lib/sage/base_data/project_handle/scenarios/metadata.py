@@ -2,37 +2,29 @@ import pandas as pd
 
 
 def main(project_handle):
-    cols = [
-        "project_key", 
-        "scenario_id",
-        "scenario_name", 
-        "scenario_type",
-        "run_as_user",
-        "is_active",
-        "scenario_tags"
-    ]
-
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for scenario in project_handle.list_scenarios():
+        d = {"project_key": project_handle.project_key}
+        
+        # Poll Data
         scenario_handle = project_handle.get_scenario(scenario['id'])
-        data = scenario_handle.get_settings().get_raw()
-        scenario_type = data.get('type', None)
-        scenario_owner = data.get('runAsUser', None)
-        if not scenario_owner:
-            scenario_owner = data['versionTag']['lastModifiedBy']['login']
-        sceanrio_active = data.get('active', False)
-        scenario_id = data.get('id', None)
-        scenario_name = data.get('name', None)
-        scenario_tags = data.get('tags', None)
-        d = [
-            project_handle.project_key,
-            scenario_id,
-            scenario_name, 
-            scenario_type,
-            scenario_owner,
-            sceanrio_active,
-            scenario_tags
-        ]
-        tdf = pd.DataFrame([d], columns=cols)
-        df = pd.concat([df, tdf], ignore_index=True)
+        raw_settings    = scenario_handle.get_settings().get_raw()
+        d["scenario_type"]   = raw_settings.get('type', None)
+        d["scenario_run_as"] = raw_settings.get('runAsUser', None)
+        d["sceanrio_active"] = raw_settings.get('active', False)
+        d["scenario_id"]     = raw_settings.get('id', None)
+        d["scenario_name"]   = raw_settings.get('name', None)
+        d["scenario_tags"]   = raw_settings.get('tags', None)
+        version = scenario_handle.get_settings().get_raw()["versionTag"]
+        d["scenario_version_num"] = version.get('versionNumber', None)
+        d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
+        d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
+        d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
+        
+        # turn to dataframe
+        tdf = pd.DataFrame([d])
+        if df.empty:
+            df = tdf
+        else:
+            df = pd.concat([df, tdf], ignore_index=True)
     return df
