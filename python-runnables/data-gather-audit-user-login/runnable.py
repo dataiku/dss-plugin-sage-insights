@@ -51,7 +51,6 @@ class MyRunnable(Runnable):
             tdf = tdf[
                 (tdf["timestamp"].dt.date >= today)
             ]
-            #& (tdf["timestamp"].dt.date >= yesterday)
             if tdf.empty:
                 continue
             if df.empty:
