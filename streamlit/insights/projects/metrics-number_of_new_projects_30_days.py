@@ -27,6 +27,6 @@ def main(df=pd.DataFrame()):
 
     # Set values
     data["label"] = "Total new projects last 30 days"
-    data["data"] = len(df[df["creationOn"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+    data["data"] = len(df[df["project_last_create_dt"].dt.date >= (date.today() - timedelta(30))]["project_key"])
 
     return data

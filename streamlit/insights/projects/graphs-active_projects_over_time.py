@@ -23,8 +23,8 @@ def main(df=pd.DataFrame()):
         )
 
     # Perform logic here
-    df['year'] = df['lastModifiedOn'].dt.year
-    df['month'] = df['lastModifiedOn'].dt.month
+    df['year'] = df['project_last_mod_dt'].dt.year
+    df['month'] = df['project_last_mod_dt'].dt.month
     filtered_df = pd.DataFrame()
     for i,g in df.groupby(by=["year", "month"]):
         year, month = i

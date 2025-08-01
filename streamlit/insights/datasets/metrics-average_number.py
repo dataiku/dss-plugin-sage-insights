@@ -10,9 +10,6 @@ project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    data = structures.get("metric")
-
     # Load additional data
     if df.empty:
         df = dss_folder.read_local_folder_input(
@@ -22,10 +19,19 @@ def main(df=pd.DataFrame()):
             path=f"/datasets/metadata.csv"
         )
 
-    # Perform logic here
+    # load data structure
+    FIG = structures.get("metric")
 
-    # Set values
-    data["label"] = "Total number of Datasets"
-    data["data"] = df["dataset_name"].nunique()
+    FIGS = []
+    FIG["label"] = "Total number of Dataset Names -- All"
+    FIG["data"] = df["dataset_name"].count()
+    FIGS.append(FIG)
 
-    return data
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"Total number of Dataset Names -- {i}"
+        FIG["data"] = g["dataset_name"].count()
+        FIGS.append(FIG)
+
+    return FIGS
