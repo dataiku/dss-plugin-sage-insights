@@ -19,8 +19,7 @@ def split_work(client, project_keys):
             continue
         tdf["timestamp"] = pd.to_datetime(tdf["timestamp"])
         tdf = tdf[
-            (tdf["timestamp"].dt.date < today)
-            & (tdf["timestamp"].dt.date >= yesterday)
+            (tdf["timestamp"].dt.date >= today)
         ]
         if df.empty:
             df = tdf
