@@ -10,9 +10,9 @@ project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    data = structures.get("bar_chart") # change this line
-
+    """
+    Dataiku Active Profile Usage
+    """
     # Load additional data
     if df.empty:
         df = dss_folder.read_local_folder_input(
@@ -24,11 +24,32 @@ def main(df=pd.DataFrame()):
 
     # Perform logic here
     df = df[df["enabled"] == True]
-    df = df.groupby("userProfile")["login"].nunique()
+    df = df.groupby(["instance_name", "userProfile"])["login"].nunique()
+    df = df.reset_index(name="profile_count")
 
-    # Build the data structure
-    data["title"] = "Count of User Profiles by Active"
-    data["data"] = df
-    data["y_label"] = "Total Number of License"
+    # Initial fig
+    fig = px.bar(
+        df,
+        x="userProfile",
+        y="profile_count",
+        color="instance_name",
+        barmode="group",
+        text="profile_count",
+        labels={"userProfile": "Dataiku profile", "profile_count": "Cumulative Profile Usage"},
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+
+    # Customize layout for polish
+    fig.update_layout(
+        legend_title="Instance Names"
+    )
+
+    # Add text annotations inside bars
+    fig.update_traces(textposition="outside")
+
+    # Build the FIG construct to return
+    FIG = structures.get("plotly")
+    FIG["title"] = "Dataiku Active Profile Usage"
+    FIG["data"] = fig
     
-    return data
+    return FIG

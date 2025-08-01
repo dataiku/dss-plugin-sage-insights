@@ -5,7 +5,9 @@ from sage.src import dss_funcs
 from sage.app_pages.layouts import layout_display
 from sage.app_pages.layouts import layout_filter
 
-st.session_state.rando = []
+if "rando" not in st.session_state:
+    st.session_state.rando = []
+
 
 def main(category, dss_objects, custom_dss_objects):
     data_category = category.lower()
@@ -28,8 +30,13 @@ def main(category, dss_objects, custom_dss_objects):
     st.title(f"{category} Metadata")
     tab1, tab2, tab3, tab4 = st.tabs(["About", "Metrics", "Charts & Graphs", "Explore the Data"])
     with tab1:
-        markdown = "##### Current list of Metrics, Charts and Graphs found\n"
+        markdown = "##### Current list of Metrics and Graphs found\n"
+        metrics = []
+        graphs = []
         for key in display_data:
+            type = key.split(" ")[0]
+            s = key.split(" ")[1:]
+            s = " ".join(s)
             module_name = modules[key][0]
             fp = modules[key][1]
             spec = importlib.util.spec_from_file_location(module_name, fp)
@@ -39,10 +46,19 @@ def main(category, dss_objects, custom_dss_objects):
                 if hasattr(module, 'main'):
                     results = module.main.__doc__
             except Exception as e:
-                results = "No DOC string found."
+                results = "" #No DOC string found."
             if not results:
-                results = "No DOC string found."
-            markdown += f"* **{key}:** {results}\n"
+                results = "" #No DOC string found."
+            if type == "Metrics":
+                metrics.append(f"    * **{s}:** {results}\n")
+            elif type == "Graphs":
+                graphs.append( f"    * **{s}:** {results}\n")
+        markdown += "* **Metrics**\n"
+        for l in metrics:
+            markdown += l
+        markdown += "* **Graphs**\n"
+        for l in graphs:
+            markdown += l
         st.write(markdown)
     with tab2:
         layout_display.body("metrics", modules, display_data)

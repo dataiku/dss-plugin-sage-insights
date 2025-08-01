@@ -12,9 +12,13 @@ from sage.src import dss_funcs
 from sage.src import dss_folder
 from sage.insights.data_structures import display_graph
 
+if "rando" not in st.session_state:
+    st.session_state.rando = []
+
 local_client = dss_funcs.build_local_client()
 project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
+
 
 def filter_columns(df):
     # Add a filtering block

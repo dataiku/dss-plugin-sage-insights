@@ -5,6 +5,9 @@ import random
 from sage.src import dss_funcs
 from sage.insights.data_structures import display_graph
 
+if "rando" not in st.session_state:
+    st.session_state.rando = []
+    
 
 def body(display_type, modules, display_data):
     # Quick check that this display type is valid and found

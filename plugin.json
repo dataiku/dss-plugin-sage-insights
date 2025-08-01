@@ -65,6 +65,13 @@
             "defaultValue": false
         },
         {
+            "name": "sage_folder_connection",
+            "label": "Sage Folder Connection",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
             "name": "sep_sage_workers",
             "description": "<hr color='#000000' size='3' noshade><h3>Sage Worker Information</h3>",
             "type": "SEPARATOR"

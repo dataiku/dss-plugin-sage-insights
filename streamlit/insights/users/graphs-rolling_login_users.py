@@ -11,7 +11,7 @@ sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
     """
-    Cumulative Number of Users by Creation Date (Monthly)
+    Average monthly all User(s) login
     """
 
     # Load additional data
@@ -20,41 +20,38 @@ def main(df=pd.DataFrame()):
             sage_project_key = sage_project_key,
             project_handle = project_handle,
             folder_name="base_data",
-            path=f"/users/metadata.csv"
+            path=f"/users/rolling_login_users.csv"
         )
 
-    # Logic Here
-    df["creationMonth"] = df["creationDate"].dt.to_period("M")
-    df = df[df["creationDate"] != "1970-01-01"].reset_index()
-    df = df.groupby(by=["instance_name", "creationMonth"])["login"].size().reset_index(name="user_count")
-    cumsum = df.groupby("instance_name")["user_count"].cumsum()
-    df = pd.concat([df.drop(columns=["user_count"]), cumsum], axis=1)
-    df["creationMonth"] = df["creationMonth"].dt.to_timestamp()
+    # Perform logic here
+    df["month"] = df["timestamp"].dt.to_period("M")
+    df = df.groupby(["instance_name", "month"])["count"].mean().round(0).reset_index()
+    df["month"] = df["month"].dt.to_timestamp()
 
-    # Create the figure here
+    # Initial fig
     fig = px.line(
         df,
-        x="creationMonth",
-        y="user_count",
+        x="month",
+        y="count",
         color="instance_name",
-        text="user_count",
-        labels={"creationMonth": "Creation Date (Month)", "user_count": "Cumulative Users"},
+        text="count",
+        labels={"count": "total login users"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
-    # Update layout
+    # Customize layout for polish
     fig.update_layout(
-        xaxis_tickformat="%Y-%m",
-        xaxis=dict(tickangle=-45),
+        xaxis_title="Date Range",
+        yaxis_title="Total Login Users",
         legend_title="Instance Names"
     )
 
     # Add text annotations inside bars
     fig.update_traces(textposition="top center")
-
+    
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Cumulative Number of Users by Creation Date (Monthly)"
+    FIG["title"] = "Average Monthly User login"
     FIG["data"] = fig
     
     return FIG

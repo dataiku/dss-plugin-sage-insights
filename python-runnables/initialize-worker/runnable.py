@@ -1,6 +1,7 @@
 from sage.src import dss_funcs
 from sage.src import dss_init
 
+import os
 import pandas as pd
 
 from dataiku.runnables import Runnable
@@ -18,6 +19,10 @@ class MyRunnable(Runnable):
         self.sage_repo_url    = plugin_config.get("sage_repo_url", "https://github.com/dataiku/dss-plugin-sage-insights")
         self.sage_repo_branch = plugin_config.get("sage_repo_branch", "main")
         self.update_github    = config.get("update_github", False)
+        
+        # Set environment variable
+        self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
+        os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
         
     def get_progress_target(self):
         return None
