@@ -43,14 +43,12 @@ class MyRunnable(Runnable):
 
         # Open and read each log
         today = date.today()
-        yesterday = today - timedelta(days=1)
         df = pd.DataFrame()
         for log in logs:
             tdf = pd.read_json(log, lines=True)
             tdf = tdf[tdf["topic"] == "generic"]
             tdf = tdf[
-                (tdf["timestamp"].dt.date < today)
-                & (tdf["timestamp"].dt.date >= yesterday)
+                (tdf["timestamp"].dt.date >= today)
             ]
             if tdf.empty:
                 continue
@@ -70,8 +68,10 @@ class MyRunnable(Runnable):
         df.drop(columns=drop_cols, inplace=True)
         
         # Remove scenarios, job and NaN's
-        df = df[df["message.scenarioId"].isna()]
-        df = df[df["message.jobId"].isna()]
+        if "message.scenarioId" in df.columns:
+            df = df[df["message.scenarioId"].isna()]
+        if "message.jobId" in df.columns:
+            df = df[df["message.jobId"].isna()]
         df = df[df["message.authSource"] == "USER_FROM_UI"]
         df = df.dropna(subset=["message.authUser"])
         df = df.dropna(axis=1, how='all')
@@ -80,7 +80,7 @@ class MyRunnable(Runnable):
         df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
         df = df.drop_duplicates()
         df["instance_name"] = instance_name
-        df["timestamp"] = yesterday
+        df["timestamp"] = today
         try:
             write_path = f"/{instance_name}/users/audit/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)

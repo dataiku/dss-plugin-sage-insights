@@ -10,9 +10,6 @@ project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    data = structures.get("metric")
-
     # Load additional data
     if df.empty:
         df = dss_folder.read_local_folder_input(
@@ -22,10 +19,19 @@ def main(df=pd.DataFrame()):
             path=f"/datasets/metadata.csv"
         )
 
-    # Perform logic here
+    # load data structure
+    FIG = structures.get("metric")
 
-    # Set values
-    data["label"] = "Average number of Datasets per Project"
-    data["data"] = int(round(df.groupby("project_key")["dataset_name"].size().mean(), 0))
+    FIGS = []
+    FIG["label"] = "Average number of Datasets per Project -- All"
+    FIG["data"] = int(round(df.groupby("project_key")["dataset_name"].size().mean(), 0))
+    FIGS.append(FIG)
 
-    return data
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"Average number of Datasets per Project -- {i}"
+        FIG["data"] = int(round(g.groupby("project_key")["dataset_name"].size().mean(), 0))
+        FIGS.append(FIG)
+
+    return FIGS

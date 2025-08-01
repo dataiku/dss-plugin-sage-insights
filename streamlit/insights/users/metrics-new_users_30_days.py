@@ -10,9 +10,6 @@ project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
 
 def main(df=pd.DataFrame()):
-    # load data structure
-    data = structures.get("metric")
-
     # Load additional data
     if df.empty:
         df = dss_folder.read_local_folder_input(
@@ -22,12 +19,21 @@ def main(df=pd.DataFrame()):
             path=f"/users/metadata.csv" # change this line
         )
 
-    # Perform logic here
+    # load data structure
     from datetime import date, timedelta
-    new_users = len(df[df["creationDate"].dt.date >= (date.today() - timedelta(30))]["login"])
+    FIG = structures.get("metric")
 
-    # Set values
-    data["label"] = "New Users last 30 days"
-    data["data"] = new_users
+    # Perform logic here
+    FIGS = []
+    FIG["label"] = "New Users over the last 30 days -- All"
+    FIG["data"] = df[df["creationDate"].dt.date >= (date.today() - timedelta(30))]["login"].nunique()
+    FIGS.append(FIG)
 
-    return data
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"New Users over the last 30 days -- {i}"
+        FIG["data"] = g[g["creationDate"].dt.date >= (date.today() - timedelta(30))]["login"].nunique()
+        FIGS.append(FIG)
+
+    return FIGS

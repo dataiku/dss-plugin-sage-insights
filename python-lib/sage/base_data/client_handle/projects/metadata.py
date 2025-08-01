@@ -3,42 +3,36 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(client):
-    cols = [
-        "project_key", "project_name", "login", "login_displayname",
-        "lastModifiedBy", "lastModifiedOn", "creationBy", "creationOn",
-        "shortDesc", "tags"
-    ]
-    df = pd.DataFrame(columns=cols)
+    df = pd.DataFrame()
     for project in client.list_projects():
-        projectKey = project.get("projectKey", False)
-        ownerLogin = project.get("ownerLogin", False)
-        name = project.get("name", False)
-        ownerDisplayName = get_nested_value(project, ["ownerDisplayName"])
-        lastModifiedBy = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
-        lastModifiedOn = get_nested_value(project, ["versionTag", "lastModifiedOn"])
-        creationBy = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
-        creationOn = get_nested_value(project, ["creationTag", "lastModifiedOn"])
-        shortDesc = project.get("shortDesc", False)
-        tags = project.get("tags", False)
-        d = [
-            projectKey, name, ownerLogin, ownerDisplayName,
-            lastModifiedBy, lastModifiedOn, creationBy, creationOn,
-            shortDesc, tags
-        ]
-        tdf = pd.DataFrame([d], columns=cols)
+        d = {}
+        
+        # Poll Data
+        d["project_key"] = project.get("projectKey", False)
+        d["project_name"] = project.get("name", False)
+        d["project_login"] = project.get("ownerLogin", False)
+        d["project_login_dn"] = get_nested_value(project, ["ownerDisplayName"])
+        d["project_last_mod_by"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
+        d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
+        d["project_last_create_by"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
+        d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
+        d["shortDesc"] = project.get("shortDesc", False)
+        d["tags"] = project.get("tags", False)
+
+        # turn to dataframe
+        tdf = pd.DataFrame([d])
         if df.empty:
             df = tdf
         else:
             df = pd.concat([df, tdf], ignore_index=True)
     
     # Imported projects missing creation values - temp fix for now
-    df.loc[df["creationBy"] == False, "creationBy"] = df["lastModifiedBy"]
-    df.loc[df["creationOn"] == 0, "creationOn"] = df["lastModifiedOn"]
+    df.loc[df["project_last_create_by"] == False, "project_last_create_by"] = df["project_last_mod_by"]
+    df.loc[df["project_last_create_dt"] == 0, "project_last_create_dt"]     = df["project_last_mod_dt"]
 
     # Clean dates
-    for c in ["lastModifiedOn", "creationOn"]:
+    for c in ["project_last_mod_dt", "project_last_create_dt"]:
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
-        df[c] = pd.to_datetime(df[c], utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
 
