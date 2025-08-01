@@ -43,7 +43,6 @@ class MyRunnable(Runnable):
 
         # Open and read each log
         today = date.today()
-        yesterday = today - timedelta(days=1)
         df = pd.DataFrame()
         for log in logs:
             tdf = pd.read_json(log, lines=True)
@@ -81,7 +80,7 @@ class MyRunnable(Runnable):
         df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
         df = df.drop_duplicates()
         df["instance_name"] = instance_name
-        df["timestamp"] = yesterday
+        df["timestamp"] = today
         try:
             write_path = f"/{instance_name}/users/audit/{dt_year}/{dt_month}/{dt_day}/data.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
