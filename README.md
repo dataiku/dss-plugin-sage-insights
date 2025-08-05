@@ -19,6 +19,7 @@ Due to the web application being built on Streamlit, installation requires a bit
 **TESTED ON VERSIONS:**
 
 1. v13.5.5
+1. v14.0.0, v14.0.1
 
 ##
 
