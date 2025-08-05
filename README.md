@@ -3,6 +3,10 @@
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
 * Version - 1.4.1
+* Special Thanks:
+  * Jordan Burke
+  * Ben Bourgeois
+  * Arjun Srivatsa
 
 ## Scope
 
