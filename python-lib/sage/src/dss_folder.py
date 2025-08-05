@@ -73,6 +73,19 @@ def function_with_warning(df):
     return df
 
 
+def read_base_data(path):
+    local_client = dataiku.api_client()
+    project_handle = local_client.get_default_project()
+    sage_project_key = project_handle.project_key
+    df = read_local_folder_input(
+        sage_project_key = sage_project_key,
+        project_handle = project_handle,
+        folder_name="base_data",
+        path=path
+    )
+    return df
+
+
 # ---------- DATAIKU REMOTE FOLDERS ----------------------------
 def write_remote_folder_output(self, client, path, df):
     projet_handle = client.get_project(project_key=self.sage_project_key)

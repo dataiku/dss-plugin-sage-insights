@@ -1,27 +1,12 @@
-import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+from sage.src import dss_streamlit
 from sage.insights.data_structures import structures
-from sage.src import dss_funcs, dss_folder
 
-local_client = dss_funcs.build_local_client()
-project_handle = local_client.get_default_project()
-sage_project_key = project_handle.project_key
 
-def main(df=pd.DataFrame()):
-    """
-    Average monthly Active User(s) login
-    """
-
-    # Load additional data
-    if df.empty:
-        df = dss_folder.read_local_folder_input(
-            sage_project_key = sage_project_key,
-            project_handle = project_handle,
-            folder_name="base_data",
-            path=f"/users/rolling_active_users.csv"
-        )
+def main(filters = {}):
+    # read the base layer data -- Change path for different data
+    df = dss_streamlit.filter_base_data("/users/rolling_active_users.csv", filters)
 
     # Perform logic here
     df["month"] = df["timestamp"].dt.to_period("M")

@@ -111,14 +111,14 @@ def collect_display_data(load_modules):
     return modules, display_data
 
 
-def load_insights(module_name, fp, df_filter=pd.DataFrame()):
+def load_insights(module_name, fp, filters = {}):
     results = {}
     spec = importlib.util.spec_from_file_location(module_name, fp)
     try:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         if hasattr(module, 'main'):
-            results = module.main(df_filter)
+            results = module.main(filters)
     except Exception as e:
         import streamlit as st
         st.error(f"Error importing or running ({fp}) {module_name}: {e}")
