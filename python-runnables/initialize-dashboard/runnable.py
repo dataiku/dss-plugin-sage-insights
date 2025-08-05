@@ -76,6 +76,7 @@ class MyRunnable(Runnable):
                 os.mkdir(f"{project_path}/src/")
                 r = shutil.copy(f"{source_path}/python-lib/sage/src/dss_funcs.py", f"{project_path}/src/")
                 r = shutil.copy(f"{source_path}/python-lib/sage/src/dss_folder.py", f"{project_path}/src/")
+                r = shutil.copy(f"{source_path}/python-lib/sage/src/dss_streamlit.py", f"{project_path}/src/")
                 results.append(["Copy Streamlit", True, None])
             except Exception as e:
                 results.append(["Copy Streamlit", False, f"An error occurred: {e}"])
