@@ -1,26 +1,12 @@
-import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+from sage.src import dss_streamlit
 from sage.insights.data_structures import structures
-from sage.src import dss_funcs, dss_folder
 
-local_client = dss_funcs.build_local_client()
-project_handle = local_client.get_default_project()
-sage_project_key = project_handle.project_key
 
-def main(df=pd.DataFrame()):
-    # load data structure
-    FIG = structures.get("plotly")
-
-    # Load additional data
-    if df.empty:
-        df = dss_folder.read_local_folder_input(
-            sage_project_key = sage_project_key,
-            project_handle = project_handle,
-            folder_name="base_data",
-            path=f"/scenarios/run_history.csv" # change this line
-        )
+def main(filters = {}):
+    # read the base layer data -- Change path for different data
+    df = dss_streamlit.filter_base_data("/scenarios/run_history.csv", filters)
 
     # Perform logic here
     filtered_df = df[~df["run_outcome"].str.contains("SUCESS", na=False)]
@@ -29,7 +15,6 @@ def main(df=pd.DataFrame()):
     grouped["error_pct"] = round(grouped["error_pct"], 2)
     grouped["instance_name.scenario_id"] = grouped["instance_name"] + "." + grouped["scenario_id"]
     del grouped["count"]
-
 
     # Initial fig
     fig = px.bar(
@@ -57,7 +42,8 @@ def main(df=pd.DataFrame()):
     # Add text annotations inside bars
     fig.update_traces(textposition="outside")
 
-   # Build the FIG construct to return
+    # Build the FIG construct to return
+    FIG = structures.get("plotly")
     FIG["title"] = "Percent of Scenario Failures"
     FIG["data"] = fig
     

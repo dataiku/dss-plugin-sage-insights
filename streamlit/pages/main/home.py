@@ -2,13 +2,14 @@ import streamlit as st
 import dataiku
 from sage.src import dss_funcs, dss_folder
 
+st.set_page_config(initial_sidebar_state="collapsed")
+st.set_page_config(layout="centered")
+
+# -----------------------------------------------------------------------------
+# Get latest Partition
 local_client = dss_funcs.build_local_client()
 project_handle = local_client.get_default_project()
 sage_project_key = project_handle.project_key
-
-if "rando" not in st.session_state:
-    st.session_state.rando = []
-
 try:
     df = dss_folder.read_local_folder_input(
         sage_project_key = sage_project_key,
@@ -19,6 +20,8 @@ try:
     partition = df.iloc[0, 0]
 except:
     partition = "ERROR - Failed to read or find file."
+
+
 # -----------------------------------------------------------------------------
 # Home Page
 st.markdown(f"""# 📊 Dataiku Sage Dashboard
