@@ -24,6 +24,8 @@ def main(self, project_handle, folder, df):
             else:
                 git_history_df = pd.concat([git_history_df, git_history_tmp_df], ignore_index=True)
 
+    # Simplify column name
+    git_history_df = git_history_df.rename(columns={"author": "login"})
 
     # Write consolidated DF to folder
     dss_folder.write_local_folder_output(
