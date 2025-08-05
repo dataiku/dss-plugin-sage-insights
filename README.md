@@ -12,16 +12,14 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 * Individual objects, statistics, graphs
 * Maintenance and performance reviews
 
-## Installation
-
-Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
-
-**TESTED ON VERSIONS:**
+## Tested Versions
 
 1. v13.5.5
 1. v14.0.0, v14.0.1
 
-##
+## Installation Notes
+
+Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
 
 1. Plugin
     1. Login as an admin account
