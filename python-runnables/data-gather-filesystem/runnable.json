@@ -3,7 +3,7 @@
         "label": "Data Gather Filesystem",
         "description": "Data gather the OS/VM Filesystem",
         "icon": "fas fa-puzzle-piece",
-        "category": "sage insights"
+        "category": "Sage InsightsL Data Gather"
     },
     "impersonate": false,
     "params": [],
