@@ -107,7 +107,7 @@ class MyRunnable(Runnable):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = "/metadata_whole.csv",
+            path = "/metadata_primary_keys.csv",
             data_type = "DF",
             data = df
         )
