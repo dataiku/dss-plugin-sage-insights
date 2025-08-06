@@ -3,7 +3,7 @@
         "label": "Initialize Dashboard",
         "description": "Create Dashboard and components into the Sage project",
         "icon": "fas fa-puzzle-piece",
-        "category": "sage insights"
+        "category": "Sage Insights: Initialize"
     },
     "impersonate": false,
     "params": [],
