@@ -10,7 +10,7 @@ def main(client):
         # Poll Data
         d["project_key"] = project.get("projectKey", False)
         d["project_name"] = project.get("name", False)
-        d["project_login"] = project.get("ownerLogin", False)
+        d["login"] = project.get("ownerLogin", False) # Match users dataframe
         d["project_login_dn"] = get_nested_value(project, ["ownerDisplayName"])
         d["project_last_mod_by"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
         d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
