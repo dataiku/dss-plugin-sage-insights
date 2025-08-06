@@ -16,8 +16,8 @@ def main(client):
         d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
         d["project_last_create_by"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
         d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
-        d["shortDesc"] = project.get("shortDesc", False)
-        d["tags"] = project.get("tags", False)
+        d["project_shortDesc"] = project.get("shortDesc", False)
+        d["project_tags"] = project.get("tags", False)
 
         # turn to dataframe
         tdf = pd.DataFrame([d])
