@@ -99,6 +99,8 @@ class MyRunnable(Runnable):
                 df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
             elif category == "scenarios":
                 df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
+                
+        
         dss_folder.write_local_folder_output(
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
