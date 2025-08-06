@@ -107,8 +107,7 @@ class MyRunnable(Runnable):
             data_type = "DF",
             data = df
         )
-        
-                
+        results.append(["Metadata Master", True, None])
         
         # return results
         if results:
