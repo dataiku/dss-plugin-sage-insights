@@ -3,7 +3,7 @@
         "label": "Data Gather Base Data",
         "description": "Grab the latest partition data across all instances and create one dataset per category/module.",
         "icon": "fas fa-puzzle-piece",
-        "category": "sage insights"
+        "category": "Sage InsightsL Data Gather"
     },
     "impersonate": false,
     "params": [],
