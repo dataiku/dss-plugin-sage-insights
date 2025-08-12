@@ -92,7 +92,7 @@ class MyRunnable(Runnable):
                 path = f"/{category}/metadata.csv"
             )
             if category == "projects":
-                df = pd.merge(df, category_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "project_login"])
+                df = pd.merge(df, category_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
             elif category == "datasets":
                 df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
             elif category == "recipes":
