@@ -3,7 +3,7 @@
         "label": "Data Gather Partition History",
         "description": "Build trends off the Partition Data history.",
         "icon": "fas fa-puzzle-piece",
-        "category": "sage insights"
+        "category": "Sage Insights: Data Gather"
     },
     "impersonate": false,
     "params": [],

@@ -2,7 +2,11 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.3.2
+* Version - 1.4.1
+* Special Thanks
+  * Jordan Burke
+  * Ben Bourgeois
+  * Arjun Srivatsa
 
 ## Scope
 
@@ -12,15 +16,14 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 * Individual objects, statistics, graphs
 * Maintenance and performance reviews
 
-## Installation
-
-Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
-
-**TESTED ON VERSIONS:**
+## Tested Versions
 
 1. v13.5.5
+1. v14.0.0, v14.0.1
 
-##
+## Installation Notes
+
+Due to the web application being built on Streamlit, installation requires a bit of dedicated code use. Hoping this changes in later DSS versions.
 
 1. Plugin
     1. Login as an admin account
@@ -46,10 +49,14 @@ Due to the web application being built on Streamlit, installation requires a bit
     1. Build
 1. Create the Sage Dashboard project based off 1.4.2 information
     1. Go to Macros
-    1. Filter on `sage insights`
+    1. Filter on `Sage Insights: Initialize`
     1. Run `Initialize Dashboard`
     1. Run `Initialize Workers`
     1. Switch to Code Studios page under the Code tab
         1. Click the checkbox and publish as a Web Application (No API for this)
         1. Start the Web Application (Auto-Start)
         1. Nothing may be available at first while the first day cycle needs to run to gather data
+
+## Data Flow Diagrams
+
+![Data Flow Diagram](<images/SAGE Data Flow.svg>)

@@ -14,7 +14,7 @@ def main(project_handle):
         d["recipe_last_mod_dt"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"])
         d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
         d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
-        d["tags"] = recipe["tags"]
+        d["recipe_tags"] = recipe["tags"]
         
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
         d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")

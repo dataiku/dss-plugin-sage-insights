@@ -1,26 +1,12 @@
-import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+from sage.src import dss_streamlit
 from sage.insights.data_structures import structures
-from sage.src import dss_funcs, dss_folder
 
-local_client = dss_funcs.build_local_client()
-project_handle = local_client.get_default_project()
-sage_project_key = project_handle.project_key
 
-def main(df=pd.DataFrame()):
-    # load data structure
-    FIG = structures.get("plotly")
-
-    # Load additional data
-    if df.empty:
-        df = dss_folder.read_local_folder_input(
-            sage_project_key = sage_project_key,
-            project_handle = project_handle,
-            folder_name="base_data",
-            path=f"/projects/metadata.csv" # change this line
-        )
+def main(filters = {}):
+    # read the base layer data -- Change path for different data
+    df = dss_streamlit.filter_base_data("/projects/metadata.csv", filters)
 
     # Perform logic here
     df['year'] = df['project_last_mod_dt'].dt.year
@@ -48,6 +34,7 @@ def main(df=pd.DataFrame()):
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
+    # Customize layout for polish
     fig.update_layout(
         xaxis_title="Year / Month",
         yaxis_title="Active Project Count",
@@ -62,6 +49,7 @@ def main(df=pd.DataFrame()):
     fig.update_traces(textposition="outside")
 
     # Build the FIG construct to return
+    FIG = structures.get("plotly")
     FIG["title"] = "Number of Active Projects Per Year / Month"
     FIG["data"] = fig
     
