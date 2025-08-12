@@ -74,7 +74,7 @@ class MyRunnable(Runnable):
         
         # loop topics and save data
         try:
-            df = df[["message.caaaallPath", "message.msgType", "message.authUser", "message.projectKey"]]
+            df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
         except:
             df = pd.DataFrame(columns=["message.callPath", "message.msgType", "message.authUser", "message.projectKey"])
         df = df.drop_duplicates()
