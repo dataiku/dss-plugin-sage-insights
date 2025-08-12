@@ -77,7 +77,10 @@ class MyRunnable(Runnable):
         df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
-        df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        try:
+            df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        except:
+            df = pd.DataFrame(columns=["message.callPath", "message.msgType", "message.authUser", "message.projectKey"])
         df = df.drop_duplicates()
         df["instance_name"] = instance_name
         df["timestamp"] = today
