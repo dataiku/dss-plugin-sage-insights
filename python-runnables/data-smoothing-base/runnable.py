@@ -75,7 +75,42 @@ class MyRunnable(Runnable):
                     data = df
                 )
         results.append(["Stack newest datasets", True, None])
+        
+        
+        # Collapse all the metadata files down to 1 single dataset - One dataset to rule them all
+        df = dss_folder.read_local_folder_input(
+            sage_project_key = self.sage_project_key,
+            project_handle = project_handle,
+            folder_name = "base_data",
+            path = "/users/metadata.csv"
+        )
+        for category in ["projects", "datasets", "recipes", "scenarios"]:
+            category_df = dss_folder.read_local_folder_input(
+                sage_project_key = self.sage_project_key,
+                project_handle = project_handle,
+                folder_name = "base_data",
+                path = f"/{category}/metadata.csv"
+            )
+            if category == "projects":
+                df = pd.merge(df, category_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "project_login"])
+            elif category == "datasets":
+                df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
+            elif category == "recipes":
+                df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
+            elif category == "scenarios":
+                df = pd.merge(df, category_df, how="left", on=["instance_name", "project_key"])
                 
+        primary_keys = ["instance_name", "project_key", "enabled", "userProfile", "login"]
+        df = df[primary_keys]
+        dss_folder.write_local_folder_output(
+            sage_project_key = self.sage_project_key,
+            project_handle = project_handle,
+            folder_name = "base_data",
+            path = "/metadata_primary_keys.csv",
+            data_type = "DF",
+            data = df
+        )
+        results.append(["Metadata Master", True, None])
         
         # return results
         if results:
