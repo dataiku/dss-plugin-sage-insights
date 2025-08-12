@@ -62,10 +62,6 @@ class MyRunnable(Runnable):
         jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
         df = df.drop(columns="message").reset_index(drop=True)
         df = pd.concat([df, jdf], axis=1)
-        drop_cols = [
-            "severity", "logger", "topic", "mdc", "callTime", "timestamp"
-        ]
-        df.drop(columns=drop_cols, inplace=True)
         
         # Remove scenarios, job and NaN's
         if "message.scenarioId" in df.columns:
@@ -77,7 +73,10 @@ class MyRunnable(Runnable):
         df = df.dropna(axis=1, how='all')
         
         # loop topics and save data
-        df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        try:
+            df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        except:
+            df = pd.DataFrame(columns=["message.callPath", "message.msgType", "message.authUser", "message.projectKey"])
         df = df.drop_duplicates()
         df["instance_name"] = instance_name
         df["timestamp"] = today
