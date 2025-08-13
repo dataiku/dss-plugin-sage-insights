@@ -9,35 +9,31 @@ def main(filters = {}):
     df = dss_streamlit.filter_base_data("/projects/metadata.csv", filters)
 
     # Perform logic here
-    df['year'] = df['project_last_mod_dt'].dt.year
-    df['month'] = df['project_last_mod_dt'].dt.month
-    filtered_df = pd.DataFrame()
-    for i,g in df.groupby(by=["year", "month"]):
-        year, month = i
+    df["month"] = df["project_last_mod_dt"].dt.to_period("M")
+    dfs = []
+    for i,g in df.groupby(by="month"):
         tdf = g.groupby(["instance_name"]).size().reset_index(name="count")
-        tdf["year_month"] = f"{year}-{month}"
-        if filtered_df.empty:
-            filtered_df = tdf
-        else:
-            filtered_df = pd.concat([filtered_df, tdf], ignore_index=True)
-    filtered_df["year_month"] = pd.to_datetime(filtered_df["year_month"])
+        tdf["month"] = i
+        dfs.append(tdf)
+    filtered_df = pd.concat(dfs, ignore_index=True)
+    filtered_df["month"] = filtered_df["month"].dt.to_timestamp()
 
     # Initial fig
     fig = px.bar(
         filtered_df,
-        x="year_month",
+        x="month",
         y="count",
         color="instance_name",
         barmode="group",
         text="count",
-        labels={"count": "number of active projects"},
+        labels={"count": "count of projects last modified"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
-        xaxis_title="Year / Month",
-        yaxis_title="Active Project Count",
+        xaxis_title="Date Range",
+        yaxis_title="Total Count",
         legend_title="Instance Name",
         template="plotly_white",
         font=dict(size=14),
@@ -50,7 +46,7 @@ def main(filters = {}):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Number of Active Projects Per Year / Month"
+    FIG["title"] = "Total Count of Last Modified Projects"
     FIG["data"] = fig
     
     return FIG

@@ -12,12 +12,4 @@ custom_insights = False
 
 # Set the category and load the main layout
 category = "Scenarios"
-data_category = category.lower().replace(" ", "_")
-df = dss_folder.read_base_data(f"/{data_category}/metadata.csv")
-
-# Build the filters dictionary
-filters = {}
-filters["instance_name"] = {"label": "Select Instance Name", "values": df["instance_name"].unique().tolist()}
-
-# Display
-layout_main.main(category, stock_insights, custom_insights, filters)
+layout_main.main(category, stock_insights, custom_insights)

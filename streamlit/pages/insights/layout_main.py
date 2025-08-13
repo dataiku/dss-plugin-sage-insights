@@ -6,11 +6,9 @@ from sage.pages.insights import layout_graphs
 from sage.pages.insights import layout_explore
 
 
-
-
 # ------------------------------------------------------------------------------------
 # Main function
-def main(category, stock_insights, custom_insights, filters):
+def main(category, stock_insights, custom_insights):
     data_category = category.lower().replace(" ", "_")
     # Setup base sideba
     st.set_page_config(initial_sidebar_state="expanded")
@@ -42,7 +40,7 @@ def main(category, stock_insights, custom_insights, filters):
     if genre == "Metrics":
         layout_metrics.main(data_category, display_data, modules)
     elif genre == "Graphs":
-        layout_graphs.main(data_category, display_data, modules, filters)
+        layout_graphs.main(data_category, display_data, modules)
     elif genre == "Explore DataFrame":
         layout_explore.main(data_category, display_data, modules)
     return
