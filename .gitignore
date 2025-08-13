@@ -1,3 +1,44 @@
-*.pyc
-.ts
-.wlock
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+eggs/
+*.egg
+*.egg-info
+.env/
+venv/
+env/
+
+# Editor-specific files
+.idea/
+.vscode/
+.spyderproject
+.spyproject
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Testing and coverage
+.coverage
+.pytest_cache/
+htmlcov/
+.nox/
+
+# Documentation
+docs/_build/
+
+# Miscellaneous
+*.log
+*.bak
+*.swp
+*.tmp

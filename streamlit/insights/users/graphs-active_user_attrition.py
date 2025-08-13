@@ -16,7 +16,6 @@ def main(filters = {}):
         tdf["month"] = i
         dfs.append(tdf)
     filtered_df = pd.concat(dfs, ignore_index=True)
-    filtered_df = filtered_df[filtered_df["month"] != "1970-01"]
     filtered_df["month"] = filtered_df["month"].dt.to_timestamp()
 
     # Initial fig
@@ -34,7 +33,7 @@ def main(filters = {}):
     # Customize layout for polish
     fig.update_layout(
         xaxis_title="Date Range",
-        yaxis_title="Active Users",
+        yaxis_title="Developer Users Count",
         legend_title="Instance Names"
     )
 
@@ -43,7 +42,7 @@ def main(filters = {}):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Active User Attrition Over Time"
+    FIG["title"] = "Developer Users Attrition Over Time"
     FIG["data"] = fig
     
     return FIG

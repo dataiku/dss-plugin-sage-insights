@@ -1,4 +1,6 @@
-# plugin: src.dss_funcs
+import sys
+sys.dont_write_bytecode = True
+
 import dataiku
 import dataikuapi
 import os

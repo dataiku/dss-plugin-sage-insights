@@ -13,15 +13,19 @@ def main(filters = {}):
     
     # Perform logic here
     FIGS = []
-    FIG["label"] = "Average number of Recipes per Project -- All"
-    FIG["data"] = df.groupby("project_key")["recipe_name"].count().mean().round(0).astype(int)
+    FIG["label"] = "Top Recipe Type -- All"
+    filtered_df = df.groupby("recipe_type").size().sort_values(ascending=False).reset_index(name="count")
+    recipe = filtered_df["recipe_type"].iloc[0]
+    FIG["data"] = recipe
     FIGS.append(FIG)
 
     # Split by Instance
     for i, g in df.groupby("instance_name"):
         FIG = structures.get("metric")
-        FIG["label"] = f"Average number of Recipes per Project -- {i}"
-        FIG["data"] = g.groupby("project_key")["recipe_name"].count().mean().round(0).astype(int)
+        FIG["label"] = f"Top Recipe Type -- {i}"
+        filtered_df = g.groupby("recipe_type").size().sort_values(ascending=False).reset_index(name="count")
+        recipe = filtered_df["recipe_type"].iloc[0]
+        FIG["data"] = recipe
         FIGS.append(FIG)
 
     return FIGS
