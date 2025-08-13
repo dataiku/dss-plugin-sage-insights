@@ -3,17 +3,32 @@ import pandas as pd
 import random
 
 from sage.src import dss_funcs
+from sage.src import dss_folder
 from sage.insights.data_structures import display_graph
+
+filter_df = dss_folder.read_base_data("/metadata_primary_keys.csv")
+if "filter_df" not in st.session_state:
+    st.session_state.filter_df = filter_df
+
 
 
 # ------------------------------------------------------------------------------------
-def main(data_category, display_data, modules, filters):
+def main(data_category, display_data, modules):
     # Enable Filtering
     with st.sidebar:
         with st.container(border=True):
-            final_filter = filters
-            for key in filters:
-                final_filter[key] = st.multiselect(filters[key]["label"], filters[key]["values"])
+            # Build the filters dictionary
+            st_filters = {}
+            final_filter = {}
+            st_filters["instance_name"] = {"label": "Instance Name",       "options": filter_df["instance_name"].unique().tolist()}
+            st_filters["userProfile"]   = {"label": "User Profile Type",   "options": filter_df["userProfile"].unique().tolist()}
+            st_filters["enabled"]       = {"label": "User Enablment",      "options": filter_df["enabled"].unique().tolist()}
+            st_filters["login"]         = {"label": "User Login Name",     "options": filter_df["login"].unique().tolist()}
+            st_filters["project_key"]   = {"label": "Dataiku Project key", "options": filter_df["project_key"].unique().tolist()}
+            for key in st_filters:
+                label = st_filters[key]["label"]
+                options = st_filters[key]["options"]
+                final_filter[key] = st.multiselect(label=label, options=options)
 
     # load only the metric insights
     insights = []

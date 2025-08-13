@@ -1,4 +1,6 @@
-# plugin: src.dss_folder
+import sys
+sys.dont_write_bytecode = True
+
 import dataiku
 import pandas as pd
 import json
@@ -70,6 +72,8 @@ def function_with_warning(df):
             temp_col = pd.to_datetime(df[c],  errors='coerce')
             if temp_col.notna().all():
                 df[c] = temp_col
+                min_date = df[df[c] != "1970-01-01"][c].min()
+                df.loc[df[c] == "1970-01-01", c] = min_date
     return df
 
 

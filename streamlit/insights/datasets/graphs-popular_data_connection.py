@@ -6,28 +6,28 @@ from sage.insights.data_structures import structures
 
 def main(filters = {}):
     # read the base layer data -- Change path for different data
-    df = dss_streamlit.filter_base_data("/recipes/metadata.csv", filters)
+    df = dss_streamlit.filter_base_data("/datasets/metadata.csv", filters)
 
-    # Perform logic here
-    filtered_df = df.groupby(["instance_name", "recipe_type"]).size().reset_index(name="count")
+    # perform logic here
+    filtered_df = df.groupby(["instance_name", "dataset_type"]).size().reset_index(name="count")
     filtered_df = filtered_df.sort_values(by=["instance_name", "count"], ascending=False)
     filtered_df = filtered_df.groupby("instance_name").head(10)
-    
+
     # Plot
     fig = px.bar(
         filtered_df,
-        y="recipe_type",
+        y="dataset_type",
         x="count",
         color="instance_name",
         barmode="group",
         text="count",
-        labels={"count": "count of recipe type"},
+        labels={"count": "count of dataset type"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
-        yaxis_title="Recipe Type",
+        yaxis_title="Dataset Type",
         xaxis_title="Total Count",
         legend_title="Instance Name",
         template="plotly_white",
@@ -45,7 +45,7 @@ def main(filters = {}):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Top 10 Recipe Types"
+    FIG["title"] = "Top 10 Dataset Types"
     FIG["data"] = fig
     
     return FIG
