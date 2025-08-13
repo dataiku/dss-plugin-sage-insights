@@ -9,13 +9,13 @@ def main(filters = {}):
     df = dss_streamlit.filter_base_data("/users/metadata.csv", filters)
 
     # Perform logic here
-    df = df[df["enabled"] == True]
-    df = df.groupby(["instance_name", "userProfile"])["login"].nunique()
-    df = df.reset_index(name="profile_count")
+    filtered_df = df[df["enabled"] == True]
+    filtered_df = filtered_df.groupby(["instance_name", "userProfile"])["login"].nunique()
+    filtered_df = filtered_df.reset_index(name="profile_count")
 
     # Initial fig
     fig = px.bar(
-        df,
+        filtered_df,
         x="userProfile",
         y="profile_count",
         color="instance_name",

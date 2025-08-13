@@ -1,3 +1,6 @@
+import sys
+sys.dont_write_bytecode = True
+
 import streamlit as st
 import pandas as pd
 from pandas.api.types import ( 
@@ -87,23 +90,29 @@ def filter_dataframe(df):
 
 
 def filter_base_data(path, filters):
+    # read in df and if no filters return
     df = dss_folder.read_base_data(path)
     if not filters:
         return df
-    
-    if "metadata.csv" not in path:
-        dot, data_category, file = path.split("/")
+    # Append primary keys for filtering at different levels
+    if "metadata.csv" in path:
+        if "filter_df" not in st.session_state:
+            st.session_state.filter_df = dss_folder.read_base_data("/metadata_primary_keys.csv")
         try:
-            metadata_df = dss_folder.read_base_data(f"/{data_category}/metadata.csv")
-            df = pd.merge(df, metadata_df, how="left", on=["instance_name", "login"])
+            filter_df = st.session_state.filter_df
+            on_key = filter_df.columns.tolist()
+            for col in filter_df.columns.difference(df.columns):
+                on_key.remove(col)
+            df = pd.merge(df, filter_df, how="left", on=on_key)
+            df.drop_duplicates(inplace=True)
         except:
             pass
-
+    # Filter out the values based on the filter dictionary itself
     for column in filters.keys():
         values = filters[column]
         if column not in df.columns or not filters[column]:
             continue
-        elif is_categorical_dtype(df[column]) or is_object_dtype(df[column]):
+        elif is_categorical_dtype(df[column]) or is_object_dtype(df[column]): # isinstance(series.dtype, pd.CategoricalDtype)
             df = df[df[column].isin(values)]
         elif is_bool_dtype(df[column]):
             if len(values) == 0 or len(values) == 2:

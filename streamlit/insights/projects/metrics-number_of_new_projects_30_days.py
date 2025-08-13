@@ -8,12 +8,21 @@ def main(filters = {}):
     # read the base layer data -- Change path for different data
     df = dss_streamlit.filter_base_data("/projects/metadata.csv", filters)
 
+    # load data structure
+    FIG = structures.get("metric")
+    
     # Perform logic here
     from datetime import date, timedelta
+    FIGS = []
+    FIG["label"] = "Total new projects last 30 days -- All"
+    FIG["data"] = len(df[df["project_last_create_dt"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+    FIGS.append(FIG)
 
-    # Set values
-    data = structures.get("metric")
-    data["label"] = "Total new projects last 30 days"
-    data["data"] = len(df[df["project_last_create_dt"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+    # Split by Instance
+    for i, g in df.groupby("instance_name"):
+        FIG = structures.get("metric")
+        FIG["label"] = f"Total new projects last 30 days -- {i}"
+        FIG["data"] = len(g[g["project_last_create_dt"].dt.date >= (date.today() - timedelta(30))]["project_key"])
+        FIGS.append(FIG)
 
-    return data
+    return FIGS
