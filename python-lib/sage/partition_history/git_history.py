@@ -17,7 +17,7 @@ def main(self, project_handle, folder, df):
                 df = pd.read_csv(r)
             # Build Git History Table
             df["timestamp"] = pd.to_datetime(df["timestamp"])
-            git_history_tmp_df = df.groupby(["instance_name", "author"])["author"].size().reset_index(name="count")
+            git_history_tmp_df = df.groupby(["instance_name", "author", "project_key"])["author"].size().reset_index(name="count")
             git_history_tmp_df["timestamp"] = df["timestamp"].iloc[0].to_period("D")
             if git_history_df.empty:
                 git_history_df = git_history_tmp_df
