@@ -37,7 +37,8 @@ def get_dss_name_id_mapping(client):
     instance_name = get_dss_name(client)
     instance_name_base = instance_info.node_name
     instance_id_base = instance_info.node_id
-    return instance_name
+    mapping = [instance_name, instance_name_base, instance_id_base]
+    return mapping
 
 
 # ---------- DATA GATHER MODULES -----------------------------
