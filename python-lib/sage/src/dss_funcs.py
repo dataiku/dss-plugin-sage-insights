@@ -32,6 +32,14 @@ def get_dss_name(client):
     return instance_name
 
 
+def get_dss_name_id_mapping(client):
+    instance_info = client.get_instance_info()
+    instance_name = get_dss_name(client)
+    instance_name_base = instance_info.node_name
+    instance_id_base = instance_info.node_id
+    return instance_name
+
+
 # ---------- DATA GATHER MODULES -----------------------------
 def run_modules(self, dss_objs, handle, project_key = None):
     results = []
