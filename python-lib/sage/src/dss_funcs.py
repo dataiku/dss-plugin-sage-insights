@@ -26,7 +26,10 @@ def build_remote_client(host, api_key, ignore_certs=False):
 
 def get_dss_name(client):
     instance_info = client.get_instance_info()
-    instance_name = instance_info.node_name.lower()
+    try:
+        instance_name = instance_info.node_name.lower()
+    except:
+        instance_name = instance_info.node_id.lower()
     instance_name = re.sub(r'[^a-zA-Z0-9]', ' ', instance_name)
     instance_name = re.sub(r'\s+', '_', instance_name)
     return instance_name
@@ -35,7 +38,10 @@ def get_dss_name(client):
 def get_dss_name_id_mapping(client):
     instance_info = client.get_instance_info()
     instance_name = get_dss_name(client)
-    instance_name_base = instance_info.node_name
+    try:
+        instance_name = instance_info.node_name
+    except:
+        instance_name = instance_info.node_id
     instance_id_base = instance_info.node_id
     mapping = [instance_name, instance_name_base, instance_id_base]
     return mapping
