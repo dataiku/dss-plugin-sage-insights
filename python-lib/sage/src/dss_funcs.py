@@ -89,13 +89,16 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
     return results
 
 
-def get_nested_value(data, keys):
+def get_nested_value(data, keys, dt = False):
     current = data
     for key in keys:
         if isinstance(current, dict) and key in current:
             current = current[key]
         else:
-            return False
+            if dt:
+                return pd.to_datetime(0, unit="ms")
+            else:
+                return False
     return current
 
 
