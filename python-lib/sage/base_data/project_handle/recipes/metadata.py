@@ -73,7 +73,6 @@ def main(project_handle, client_d = {}):
                 d["recipe_container_name"] = container_env_name
             else:
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
-            
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
