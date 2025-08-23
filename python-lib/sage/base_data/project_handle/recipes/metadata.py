@@ -3,6 +3,16 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle, client_d = {}):
+    
+    project_python_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["mode"]
+    if project_python_env == "USE_BUILTIN_MODE":
+        python_env_name = "USE_BUILTIN_MODE"
+    elif project_python_env == "INHERIT":
+        python_env_name = client_d["python_env_name"]
+    else:
+        python_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["envName"]
+    
+    
     df = pd.DataFrame()
     for recipe in project_handle.list_recipes():
         d = {"project_key": project_handle.project_key}
