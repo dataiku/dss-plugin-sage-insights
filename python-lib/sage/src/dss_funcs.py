@@ -39,9 +39,9 @@ def get_dss_name_id_mapping(client):
     instance_info = client.get_instance_info()
     instance_name = get_dss_name(client)
     try:
-        instance_name = instance_info.node_name
+        instance_name_base = instance_info.node_name
     except:
-        instance_name = instance_info.node_id
+        instance_name_base = instance_info.node_id
     instance_id_base = instance_info.node_id
     mapping = [instance_name, instance_name_base, instance_id_base]
     return mapping
