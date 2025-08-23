@@ -35,7 +35,7 @@ def main(project_handle, client_d = {}):
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
                 d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
             elif d["recipe_code_env_mode"] == "INHERIT":
-                d["recipe_code_env_name"] = python_env_name
+                d["recipe_code_env_name"] = client_d["python_env_name"]
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
          
@@ -45,7 +45,7 @@ def main(project_handle, client_d = {}):
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
                 d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
             elif d["recipe_code_env_mode"] == "INHERIT":
-                d["recipe_code_env_name"] = python_env_name
+                d["recipe_code_env_name"] = client_d["r_env_name"]
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
         
