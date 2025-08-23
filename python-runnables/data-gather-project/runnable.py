@@ -37,8 +37,14 @@ class MyRunnable(Runnable):
         # Build Local Client
         local_client = dss_funcs.build_local_client()
         
-        # Grab extra details to save resources
-        
+        # Grab some exra details
+        client_d = {}
+        try:
+            python_env_name = client.get_general_settings().settings["codeEnvs"]["defaultPythonEnv"]
+            if not python_env_name:
+                client_d["python_env_name"] = "USE_BUILTIN_MODE"
+        except:
+            client_d["python_env_name"] = "USE_BUILTIN_MODE"
         
         # Collect the modules && Run the modules
         results = []
