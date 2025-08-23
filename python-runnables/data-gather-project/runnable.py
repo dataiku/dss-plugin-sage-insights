@@ -40,11 +40,17 @@ class MyRunnable(Runnable):
         # Grab some exra details
         client_d = {}
         try:
-            python_env_name = client.get_general_settings().settings["codeEnvs"]["defaultPythonEnv"]
+            client_d["python_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultPythonEnv"]
             if not python_env_name:
                 client_d["python_env_name"] = "USE_BUILTIN_MODE"
         except:
             client_d["python_env_name"] = "USE_BUILTIN_MODE"
+        try:
+            client_d["r_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultREnv"]
+            if not r_env_name:
+                client_d["r_env_name"] = "USE_BUILTIN_MODE"
+        except:
+            client_d["r_env_name"] = "USE_BUILTIN_MODE"
         
         # Collect the modules && Run the modules
         results = []
