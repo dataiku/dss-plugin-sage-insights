@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def main(project_handle):
+def main(project_handle, client_d = {}):
     cols = [
         "project_key",
         'scenario_id',
