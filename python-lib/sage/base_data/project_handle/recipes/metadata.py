@@ -2,7 +2,7 @@ import pandas as pd
 from sage.src.dss_funcs import get_nested_value
 
 
-def main(project_handle):
+def main(project_handle, client_d = {}):
     df = pd.DataFrame()
     for recipe in project_handle.list_recipes():
         d = {"project_key": project_handle.project_key}
