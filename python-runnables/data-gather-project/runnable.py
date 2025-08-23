@@ -41,16 +41,22 @@ class MyRunnable(Runnable):
         client_d = {}
         try:
             client_d["python_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultPythonEnv"]
-            if not python_env_name:
+            if not client_d["python_env_name"]:
                 client_d["python_env_name"] = "USE_BUILTIN_MODE"
         except:
             client_d["python_env_name"] = "USE_BUILTIN_MODE"
         try:
             client_d["r_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultREnv"]
-            if not r_env_name:
+            if not client_d["r_env_name"]:
                 client_d["r_env_name"] = "USE_BUILTIN_MODE"
         except:
             client_d["r_env_name"] = "USE_BUILTIN_MODE"
+        try:
+            client["container_env_name"] = client.get_general_settings().settings["containerSettings"]["defaultExecutionConfig"]
+            if not client_d["container_env_name"]:
+                client_d["container_env_name"] = "DSS_LOCAL"
+        except:
+            client_d["container_env_name"] = "DSS_LOCAL"
         
         # Collect the modules && Run the modules
         results = []
