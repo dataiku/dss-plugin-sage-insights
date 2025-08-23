@@ -48,7 +48,7 @@ def get_dss_name_id_mapping(client):
 
 
 # ---------- DATA GATHER MODULES -----------------------------
-def run_modules(self, dss_objs, handle, project_key = None):
+def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
     results = []
     directory = dss_objs.__path__[0]
     for root, _, files in os.walk(directory):
