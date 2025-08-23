@@ -37,6 +37,7 @@ def main(project_handle, client_d = {}):
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
         d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
         
+        # Get layer 2 information
         recipe_handle = project_handle.get_recipe(recipe["name"])
         if recipe["type"] == "python":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
@@ -57,6 +58,13 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
                 
         if recipe["type"] in ["python", "R"]:
+            d["recipe_container_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerMode"]
+            if d["recipe_container_mode"] == "NONE":
+                d["recipe_container_name"] = "DSS_LOCAL"  
+            elif d["recipe_container_mode"] == "INHERIT":
+                d["recipe_container_name"] = container_env_name
+            else:
+                d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
             
         
         # turn to dataframe
