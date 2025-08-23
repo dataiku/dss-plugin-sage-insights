@@ -18,7 +18,7 @@ def main(project_handle, client_d = {}):
     elif project_r_env == "INHERIT":
         r_env_name = client_d["r_env_name"]
     else:
-        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["R"]["envName"]
+        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]
         
     project_container_env = project_handle.get_settings().settings["settings"]["container"]["containerMode"]
     if project_container_env == "NONE":
