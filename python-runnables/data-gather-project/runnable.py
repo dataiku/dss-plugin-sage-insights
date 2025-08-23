@@ -50,7 +50,7 @@ class MyRunnable(Runnable):
         results = []
         for key in local_client.list_project_keys():
             project_handle = local_client.get_project(project_key=key)
-            results += dss_funcs.run_modules(self, dss_objs, client_d, project_handle, key)
+            results += dss_funcs.run_modules(self, dss_objs, project_handle, client_d, key)
         
         # return results
         if results:
