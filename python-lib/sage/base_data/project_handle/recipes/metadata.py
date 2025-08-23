@@ -37,8 +37,8 @@ def main(project_handle, client_d = {}):
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
         d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
         
+        recipe_handle = project_handle.get_recipe(recipe["name"])
         if recipe["type"] == "python":
-            recipe_handle = project_handle.get_recipe(recipe["name"])
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
                 d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
@@ -48,7 +48,6 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
          
         if recipe["type"] == "R":
-            recipe_handle = project_handle.get_recipe(recipe["name"])
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
                 d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
@@ -56,6 +55,9 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = r_env_name
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
+                
+        if recipe["type"] in ["python", "R"]:
+            
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
