@@ -12,7 +12,7 @@ def main(project_handle, client_d = {}):
     else:
         python_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["envName"]
     
-    project_r_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["R"]["mode"]
+    project_r_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["mode"]
     if project_r_env == "USE_BUILTIN_MODE":
         r_env_name = "USE_BUILTIN_MODE"
     elif project_r_env == "INHERIT":
