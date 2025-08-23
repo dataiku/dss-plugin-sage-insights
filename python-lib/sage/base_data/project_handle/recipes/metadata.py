@@ -77,6 +77,7 @@ def main(project_handle, client_d = {}):
         # turn to dataframe
         tdf = pd.DataFrame([d])
         dfs.append(tdf)
+    
     if dfs:
         return pd.concat(dfs)
     else:
