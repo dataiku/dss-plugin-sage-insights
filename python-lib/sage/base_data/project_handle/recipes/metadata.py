@@ -47,6 +47,12 @@ def main(project_handle, client_d = {}):
         
         # Get layer 2 information
         recipe_handle = project_handle.get_recipe(recipe["name"])
+        try:
+            d["recipe_engine_type"] = recipe_handle.get_status().get_selected_engine_details()["type"]
+            d["recipe_engine_label"] = recipe_handle.get_status().get_selected_engine_details()["label"]
+        except:
+            pass
+
         if recipe["type"] == "python":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
