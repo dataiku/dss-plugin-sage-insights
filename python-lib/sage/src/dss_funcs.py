@@ -63,7 +63,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 if hasattr(module, 'main'):
-                    df = module.main(handle)
+                    df = module.main(handle, client_d)
                     results.append([project_key, path, module_name, "load/run", True, None])
             except Exception as e:
                 df = pd.DataFrame()
