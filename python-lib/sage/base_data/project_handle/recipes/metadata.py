@@ -29,7 +29,7 @@ def main(project_handle, client_d = {}):
         container_env_name = project_handle.get_settings().settings["settings"]["container"]["containerConf"]
     
     # Loop Recipes
-    df = pd.DataFrame()
+    dfs = []
     for recipe in project_handle.list_recipes():
         d = {"project_key": project_handle.project_key}
         
@@ -76,8 +76,5 @@ def main(project_handle, client_d = {}):
         
         # turn to dataframe
         tdf = pd.DataFrame([d])
-        if df.empty:
-            df = tdf
-        else:
-            df = pd.concat([df, tdf], ignore_index=True)
-    return df
+        dfs.append(tdf)
+    return pd.concat(dfs)
