@@ -19,6 +19,14 @@ def main(project_handle, client_d = {}):
         r_env_name = client_d["r_env_name"]
     else:
         r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["R"]["envName"]
+        
+    project_container_env = project_handle.get_settings().settings["settings"]["container"]["containerMode"]
+    if project_container_env == "NONE":
+        container_env_name = "DSS_LOCAL"
+    elif project_container_env == "INHERIT":
+        container_env_name = client_d["container_env_name"]
+    else:
+        container_env_name = project_handle.get_settings().settings["settings"]["container"]["containerConf"]
     
     # Loop Recipes
     df = pd.DataFrame()
