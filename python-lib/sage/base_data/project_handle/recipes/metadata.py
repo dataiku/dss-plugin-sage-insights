@@ -42,8 +42,14 @@ def main(project_handle, client_d = {}):
         d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
         d["recipe_tags"] = recipe["tags"]
         
-        d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
-        d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
+        try:
+            d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
+        except:
+            pass
+        try:
+            d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
+        except:
+            pass
         
         # Get layer 2 information
         recipe_handle = project_handle.get_recipe(recipe["name"])
