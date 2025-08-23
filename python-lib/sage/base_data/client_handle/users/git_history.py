@@ -27,7 +27,7 @@ def split_work(client, project_keys):
     return df
 
 
-def main(client):
+def main(client, client_d = {}):
     project_keys = client.list_project_keys()
     pkey_array = np.array_split(project_keys, 4)
     results = Parallel(n_jobs=4)(delayed(split_work)(client=client, project_keys=i) for i in pkey_array)
