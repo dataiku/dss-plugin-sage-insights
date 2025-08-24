@@ -11,6 +11,7 @@ def main(project_handle, client_d = {}):
         raw_settings    = scenario_handle.get_settings().get_raw()
         d["scenario_type"]   = raw_settings.get('type', None)
         d["scenario_run_as"] = raw_settings.get('runAsUser', None)
+        d["scenario_effective_run_as"] = raw_settings.effective_run_as
         d["sceanrio_active"] = raw_settings.get('active', False)
         d["scenario_id"]     = raw_settings.get('id', None)
         d["scenario_name"]   = raw_settings.get('name', None)
