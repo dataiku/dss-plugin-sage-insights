@@ -38,6 +38,7 @@ class MyCodeStudioBlock(CodeStudioBlock):
         default_packages = [
             "streamlit==1.46.1",
             "streamlit-aggrid",
+            "duckdb==1.3.2"
             "altair",
             "tomli",
             "tabulate",
@@ -47,7 +48,6 @@ class MyCodeStudioBlock(CodeStudioBlock):
             "nbformat>=4.2.0",
             "orjson",
             "matplotlib",
-            "duckdb==1.3.2"
         ]
         default_packages = " ".join(default_packages)
         generate_codenv, pyenv_path = generate_python_codenv(
