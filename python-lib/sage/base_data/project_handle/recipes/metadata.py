@@ -83,6 +83,12 @@ def main(project_handle, client_d = {}):
             else:
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
         
+        if d["recipe_engine_type"] == "SPARK":
+            d["recipe_spark_conf"] = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["inheritConf"]
+            d["recipe_spark_mods"] = False
+            if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
+                d["recipe_spark_mods"] = True
+            
         # turn to dataframe
         tdf = pd.DataFrame([d])
         dfs.append(tdf)
