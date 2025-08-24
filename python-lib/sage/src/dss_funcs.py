@@ -89,7 +89,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
     return results
 
 
-def get_nested_value(data, keys, dt = False):
+def get_nested_value(data, keys, dt=False):
     current = data
     for key in keys:
         if isinstance(current, dict) and key in current:
