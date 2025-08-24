@@ -11,7 +11,7 @@ class MyRunnable(Runnable):
         self.project_key = project_key
         self.config = config
         self.plugin_config = plugin_config
-        self.sage_project_key   = plugin_config.get("sage_project_key", Nne)
+        self.sage_project_key   = plugin_config.get("sage_project_key", None)
         self.sage_project_url   = plugin_config.get("sage_project_url", None)
         self.sage_project_api   = plugin_config.get("sage_project_api", None)
         self.sage_worker_key    = plugin_config.get("sage_worker_key", None)
