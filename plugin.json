@@ -59,6 +59,13 @@
             "mandatory": true
         },
         {
+            "name": "sage_dataiku_user",
+            "label": "Sage Worker Dataiku User",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
             "type": "BOOLEAN",
             "name": "ignore_certs",
             "label": "Ignore Certificates and force trust TLS",
