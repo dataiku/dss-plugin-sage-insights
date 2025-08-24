@@ -15,7 +15,7 @@ class MyRunnable(Runnable):
         self.sage_project_url   = plugin_config.get("sage_project_url", None)
         self.sage_project_api   = plugin_config.get("sage_project_api", None)
         self.sage_worker_key    = plugin_config.get("sage_worker_key", None)
-        self.sage_dataiku_user  = plugin_config.get("sage_dataiku_user", None)
+        self.sage_dataiku_user  = plugin_config.get("sage_dataiku_user", "admin")
         self.ignore_certs       = plugin_config.get("ignore_certs", False)
         self.sage_repo_url      = plugin_config.get("sage_repo_url", "https://github.com/dataiku/dss-plugin-sage-insights")
         self.sage_repo_branch   = plugin_config.get("sage_repo_branch", "main")
