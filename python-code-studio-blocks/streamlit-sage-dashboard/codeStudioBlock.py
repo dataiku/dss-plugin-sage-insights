@@ -46,7 +46,8 @@ class MyCodeStudioBlock(CodeStudioBlock):
             "scipy",
             "nbformat>=4.2.0",
             "orjson",
-            "matplotlib"
+            "matplotlib",
+            "duckdb==1.3.2"
         ]
         default_packages = " ".join(default_packages)
         generate_codenv, pyenv_path = generate_python_codenv(
