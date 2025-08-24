@@ -50,6 +50,8 @@ def main(project_handle, client_d = {}):
         try:
             d["recipe_engine_type"] = recipe_handle.get_status().get_selected_engine_details()["type"]
             d["recipe_engine_label"] = recipe_handle.get_status().get_selected_engine_details()["label"]
+            d["recipe_engine_recommended"] = recipe_handle.get_status().get_selected_engine_details()["recommended"]
+
         except:
             pass
 
