@@ -51,9 +51,10 @@ def main(project_handle, client_d = {}):
             d["recipe_engine_type"] = recipe_handle.get_status().get_selected_engine_details()["type"]
             d["recipe_engine_label"] = recipe_handle.get_status().get_selected_engine_details()["label"]
             d["recipe_engine_recommended"] = recipe_handle.get_status().get_selected_engine_details()["recommended"]
-
         except:
-            pass
+            d["recipe_engine_type"] = "NOT_FOUND"
+            d["recipe_engine_label"] = "NOT_FOUND"
+            d["recipe_engine_recommended"] = "NOT_FOUND"
 
         if recipe["type"] == "python":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
