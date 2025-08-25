@@ -1,21 +1,29 @@
-import pandas as pd
-import plotly.express as px
-from sage.src import dss_streamlit
+from sage.src import dss_duck
 from sage.insights.data_structures import structures
-
+import plotly.express as px
 
 def main(filters = {}):
-    # read the base layer data -- Change path for different data
-    df = dss_streamlit.filter_base_data("/recipes/metadata.csv", filters)
-
     # Perform logic here
-    filtered_df = df.groupby(["instance_name", "recipe_type"]).size().reset_index(name="count")
-    filtered_df = filtered_df.sort_values(by=["instance_name", "count"], ascending=False)
-    filtered_df = filtered_df.groupby("instance_name").head(10)
+    query = """
+        SELECT
+            base.instance_name
+            , base.recipe_type
+            , COUNT(*) as count
+        FROM recipes_metadata AS base
+        LEFT JOIN metadata_primary_keys AS filter
+        ON 
+            (base.instance_name = filter.instance_name AND base.project_key = filter.project_key)
+        GROUP BY
+            base.instance_name,
+            base.recipe_type
+        ORDER BY base.instance_name, count
+    """
+    df = dss_duck.query_duckdb(query)
+    df = df.groupby("instance_name").tail(10)
     
     # Plot
     fig = px.bar(
-        filtered_df,
+        df,
         y="recipe_type",
         x="count",
         color="instance_name",
