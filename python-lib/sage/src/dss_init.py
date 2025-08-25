@@ -128,7 +128,7 @@ def get_dss_commits(project_handle):
     return
 
 
-def create_scenarios(project_handle, location):
+def create_scenarios(project_handle, location, run_as_user):
     # Clear out any old
     for scenario in project_handle.list_scenarios():
         if "data_gather_" in scenario["name"]:
@@ -155,6 +155,8 @@ def create_scenarios(project_handle, location):
         except:
             scenario_handle = project_handle.create_scenario(scenario_name=key, type="step_based")
             settings = scenario_handle.get_settings()
+        # Run As User
+        settings.data["runAsUser"] = run_as_user
         # Trigger
         del settings.raw_triggers[:]
         settings.raw_triggers.append(trigger)

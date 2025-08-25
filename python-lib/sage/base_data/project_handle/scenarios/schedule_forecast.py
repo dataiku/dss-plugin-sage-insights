@@ -134,7 +134,7 @@ def gather_forecast(key, scenario_id, params):
     return data
 
 
-def main(project_handle):
+def main(project_handle, client_d = {}):
     schedule_data = []
     for scenario in project_handle.list_scenarios():
         if not scenario["active"]:

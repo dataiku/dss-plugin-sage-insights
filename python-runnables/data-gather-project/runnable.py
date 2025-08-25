@@ -33,13 +33,36 @@ class MyRunnable(Runnable):
         # Test if modules are found
         if not dss_objs:
             raise Exception("No categories or modules found")
+
+        # Build Local Client
+        local_client = dss_funcs.build_local_client()
+        
+        # Grab some exra details
+        client_d = {}
+        try:
+            client_d["python_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultPythonEnv"]
+            if not client_d["python_env_name"]:
+                client_d["python_env_name"] = "USE_BUILTIN_MODE"
+        except:
+            client_d["python_env_name"] = "USE_BUILTIN_MODE"
+        try:
+            client_d["r_env_name"] = client.get_general_settings().settings["codeEnvs"]["defaultREnv"]
+            if not client_d["r_env_name"]:
+                client_d["r_env_name"] = "USE_BUILTIN_MODE"
+        except:
+            client_d["r_env_name"] = "USE_BUILTIN_MODE"
+        try:
+            client["container_env_name"] = client.get_general_settings().settings["containerSettings"]["defaultExecutionConfig"]
+            if not client_d["container_env_name"]:
+                client_d["container_env_name"] = "DSS_LOCAL"
+        except:
+            client_d["container_env_name"] = "DSS_LOCAL"
         
         # Collect the modules && Run the modules
-        local_client = dss_funcs.build_local_client()
         results = []
         for key in local_client.list_project_keys():
             project_handle = local_client.get_project(project_key=key)
-            results += dss_funcs.run_modules(self, dss_objs, project_handle, key)
+            results += dss_funcs.run_modules(self, dss_objs, project_handle, client_d, key)
         
         # return results
         if results:

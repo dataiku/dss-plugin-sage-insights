@@ -2,7 +2,7 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.4.1
+* Version - 1.4.3
 * Special Thanks
   * Jordan Burke
   * Ben Bourgeois
@@ -18,8 +18,9 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 
 ## Tested Versions
 
+1. v14.1.0
+1. v14.0.0
 1. v13.5.5
-1. v14.0.0, v14.0.1
 
 ## Installation Notes
 

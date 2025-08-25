@@ -2,7 +2,7 @@ import pandas as pd
 from sage.src.dss_funcs import get_nested_value
 
 
-def main(client):
+def main(client, client_d = {}):
     instance_info = client.get_instance_info().raw
     df = pd.DataFrame(instance_info, index=[0])
     
