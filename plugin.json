@@ -1,6 +1,6 @@
 {
     "id": "sage",
-    "version": "1.4.1",
+    "version": "1.4.3",
     "meta": {
         "label": "Sage - Dataiku Administration Insights",
         "description": "This plugin contains the current and future framework for the Admin Sage Dashbaord information.",
@@ -54,6 +54,13 @@
         {
             "name": "sage_worker_key",
             "label": "Sage Worker Project Key",
+            "type": "STRING",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "sage_dataiku_user",
+            "label": "Sage Worker Dataiku User",
             "type": "STRING",
             "description": "",
             "mandatory": true
