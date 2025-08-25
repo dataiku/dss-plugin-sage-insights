@@ -19,7 +19,7 @@ def get_remote_dataframe(client, table_name):
     return df
 
 
-def main(client):
+def main(client, client_d = {}):
     # Pull in DSS Commits table to see user activity better
     dss_commits_df = get_remote_dataframe(client, "dss_commits")
 

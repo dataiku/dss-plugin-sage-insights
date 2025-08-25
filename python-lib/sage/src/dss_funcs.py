@@ -26,14 +26,29 @@ def build_remote_client(host, api_key, ignore_certs=False):
 
 def get_dss_name(client):
     instance_info = client.get_instance_info()
-    instance_name = instance_info.node_name.lower()
+    try:
+        instance_name = instance_info.node_name.lower()
+    except:
+        instance_name = instance_info.node_id.lower()
     instance_name = re.sub(r'[^a-zA-Z0-9]', ' ', instance_name)
     instance_name = re.sub(r'\s+', '_', instance_name)
     return instance_name
 
 
+def get_dss_name_id_mapping(client):
+    instance_info = client.get_instance_info()
+    instance_name = get_dss_name(client)
+    try:
+        instance_name_base = instance_info.node_name
+    except:
+        instance_name_base = instance_info.node_id
+    instance_id_base = instance_info.node_id
+    mapping = [instance_name, instance_name_base, instance_id_base]
+    return mapping
+
+
 # ---------- DATA GATHER MODULES -----------------------------
-def run_modules(self, dss_objs, handle, project_key = None):
+def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
     results = []
     directory = dss_objs.__path__[0]
     for root, _, files in os.walk(directory):
@@ -48,7 +63,7 @@ def run_modules(self, dss_objs, handle, project_key = None):
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 if hasattr(module, 'main'):
-                    df = module.main(handle)
+                    df = module.main(handle, client_d)
                     results.append([project_key, path, module_name, "load/run", True, None])
             except Exception as e:
                 df = pd.DataFrame()
@@ -74,13 +89,16 @@ def run_modules(self, dss_objs, handle, project_key = None):
     return results
 
 
-def get_nested_value(data, keys):
+def get_nested_value(data, keys, dt=False):
     current = data
     for key in keys:
         if isinstance(current, dict) and key in current:
             current = current[key]
         else:
-            return False
+            if dt:
+                return pd.to_datetime(0, unit="ms")
+            else:
+                return False
     return current
 
 
