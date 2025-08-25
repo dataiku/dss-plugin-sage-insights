@@ -4,6 +4,7 @@ from sage.src import dss_funcs
 from sage.pages.insights import layout_metrics
 from sage.pages.insights import layout_graphs
 from sage.pages.insights import layout_explore
+from sage.pages.insights import layout_testing
 
 
 # ------------------------------------------------------------------------------------
@@ -16,7 +17,7 @@ def main(category, stock_insights, custom_insights):
     with st.sidebar:
         with st.container(border=True):
             genre = st.selectbox(
-                label = "Select an Insight.",
+                label = "## Select an Insight",
                 options = ["Metrics", "Graphs", "Explore DataFrame"],
                 index = 0
             )
@@ -43,4 +44,6 @@ def main(category, stock_insights, custom_insights):
         layout_graphs.main(data_category, display_data, modules)
     elif genre == "Explore DataFrame":
         layout_explore.main(data_category, display_data, modules)
+    elif genre == "idk":
+        layout_testing.main(data_category, display_data, modules)
     return

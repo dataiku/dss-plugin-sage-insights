@@ -74,7 +74,7 @@ class MyRunnable(Runnable):
             try:
                 r = shutil.copytree(f"{source_path}/streamlit", project_path)
                 os.mkdir(f"{project_path}/src/")
-                for f in ["dss_funcs", "dss_folder", "dss_streamlit"]:                    
+                for f in ["dss_funcs", "dss_folder", "dss_streamlit", "dss_duck"]:                    
                     r = shutil.copy(f"{source_path}/python-lib/sage/src/{f}.py", f"{project_path}/src/")
                 results.append(["Copy Streamlit", True, None])
             except Exception as e:

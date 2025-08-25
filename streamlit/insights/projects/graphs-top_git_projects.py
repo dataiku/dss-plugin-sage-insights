@@ -14,7 +14,7 @@ def main(filters = {}):
     one_year_ago = today - timedelta(days=365)
     filtered_df = df[df["timestamp"] >= one_year_ago]
     filtered_df = filtered_df[~filtered_df["login"].str.contains("api:")]
-    filtered_df = filtered_df.groupby(["instance_name", "login"])["count"].sum().sort_values(ascending=False)
+    filtered_df = filtered_df.groupby(["instance_name", "project_key"])["count"].sum().sort_values(ascending=False)
     filtered_df = filtered_df.groupby("instance_name").head(10)
     filtered_df = filtered_df.reset_index()
     filtered_df = filtered_df.sort_values(by=["instance_name", "count"])
@@ -22,7 +22,7 @@ def main(filters = {}):
     # Initial fig
     fig = px.bar(
         filtered_df,
-        x="login",
+        x="project_key",
         y="count",
         color="instance_name",
         barmode="group",
@@ -33,7 +33,7 @@ def main(filters = {}):
 
     # Customize layout for polish
     fig.update_layout(
-        xaxis_title="Dataiku login",
+        xaxis_title="Dataiku Project Key",
         yaxis_title="Total GIT Commits",
         legend_title="Instance Names"
     )
@@ -43,7 +43,7 @@ def main(filters = {}):
 
     # Build the FIG construct to return
     FIG = structures.get("plotly")
-    FIG["title"] = "Top 10 Active Users (GIT) over the last 365 Days"
+    FIG["title"] = "Top 10 Active Projects over the last 365 Days"
     FIG["data"] = fig
 
     return FIG
