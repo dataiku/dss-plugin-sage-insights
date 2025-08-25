@@ -1,6 +1,7 @@
 import streamlit as st
 import dataiku
-from sage.src import dss_funcs, dss_folder
+
+from sage.src import dss_funcs, dss_folder, dss_duck
 
 st.set_page_config(initial_sidebar_state="collapsed")
 st.set_page_config(layout="centered")
@@ -21,9 +22,8 @@ try:
 except:
     partition = "ERROR - Failed to read or find file."
 
-
 # -----------------------------------------------------------------------------
-# Home Page
+# Homepage
 st.markdown(f"""# 📊 Dataiku Sage Dashboard
 
 ## Overview
@@ -64,4 +64,12 @@ This dashboard provides key administrative insights into the Dataiku platform to
 
 - This dashboard is built to be modular. Designed for ease of use and scale.
 - For questions or enhancements, contact the **Platform Admin Team** at `Stephen.Mazzei@dataiku.com`.
+
+---
+
+## 🔃 Refresh Sage Data
+
 """)
+
+if st.button("Refresh"):
+    dss_duck.initialize_duckdb(force=True)
