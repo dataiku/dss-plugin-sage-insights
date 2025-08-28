@@ -65,7 +65,6 @@ class MyRunnable(Runnable):
         df = pd.concat(dfs, ignore_index=True)
         results.append(["Gather Audit Logs", True, None])
         
-        
         # get the cache timestamp and latest logs
         project_handle = local_client.get_default_project()
         dataset_handle = project_handle.get_dataset(dataset_name="audit_log_cache")
@@ -82,6 +81,11 @@ class MyRunnable(Runnable):
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         #df = df[df["timestamp"] >= last_update]
         results.append(["Parse Latest Logs", True, None])
+        
+        # Expand Messages and join
+        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
+        df = df.drop(columns="message").reset_index(drop=True)
+        df = pd.concat([df, jdf], axis=1)
 
         # Module Import
         ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
