@@ -34,7 +34,7 @@ def main(self, remote_client, df):
         )
         
         # Filter - remove dropped columns
-        dataiku_category
+        merged_df = merged_df[merged_df["dataiku_category"] == "DROP_DELETE"]
         
         try:
             write_path = f"/{instance_name}/dataiku_usage/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
