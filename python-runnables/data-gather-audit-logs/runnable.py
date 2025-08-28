@@ -94,8 +94,8 @@ class MyRunnable(Runnable):
 
         # Module Import
         ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
-        ## user_audit(df)
-        ###results.append(["User Audit", result[0], result[1]])
+        ## r = user_audit(df, self)
+        ###results.append(["User Audit", r[0], r[1]])
 
         ## event_mapping(df, self)
         ###results.append(["Event Mapping", result[0], result[1]])        
