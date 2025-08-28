@@ -90,6 +90,7 @@ class MyRunnable(Runnable):
         # Column Cleanse
         df["timestamp"] = pd.to_datetime(audit_df["timestamp"])
         df["date"] = df["timestamp"].dt.date
+        df["instance_name"] = instance_name
 
         # Module Import
         ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
