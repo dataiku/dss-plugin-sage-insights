@@ -90,6 +90,7 @@ class MyRunnable(Runnable):
         last_time_entry = df["timestamp"].max()
         audit_log_cache_df["timestamp"] = last_time_entry
         dataset.write_with_schema(audit_log_cache_df)
+        
         return str(last_time_entry)
 
 
