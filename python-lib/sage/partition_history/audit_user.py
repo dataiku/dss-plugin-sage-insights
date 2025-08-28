@@ -35,6 +35,7 @@ def main(self, project_handle, folder, df):
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
         original_df = original_df.drop_duplicates()
+        original_df = original_df.sort_values(by="timestapmp", ascending=False)
         dss_folder.write_local_folder_output(
             sage_project_key = "SAGE_DASHBOARD",
             project_handle = project_handle,
