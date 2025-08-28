@@ -104,18 +104,4 @@ class MyRunnable(Runnable):
         return html
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # EOF
