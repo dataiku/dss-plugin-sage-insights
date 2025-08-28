@@ -27,7 +27,6 @@ def main(self, project_handle, folder, df):
         if not partitions:
             continue
         for partition in partitions:
-            print(partition)
             dfs = []
             for path in folder.get_partition_info(partition)["paths"]:
                 with folder.get_download_stream(path=path) as r:
@@ -35,6 +34,8 @@ def main(self, project_handle, folder, df):
             tdf = pd.concat(dfs, ignore_index=True)
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
+        original_df = original_df.drop_duplicates()
+        original_df = original_df.sort_values(by="timestamp", ascending=False)
         dss_folder.write_local_folder_output(
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
