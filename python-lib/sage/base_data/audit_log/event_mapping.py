@@ -1,7 +1,6 @@
 import pandas as pd
 from sage.src import dss_folder
-from sage.base_data.audit_log.event_tagging_drop import drop_data
-from sage.base_data.audit_log.event_tagging_mapped import *
+from sage.base_data.audit_log import mapping
 
 
 
