@@ -63,6 +63,7 @@ class MyRunnable(Runnable):
             df = pd.read_json(log, lines=True)
             dfs.append(df)            
         df = pd.concat(dfs, ignore_index=True)
+        results.append(["Gather Audit Logs", True, None])
         
         
         # get the cache timestamp and latest logs
@@ -80,7 +81,8 @@ class MyRunnable(Runnable):
         last_update = audit_log_cache_df["timestamp"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         #df = df[df["timestamp"] >= last_update]
-        
+        results.append(["Parse Latest Logs", True, None])
+
         # Module Import
         ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
         ## event_mapping(df)
