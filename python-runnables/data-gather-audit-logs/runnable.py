@@ -86,6 +86,10 @@ class MyRunnable(Runnable):
         jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
         df = df.drop(columns="message").reset_index(drop=True)
         df = pd.concat([df, jdf], axis=1)
+        
+        # Column Cleanse
+        df["timestamp"] = pd.to_datetime(audit_df["timestamp"])
+        df["date"] = df["timestamp"].dt.date
 
         # Module Import
         ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
