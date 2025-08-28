@@ -6,5 +6,10 @@ from sage.base_data.audit_log import mapping
 
 def main(self, remote_client, df):
     mapping_df = pd.read_csv(StringIO(mapping.raw_csv))
-    raise Exception(mapping_df.count())
+    
+    # Select the columns needed
+    try:
+        df = df[["timestamp", "date", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
+    except:
+        return ["Loading Audit Logs", False, "No new data found"]
     return
