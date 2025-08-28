@@ -95,7 +95,7 @@ class MyRunnable(Runnable):
             for l in r:
                 results.append(l)
         else:
-            results.append(results)
+            results.append(r)
 
         ## event_mapping(df, self)
         ###results.append(["Event Mapping", result[0], result[1]])        
