@@ -15,6 +15,7 @@ def main(self, remote_client, df):
     
     results = []
     instance_name = df["instance_name"].iloc[0]
+    
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
@@ -24,12 +25,17 @@ def main(self, remote_client, df):
         dt_day   = str(f'{dt.day:02d}')
         dt_epoch = dt.value
         
+        # Merge the mapping tables
         merged_df = pd.merge(
             grp,
             mapping_df,
             on="message.msgType",
             how="left"
         )
+        
+        # Filter - remove dropped columns
+        dataiku_category
+        
         try:
             write_path = f"/{instance_name}/dataiku_usage/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
