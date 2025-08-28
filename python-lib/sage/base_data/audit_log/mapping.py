@@ -1,4 +1,4 @@
-raw_csv = """audit_msg_full_str,audit_msg_base,dataiku_category
+raw_csv = """message.msgType,message.msgTypeBase,dataiku_category
 accessible-objects-count,accessible,DROP_DELETE
 accessible-objects-list,accessible,DROP_DELETE
 action-add-to-scenario,action,DROP_DELETE
