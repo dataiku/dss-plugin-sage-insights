@@ -85,7 +85,7 @@ class MyRunnable(Runnable):
         df = pd.concat([df, jdf], axis=1)
         
         # Column Cleanse
-        df["timestamp"] = pd.to_datetime(audit_df["timestamp"])
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
         df["date"] = df["timestamp"].dt.date
         df["instance_name"] = instance_name
 
