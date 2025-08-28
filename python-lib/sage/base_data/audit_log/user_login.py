@@ -20,6 +20,7 @@ def main(self, remote_client, df):
         return [False, "No new data found"]
 
     results = []
+    instance_name = df["instance_name"].iloc[0]
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
@@ -33,7 +34,7 @@ def main(self, remote_client, df):
         login_users = grp[grp["message.msgType"] == "application-open"]["message.authUser"].unique()
         login_users_df = pd.DataFrame([login_users], columns=["viewing_user_logins"])
         login_users_df["timestamp"] = pd.to_datetime(i)
-        login_users_df["instance_name"] = df["instance_name"].iloc[0]
+        login_users_df["instance_name"] = instance_name
         try:
             write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
@@ -52,7 +53,7 @@ def main(self, remote_client, df):
         active_users = tdf["message.authUser"].unique()
         active_users_df = pd.DataFrame([active_users], columns=["developer_user_logins"])
         active_users_df["timestamp"] = pd.to_datetime(i)
-        active_users_df["instance_name"] = df["instance_name"].iloc[0]
+        active_users_df["instance_name"] = instance_name
         try:
             write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
