@@ -57,4 +57,4 @@ def user_login(self, remote_client, df):
             results.append(["write/save", True, None])
         except Exception as e:
             results.append(["write/save - All", False, e])
-    return
+    return results
