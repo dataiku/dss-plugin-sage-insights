@@ -42,6 +42,6 @@ def main(self, remote_client, df):
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, sub_grp)
                 results.append([f"write/save - Dataiku Usage {category}", True, f"data-{dt_epoch}.csv"])
             except Exception as e:
-                results.append([f"write/save - Dataiku Usage {category}, False, e])
+                results.append([f"write/save - Dataiku Usage {category}", False, e])
             
     return results
