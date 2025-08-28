@@ -90,7 +90,6 @@ class MyRunnable(Runnable):
         df["instance_name"] = instance_name
 
         # Module Import
-        return "here"
         r = user_login.main(self, remote_client, df)
         if r[0]:
             for l in r:
