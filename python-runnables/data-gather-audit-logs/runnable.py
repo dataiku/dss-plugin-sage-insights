@@ -90,7 +90,6 @@ class MyRunnable(Runnable):
         df["instance_name"] = instance_name
 
         # Module Import
-        ## TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
         r = user_login(self, remote_client, df)
         results.append(["User Audit", r[0], r[1]])
 
