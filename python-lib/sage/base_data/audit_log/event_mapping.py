@@ -12,4 +12,12 @@ def main(self, remote_client, df):
         df = df[["timestamp", "date", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
     except:
         return ["Loading Audit Logs", False, "No new data found"]
+    
+    merged_df = pd.merge(
+        df1, df2,
+        left_on='id_key',
+        right_on='fk_key',
+        how="left"
+    )
+
     return
