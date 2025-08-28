@@ -33,7 +33,7 @@ def main(self, remote_client, df):
         )
         
         # Filter - remove dropped columns
-        merged_df = merged_df[merged_df["dataiku_category"] == "DROP_DELETE"]
+        merged_df = merged_df[merged_df["dataiku_category"] != "DROP_DELETE"]
         
         # lets split the df by category and save
         for category, sub_grp in merged_df.groupby("dataiku_category"):
