@@ -13,4 +13,4 @@ def user_login(df):
     try:
         df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
     except:
-        return 
+        return
