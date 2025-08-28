@@ -12,7 +12,10 @@ def main(self, project_handle, folder, df):
         # try to pull last update time to keep only the newest partitions
         try:
             original_df = dss_folder.read_local_folder_input(
-                "SAGE_DASHBOARD", project_handle, "base_data", path=f"/users/{module}.csv"
+                "SAGE_DASHBOARD",
+                project_handle,
+                "base_data", 
+                path=f"/users/{module}.csv"
             )
             last_entry = original_df["timestamp"].max()
         except:
