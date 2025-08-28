@@ -42,3 +42,5 @@ class MyRunnable(Runnable):
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
         
         
+        
+        
