@@ -80,7 +80,7 @@ class MyRunnable(Runnable):
         last_update = audit_log_cache_df["datetime"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         #df = df[df["timestamp"] >= last_update]
-        dataset.write_with_schema(audit_log_cache_df)
+        #dataset.write_with_schema(audit_log_cache_df)
         return str(len(df))
 
 
