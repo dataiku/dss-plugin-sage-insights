@@ -41,7 +41,7 @@ def main(self, remote_client, df):
         except Exception as e:
             results.append(["write/save - All", False, e])
         
-        # Active Users
+        # Developer Users
         tdf = grp[grp["message.authUser"].isin(login_users)]
         action_words = ["save", "create", "analysis", "clear", "run"] # Action Words -- Focus on
         pattern = "|".join(action_words)
@@ -49,10 +49,10 @@ def main(self, remote_client, df):
         remove_strings = ["list", "dataset-clear-samples", "dataset-save-schema", "project-save-variables"] # Vague Words -- Remove
         pattern = "|".join(remove_strings)
         tdf = tdf[~tdf["message.msgType"].str.contains(pattern, na=False)]
-        active_users = tdf["message.authUser"].unique()
-        active_users_df = pd.DataFrame(active_users, columns=["developer_user_logins"])
-        active_users_df["timestamp"] = pd.to_datetime(i)
-        active_users_df["instance_name"] = instance_name
+        developer_users = tdf["message.authUser"].unique()
+        developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
+        developer_users_df["timestamp"] = pd.to_datetime(i)
+        developer_users_df["instance_name"] = instance_name
         try:
             write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
