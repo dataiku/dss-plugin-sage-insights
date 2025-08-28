@@ -22,7 +22,7 @@ def main(self, project_handle, folder, df):
             original_df = pd.DataFrame()
             last_entry = pd.to_datetime(1970)
         # Read in the new partitions and update the csv
-        partitions_df = partitions_df.loc[partitions_df["dt"] > last_entry]
+        partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
         partitions = partitions_df["partition"].tolist()
         if not partitions:
             continue
@@ -34,6 +34,7 @@ def main(self, project_handle, folder, df):
             tdf = pd.concat(dfs, ignore_index=True)
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
+        original_df = original_df.drop_duplicates()
         dss_folder.write_local_folder_output(
             sage_project_key = "SAGE_DASHBOARD",
             project_handle = project_handle,
