@@ -12,7 +12,7 @@ def main(self, project_handle, folder, df):
         # try to pull last update time to keep only the newest partitions
         try:
             original_df = dss_folder.read_local_folder_input(
-                sage_project_key = "SAGE_DASHBOARD",
+                sage_project_key = self.sage_project_key,
                 project_handle = project_handle,
                 folder_name = "base_data", 
                 path = f"/users/rolling_{module}.csv"
@@ -37,7 +37,7 @@ def main(self, project_handle, folder, df):
         original_df = original_df.drop_duplicates()
         original_df = original_df.sort_values(by="timestamp", ascending=False)
         dss_folder.write_local_folder_output(
-            sage_project_key = "SAGE_DASHBOARD",
+            sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
             path = f"/users/rolling_{module}.csv",
