@@ -24,6 +24,7 @@ def user_login(df):
         dt_year  = str(dt.year)
         dt_month = str(f'{dt.month:02d}')
         dt_day   = str(f'{dt.day:02d}')
+        dt_epoch = dt.value
 
         # Login Users
         login_users = grp[grp["message.msgType"] == "application-open"]["message.authUser"].unique()
