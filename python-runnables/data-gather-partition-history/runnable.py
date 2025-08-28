@@ -49,7 +49,7 @@ class MyRunnable(Runnable):
             dataiku_usage.main(self, project_handle, folder, df)
             results.append(["Dataiku Usage", True, None])
         except Exception as e:
-            results.append(["Dataiku Usage, False, e])
+            results.append(["Dataiku Usage", False, e])
             
         # Git history
         try:
