@@ -17,7 +17,7 @@ def main(self, remote_client, df):
     try:
         df = df[["timestamp", "date", "message.callPath", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
     except:
-        results = ["Loading Audit Logs", False, "No new data found"]
+        return ["Loading Audit Logs", False, "No new data found"]
 
     results = []
     instance_name = df["instance_name"].iloc[0]
