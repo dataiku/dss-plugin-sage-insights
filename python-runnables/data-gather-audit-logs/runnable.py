@@ -41,6 +41,11 @@ class MyRunnable(Runnable):
         directory_path = "./"
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
         
-        
+        # return results
+        if results:
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
+            html = df.to_html()
+            return html
+        raise Exception("FAILED TO RUN INSTANCE CHECKS")
         
         
