@@ -54,6 +54,18 @@ class MyRunnable(Runnable):
         os.chdir(audit_path)
         directory_path = "./"
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+        logs = find_recent_files(logs)
+        dfs = []
+        for log in logs:
+            df = pd.read_json(log, lines=True)
+            dfs.append(df)
+            
+        # flatten the df
+        df = pd.concat(dfs, ignore_index=True)
+        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
+        df = df.drop(columns="message").reset_index(drop=True)
+        df = pd.concat([df, jdf], axis=1)
+        
         
         # return results
         if results:
