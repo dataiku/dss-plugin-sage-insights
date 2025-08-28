@@ -16,8 +16,15 @@ def user_login(df):
         df = df[["timestamp", "date", "message.callPath", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
     except:
         print("RETURN")
-        
+
+    # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
+        # datetime for saving
+        dt = pd.to_datetime(i)
+        dt_year  = str(dt.year)
+        dt_month = str(f'{dt.month:02d}')
+        dt_day   = str(f'{dt.day:02d}')
+
         # Login Users
         login_users = grp[grp["message.msgType"] == "application-open"]["message.authUser"].unique()
         login_users_df = pd.DataFrame([login_users], columns=["viewing_user_logins"])
