@@ -1,4 +1,4 @@
-from sage.src import dss_funcs, dss_folder
+from sage.src import dss_folder
 
 import pandas as pd
 
