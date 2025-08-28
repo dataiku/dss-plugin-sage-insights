@@ -43,9 +43,6 @@ class MyRunnable(Runnable):
         remote_client = dss_funcs.build_remote_client(
             self.sage_project_url, self.sage_project_api, self.ignore_certs
         )
-        dt_year  = str(self.dt.year)
-        dt_month = str(f'{self.dt.month:02d}')
-        dt_day   = str(f'{self.dt.day:02d}')
         
         # Get local client and name
         local_client = dss_funcs.build_local_client()
