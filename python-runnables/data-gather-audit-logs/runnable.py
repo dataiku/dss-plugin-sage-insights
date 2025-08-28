@@ -81,20 +81,20 @@ class MyRunnable(Runnable):
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         #df = df[df["timestamp"] >= last_update]
         return str(len(df))
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# EOF
