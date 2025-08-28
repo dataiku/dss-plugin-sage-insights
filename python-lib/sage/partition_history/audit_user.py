@@ -24,7 +24,6 @@ def main(self, project_handle, folder, df):
         if not partitions:
             continue
         for partition in partitions:
-            print(partition)
             dfs = []
             for path in folder.get_partition_info(partition)["paths"]:
                 with folder.get_download_stream(path=path) as r:
