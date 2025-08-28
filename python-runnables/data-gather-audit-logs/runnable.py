@@ -97,7 +97,7 @@ class MyRunnable(Runnable):
         #else:
         #    results.append(r)
 
-        r = user_login.main(self, remote_client, df)
+        r = event_mapping.main(self, remote_client, df)
         ###results.append(["Event Mapping", result[0], result[1]])        
         ## cru_logs(df)
         ###results.append(["CRU Logs", result[0], result[1]])
