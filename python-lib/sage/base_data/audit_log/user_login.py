@@ -9,8 +9,8 @@ def user_login(df):
     df = df.dropna(subset=["message.authUser"])
     df = df.dropna(axis=1, how='all')
 
-    # loop topics and save data
+    # Only the columns we need
     try:
-        df = df[["message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
+        df = df[["timestamp", "message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
     except:
-        return
+        print("RETURN")
