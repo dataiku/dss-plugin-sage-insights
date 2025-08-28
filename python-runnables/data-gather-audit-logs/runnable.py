@@ -99,11 +99,9 @@ class MyRunnable(Runnable):
         results.append(["Set New Audit Log Cache timestamp", True, last_time_entry])
         
         # return results
-        if results:
-            df = pd.DataFrame(results, columns=["step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN INSTANCE CHECKS")
+        df = pd.DataFrame(results, columns=["step", "result", "message"])
+        html = df.to_html()
+        return html
 
 
 
