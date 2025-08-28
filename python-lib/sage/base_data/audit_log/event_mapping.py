@@ -36,11 +36,13 @@ def main(self, remote_client, df):
         # Filter - remove dropped columns
         merged_df = merged_df[merged_df["dataiku_category"] == "DROP_DELETE"]
         
-        try:
-            write_path = f"/{instance_name}/dataiku_usage/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
-            dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
-            results.append(["write/save", True, f"data-{dt_epoch}.csv"])
-        except Exception as e:
-            results.append(["write/save - All", False, e])
+        # lets split the df by category and save
+        for category, sub_grp in merged_df.groupby("dataiku_category"):
+            try:
+                write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
+                dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
+                results.append(["write/save", True, f"data-{dt_epoch}.csv"])
+            except Exception as e:
+                results.append(["write/save - All", False, e])
             
     return
