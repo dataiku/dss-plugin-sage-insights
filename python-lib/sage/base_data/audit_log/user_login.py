@@ -17,6 +17,7 @@ def user_login(self, remote_client, df):
     except:
         return [False, "No new data found"]
 
+    results = []
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
