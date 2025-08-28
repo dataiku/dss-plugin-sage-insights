@@ -77,9 +77,6 @@ class MyRunnable(Runnable):
             audit_log_cache_df = dataset.get_dataframe()
         except:
             audit_log_cache_df = pd.DataFrame([datetime.now()], columns=["datetime"])
-        last_update = audit_log_cache_df["datetime"].iloc[0]
-        
-        return ", ".join(df.columns)
-        
+        last_update = audit_log_cache_df["datetime"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         return str(len(df))
