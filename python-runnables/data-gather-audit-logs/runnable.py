@@ -78,6 +78,7 @@ class MyRunnable(Runnable):
             df = pd.DataFrame([datetime.now()], columns=["datetime"])
         last_update = df["datetime"].iloc[0]
         return last_update
+    
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         return str(len(df))
         df = df[df["timestamp"] >= last_update]
