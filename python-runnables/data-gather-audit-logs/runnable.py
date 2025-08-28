@@ -78,5 +78,8 @@ class MyRunnable(Runnable):
         except:
             df = pd.DataFrame([datetime.now()], columns=["datetime"])
         last_update = df["datetime"].iloc[0]
+        
+        return ", ".join(df.columns)
+        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         return str(len(df))
