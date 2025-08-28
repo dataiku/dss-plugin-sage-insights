@@ -7,19 +7,6 @@ from datetime import datetime, date, timedelta
 from dataiku.runnables import Runnable
 
 
-def find_recent_files(file_list, hours=6):
-    recent_files = []
-    cutoff = time.time() - (hours * 3600)
-    for file in file_list:
-        path = Path(file)
-        if path.exists():
-            last_modified = path.stat().st_mtime
-            if last_modified >= cutoff:
-                recent_files.append(path)
-    return recent_files
-
-
-
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
         self.project_key = project_key
