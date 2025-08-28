@@ -15,7 +15,6 @@ def main(self, remote_client, df):
     
     results = []
     instance_name = df["instance_name"].iloc[0]
-    
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
@@ -45,4 +44,4 @@ def main(self, remote_client, df):
             except Exception as e:
                 results.append(["write/save - All", False, e])
             
-    return
+    return results
