@@ -21,6 +21,7 @@ def main(self, project_handle, folder, df):
         except:
             original_df = pd.DataFrame()
             last_entry = pd.to_datetime(1970)
+        raise Exception(type(last_entry))
         # Read in the new partitions and update the csv
         partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
         partitions = partitions_df["partition"].tolist()
