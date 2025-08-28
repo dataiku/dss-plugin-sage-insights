@@ -12,8 +12,8 @@ def main(self, project_handle, folder, df):
         # try to pull last update time to keep only the newest partitions
         try:
             original_df = dss_folder.read_local_folder_input(
-                "SAGE_DASHBOARD",
-                project_handle,
+                sage_project_key = "SAGE_DASHBOARD",
+                project_handle = project_handle,
                 "base_data", 
                 path=f"/users/{module}.csv"
             )
@@ -35,7 +35,7 @@ def main(self, project_handle, folder, df):
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
         dss_folder.write_local_folder_output(
-        sage_project_key = "SAGE_DASHBOARD",
+            sage_project_key = "SAGE_DASHBOARD",
             project_handle = project_handle,
             folder_name = "base_data",
             path = f"/users/{module}.csv",
