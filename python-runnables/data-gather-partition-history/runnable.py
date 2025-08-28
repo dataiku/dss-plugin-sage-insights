@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 
 from sage.src import dss_funcs, dss_folder
-from sage.partition_history import audit_user, git_history
+from sage.partition_history import audit_user, git_history, dataiku_usage
 
 from dataiku.runnables import Runnable
 
@@ -44,12 +44,17 @@ class MyRunnable(Runnable):
         except Exception as e:
             results.append(["User Audit", False, e])
             
-        # Audit log User information
+        # Audit Log Dataiku Usage
+        dataiku_usage
+            
+        # Git history
         try:
             git_history.main(self, project_handle, folder, df)
             results.append(["Git History", True, None])
         except Exception as e:
             results.append(["Git History", False, e])
+            
+         
         
         # return results
         if results:
