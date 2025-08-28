@@ -76,11 +76,10 @@ class MyRunnable(Runnable):
         try:
             audit_log_cache_df = dataset.get_dataframe()
         except:
-            audit_log_cache_df = pd.DataFrame([datetime.now().astimezone()], columns=["datetime"])
-        last_update = audit_log_cache_df["datetime"].iloc[0]        
+            audit_log_cache_df = pd.DataFrame([datetime.now().astimezone()], columns=["timestamp"])
+        last_update = audit_log_cache_df["timestamp"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         #df = df[df["timestamp"] >= last_update]
-        #dataset.write_with_schema(audit_log_cache_df)
         
         # Module Import
         ## event_mapping(df)
@@ -89,6 +88,8 @@ class MyRunnable(Runnable):
         
         # Reset the audit_log_cache df
         last_time_entry = df["timestamp"].max()
+        audit_log_cache_df["timestamp"] = last_time_entry
+        dataset.write_with_schema(audit_log_cache_df)
         return str(last_time_entry)
 
 
