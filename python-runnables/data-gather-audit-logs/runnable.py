@@ -1,4 +1,3 @@
-# This file is the actual code for the Python runnable data-gather-audit-logs
 from dataiku.runnables import Runnable
 
 class MyRunnable(Runnable):
