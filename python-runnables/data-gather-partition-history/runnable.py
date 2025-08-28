@@ -56,4 +56,3 @@ class MyRunnable(Runnable):
             df = pd.DataFrame(results, columns=["step", "result", "message"])
             html = df.to_html()
             return html
-        raise Exception("FAILED TO RUN PROJECT CHECKS")
