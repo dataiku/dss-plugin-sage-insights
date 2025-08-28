@@ -1,7 +1,7 @@
 from sage.src import dss_folder
 
 
-def user_login(df):
+def user_login(self, remote_client, df):
     # Remove scenarios, job and NaN's
     if "message.scenarioId" in df.columns:
         df = df[df["message.scenarioId"].isna()]
@@ -15,7 +15,7 @@ def user_login(df):
     try:
         df = df[["timestamp", "date", "message.callPath", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
     except:
-        print("RETURN")
+        return [False, "No new data found"]
 
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
@@ -33,13 +33,11 @@ def user_login(df):
         login_users_df["instance_name"] = df["instance_name"].iloc[0]
         try:
             write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
-            dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
+            dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
             results.append(["write/save", True, None])
         except Exception as e:
             results.append(["write/save - All", False, e])
         
-        
-
         # Active Users
         tdf = grp[grp["message.authUser"].isin(login_users)]
         action_words = ["save", "create", "analysis", "clear", "run"] # Action Words -- Focus on
@@ -52,3 +50,10 @@ def user_login(df):
         active_users_df = pd.DataFrame([active_users], columns=["developer_user_logins"])
         active_users_df["timestamp"] = pd.to_datetime(i)
         active_users_df["instance_name"] = df["instance_name"].iloc[0]
+        try:
+            write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
+            dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
+            results.append(["write/save", True, None])
+        except Exception as e:
+            results.append(["write/save - All", False, e])
+    return
