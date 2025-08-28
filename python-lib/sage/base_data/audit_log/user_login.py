@@ -18,7 +18,7 @@ def user_login(df):
     for i,grp in df.groupby("date"):
         # Login Users
         login_users = grp[grp["message.msgType"] == "application-open"]["message.authUser"].unique()
-        login_users_df = pd.DataFrame([login_users], columns=["user_logins"])
+        login_users_df = pd.DataFrame([login_users], columns=["viewing_user_logins"])
         login_users_df["timestamp"] = pd.to_datetime(i)
         login_users_df["instance_name"] = df["instance_name"].iloc[0]
 
