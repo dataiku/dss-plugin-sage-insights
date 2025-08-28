@@ -13,4 +13,4 @@ def user_login(df):
     try:
         df = df[["timestamp", "message.callPath", "message.msgType", "message.authUser", "message.projectKey"]]
     except:
-        print("RETURN")
+        return False, "No new data found"
