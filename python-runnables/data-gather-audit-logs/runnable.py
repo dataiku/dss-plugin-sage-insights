@@ -86,8 +86,10 @@ class MyRunnable(Runnable):
         ## event_mapping(df)
         ## user_audit(df)
         ## cru_logs(df)
-        # 
-        return str(len(df))
+        
+        # Reset the audit_log_cache df
+        last_time_entry = df["timestamp"].max()
+        return str(last_time_entry)
 
 
 
