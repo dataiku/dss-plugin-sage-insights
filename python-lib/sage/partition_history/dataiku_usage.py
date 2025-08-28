@@ -36,7 +36,7 @@ def main(self, project_handle, folder, df):
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
         dss_folder.write_local_folder_output(
-        sage_project_key = "SAGE_DASHBOARD",
+            sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
             path = f"/dataiku_usage/{module}.csv",
