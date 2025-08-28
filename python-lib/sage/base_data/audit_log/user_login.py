@@ -32,7 +32,7 @@ def user_login(df):
         login_users_df["timestamp"] = pd.to_datetime(i)
         login_users_df["instance_name"] = df["instance_name"].iloc[0]
         try:
-            write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data.csv"
+            write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
             results.append(["write/save", True, None])
         except Exception as e:
