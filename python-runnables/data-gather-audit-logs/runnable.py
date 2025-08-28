@@ -11,7 +11,7 @@ from sage.base_data.audit_log import user_login
 from dataiku.runnables import Runnable
 
 
-def find_recent_files(file_list, hours=6):
+def find_recent_files(file_list, hours=100):
     recent_files = []
     cutoff = time.time() - (hours * 3600)  # seconds
     for file in file_list:
