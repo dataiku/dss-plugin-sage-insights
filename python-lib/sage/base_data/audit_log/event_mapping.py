@@ -5,4 +5,5 @@ from sage.base_data.audit_log import mapping
 
 
 def main(self, remote_client, df):
+    mapping_df = pd.read_csv(StringIO(mapping.))
     return
