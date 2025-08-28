@@ -13,11 +13,22 @@ def main(self, remote_client, df):
     except:
         return ["Loading Audit Logs", False, "No new data found"]
     
-    merged_df = pd.merge(
-        df1, df2,
-        left_on="message.msgType",
-        right_on='fk_key',
-        how="left"
-    )
+    results = []
+    instance_name = df["instance_name"].iloc[0]
+    # Loop over any partitions of dates for data
+    for i,grp in df.groupby("date"):
+        # datetime for saving
+        dt = grp["timestamp"].max()
+        dt_year  = str(dt.year)
+        dt_month = str(f'{dt.month:02d}')
+        dt_day   = str(f'{dt.day:02d}')
+        dt_epoch = dt.value
+        
+        merged_df = pd.merge(
+            grp,
+            mapping_df,
+            on="message.msgType",
+            how="left"
+        )
 
     return
