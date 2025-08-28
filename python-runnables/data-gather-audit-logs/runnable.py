@@ -92,7 +92,12 @@ class MyRunnable(Runnable):
         audit_log_cache_df["timestamp"] = last_time_entry
         dataset.write_with_schema(audit_log_cache_df)
         
-        return str(last_time_entry)
+        # return results
+        if results:
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
+            html = df.to_html()
+            return html
+        raise Exception("FAILED TO RUN INSTANCE CHECKS")
 
 
 
