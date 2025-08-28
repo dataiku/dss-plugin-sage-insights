@@ -74,10 +74,10 @@ class MyRunnable(Runnable):
             dataset_handle = builder.create()
         dataset = dataiku.Dataset("audit_log_cache")
         try:
-            df = dataset.get_dataframe()
+            audit_log_cache_df = dataset.get_dataframe()
         except:
-            df = pd.DataFrame([datetime.now()], columns=["datetime"])
-        last_update = df["datetime"].iloc[0]
+            audit_log_cache_df = pd.DataFrame([datetime.now()], columns=["datetime"])
+        last_update = audit_log_cache_df["datetime"].iloc[0]
         
         return ", ".join(df.columns)
         
