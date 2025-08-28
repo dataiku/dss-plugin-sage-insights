@@ -91,7 +91,11 @@ class MyRunnable(Runnable):
 
         # Module Import
         r = user_login(self, remote_client, df)
-        results.append(["User Audit", r[0], r[1]])
+        if r[0]:
+            for l in r:
+                results.append(l)
+        else:
+            results.append(["User Audit", r[0], r[1]])
 
         ## event_mapping(df, self)
         ###results.append(["Event Mapping", result[0], result[1]])        
