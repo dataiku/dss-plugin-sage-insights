@@ -1,3 +1,5 @@
+from sage.src import dss_folder
+
 
 def user_login(df):
     # Remove scenarios, job and NaN's
@@ -21,6 +23,16 @@ def user_login(df):
         login_users_df = pd.DataFrame([login_users], columns=["viewing_user_logins"])
         login_users_df["timestamp"] = pd.to_datetime(i)
         login_users_df["instance_name"] = df["instance_name"].iloc[0]
+        
+        
+        try:
+            write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data.csv"
+            dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
+            results.append(["write/save", True, None])
+        except Exception as e:
+            results.append(["write/save - All", False, e])
+        
+        
 
         # Active Users
         tdf = grp[grp["message.authUser"].isin(login_users)]
