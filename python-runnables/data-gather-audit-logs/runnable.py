@@ -30,4 +30,15 @@ class MyRunnable(Runnable):
         dt_month = str(f'{self.dt.month:02d}')
         dt_day   = str(f'{self.dt.day:02d}')
         
+        # Get local client and name
+        local_client = dss_funcs.build_local_client()
+        instance_name = dss_funcs.get_dss_name(local_client)
+        
+        # change directory and get audit logs
+        root_path = local_client.get_instance_info().raw["dataDirPath"]
+        audit_path = f"{root_path}/run/audit"
+        os.chdir(audit_path)
+        directory_path = "./"
+        logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+        
         
