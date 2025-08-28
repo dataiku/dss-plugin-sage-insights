@@ -79,5 +79,5 @@ class MyRunnable(Runnable):
             audit_log_cache_df = pd.DataFrame([datetime.now().astimezone()], columns=["datetime"])
         last_update = audit_log_cache_df["datetime"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
-        df = df[df["timestamp"] >= last_update]
+        #df = df[df["timestamp"] >= last_update]
         return str(len(df))
