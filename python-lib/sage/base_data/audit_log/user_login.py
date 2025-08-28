@@ -55,7 +55,7 @@ def main(self, remote_client, df):
         active_users_df["timestamp"] = pd.to_datetime(i)
         active_users_df["instance_name"] = instance_name
         try:
-            write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
+            write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
             results.append(["write/save", True, data-{dt_epoch}.csv])
         except Exception as e:
