@@ -5,6 +5,7 @@ import pandas as pd
 import dataiku
 from datetime import datetime
 
+from sage.src import dss_funcs
 from sage.base_data.audit_log import user_login
 
 from dataiku.runnables import Runnable
