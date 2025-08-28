@@ -1,5 +1,3 @@
-from sage.src import dss_funcs, dss_folder
-
 import os
 import time
 from pathlib import Path
@@ -7,6 +5,7 @@ import pandas as pd
 import dataiku
 from datetime import datetime
 
+from sage.base_data.audit_log import user_login
 
 from dataiku.runnables import Runnable
 
