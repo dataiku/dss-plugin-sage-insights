@@ -39,7 +39,7 @@ def main(self, remote_client, df):
         for category, sub_grp in merged_df.groupby("dataiku_category"):
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
-                dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
+                dss_folder.write_remote_folder_output(self, remote_client, write_path, sub_grp)
                 results.append([f"write/save - Dataiku Usage {category}", True, f"data-{dt_epoch}.csv"])
             except Exception as e:
                 results.append(["write/save - All", False, e])
