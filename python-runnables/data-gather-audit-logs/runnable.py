@@ -64,6 +64,8 @@ class MyRunnable(Runnable):
             dfs.append(df)            
         df = pd.concat(dfs, ignore_index=True)
         
+        return "Hello"
+        
         # get the cache timestamp and latest logs
         project_handle = local_client.get_default_project()
         dataset_handle = project_handle.get_dataset(dataset_name="audit_log_cache")
