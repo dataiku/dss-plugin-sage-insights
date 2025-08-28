@@ -82,7 +82,7 @@ class MyRunnable(Runnable):
         #df = df[df["timestamp"] >= last_update]
         
         # Module Import
-        ## event_mapping(df)
+        ## event_mapping(df) -- TODO: Scrape data, append to the current day log file, if it runs over midnight, figure out how to split logs
         ## user_audit(df)
         ## cru_logs(df)
         
