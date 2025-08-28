@@ -17,7 +17,7 @@ def main(self, project_handle, folder, df):
                 folder_name = "base_data", 
                 path = f"/dataiku_usage/rolling_{module}.csv"
             )
-            last_entry = original_df["timestamp"].max()
+            last_entry = pd.to_datetime(original_df["timestamp"].max())
         except:
             original_df = pd.DataFrame()
             last_entry = pd.to_datetime(1970)
