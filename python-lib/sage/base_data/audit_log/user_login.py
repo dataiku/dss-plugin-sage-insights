@@ -24,7 +24,7 @@ def main(self, remote_client, df):
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
-        dt = pd.to_datetime(i)
+        dt = grp["timestamp"].max()
         dt_year  = str(dt.year)
         dt_month = str(f'{dt.month:02d}')
         dt_day   = str(f'{dt.day:02d}')
