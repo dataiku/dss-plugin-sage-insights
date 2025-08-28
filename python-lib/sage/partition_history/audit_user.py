@@ -14,8 +14,8 @@ def main(self, project_handle, folder, df):
             original_df = dss_folder.read_local_folder_input(
                 sage_project_key = "SAGE_DASHBOARD",
                 project_handle = project_handle,
-                "base_data", 
-                path=f"/users/{module}.csv"
+                folder_name = "base_data", 
+                path = f"/users/{module}.csv"
             )
             last_entry = original_df["timestamp"].max()
         except:
