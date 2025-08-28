@@ -73,10 +73,10 @@ class MyRunnable(Runnable):
             builder.with_store_into("filesystem_managed")
             dataset_handle = builder.create()
         dataset = dataiku.Dataset("audit_log_cache")
-        return "Hello"
         try:
             df = dataset.get_dataframe()
         except:
             df = pd.DataFrame([datetime.now()], columns=["datetime"])
         last_update = df["datetime"].iloc[0]
+        return "Hello"
         return last_update
