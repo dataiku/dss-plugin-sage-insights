@@ -12,7 +12,7 @@ def main(self, remote_client, df):
     df = df.dropna(subset=["message.authUser"])
     df = df.dropna(axis=1, how='all')
 
-    # loop topics and save data
+    # Select the columns needed
     try:
         df = df[["timestamp", "date", "message.callPath", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
     except:
