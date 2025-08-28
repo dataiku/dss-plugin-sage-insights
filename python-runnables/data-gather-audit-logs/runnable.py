@@ -78,5 +78,4 @@ class MyRunnable(Runnable):
         except:
             df = pd.DataFrame([datetime.now()], columns=["datetime"])
         last_update = df["datetime"].iloc[0]
-        return "Hello"
         return last_update
