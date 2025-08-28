@@ -90,12 +90,12 @@ class MyRunnable(Runnable):
         df["instance_name"] = instance_name
 
         # Module Import
-        r = user_login(self, remote_client, df)
-        if r[0]:
-            for l in r:
-                results.append(l)
-        else:
-            results.append(["User Audit", r[0], r[1]])
+        #r = user_login(self, remote_client, df)
+        #if r[0]:
+        #    for l in r:
+        #        results.append(l)
+        #else:
+        #    results.append(["User Audit", r[0], r[1]])
 
         ## event_mapping(df, self)
         ###results.append(["Event Mapping", result[0], result[1]])        
