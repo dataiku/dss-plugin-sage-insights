@@ -69,6 +69,29 @@ class MyRunnable(Runnable):
         df = df.drop(columns="message").reset_index(drop=True)
         df = pd.concat([df, jdf], axis=1)
         
+        # get the cache timestamp and latest logs
+        project_handle = local_client.get_default_project()
+        dataset_handle = project_handle.get_dataset(dataset_name="audit_log_cache")
+        if not dataset_handle.exists():
+            builder = project_handle.new_managed_dataset("audit_log_cache")
+            builder.with_store_into("filesystem_managed")
+            dataset_handle = builder.create()
+        dataset = dataiku.Dataset("audit_log_cache")
+        try:
+            df = dataset.get_dataframe()
+        except:
+            df = pd.DataFrame([datetime.now()], columns=["datetime"])
+        last_update = df["datetime"].iloc[0]
+        df["message.timestamp"] = pd.to_datetime(df["message.timestamp"])
+        return str(len(df))
+        df = df[df["message.timestamp"] >= last_update]
+        return str(len(df))
+        
+
+        
+    
+
+        
         
         # return results
         if results:
