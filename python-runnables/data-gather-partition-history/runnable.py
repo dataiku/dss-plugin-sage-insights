@@ -34,6 +34,7 @@ class MyRunnable(Runnable):
         folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
         df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
+        df["dt"] = pd.to_datetime(df["dt"])
         results.append(["Gather Partitions", True, None])
         
         # Audit log User information
