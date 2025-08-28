@@ -61,13 +61,8 @@ class MyRunnable(Runnable):
         dfs = []
         for log in logs:
             df = pd.read_json(log, lines=True)
-            dfs.append(df)
-            
-        # flatten the df
+            dfs.append(df)            
         df = pd.concat(dfs, ignore_index=True)
-        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
-        df = df.drop(columns="message").reset_index(drop=True)
-        df = pd.concat([df, jdf], axis=1)
         
         # get the cache timestamp and latest logs
         project_handle = local_client.get_default_project()
@@ -82,16 +77,17 @@ class MyRunnable(Runnable):
         except:
             df = pd.DataFrame([datetime.now()], columns=["datetime"])
         last_update = df["datetime"].iloc[0]
-        df["message.timestamp"] = pd.to_datetime(df["message.timestamp"])
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
         return str(len(df))
-        df = df[df["message.timestamp"] >= last_update]
+        df = df[df["timestamp"] >= last_update]
         return str(len(df))
-        
-
-        
     
-
+        # flatten the df
+        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
+        df = df.drop(columns="message").reset_index(drop=True)
+        df = pd.concat([df, jdf], axis=1)
         
+
         
         # return results
         if results:
