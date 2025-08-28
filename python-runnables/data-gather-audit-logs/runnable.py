@@ -64,7 +64,6 @@ class MyRunnable(Runnable):
             dfs.append(df)            
         df = pd.concat(dfs, ignore_index=True)
         
-        return "Hello"
         
         # get the cache timestamp and latest logs
         project_handle = local_client.get_default_project()
@@ -74,6 +73,7 @@ class MyRunnable(Runnable):
             builder.with_store_into("filesystem_managed")
             dataset_handle = builder.create()
         dataset = dataiku.Dataset("audit_log_cache")
+        return "Hello"
         try:
             df = dataset.get_dataframe()
         except:
