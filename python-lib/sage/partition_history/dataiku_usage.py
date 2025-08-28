@@ -34,8 +34,9 @@ def main(self, project_handle, folder, df):
             tdf = pd.concat(dfs, ignore_index=True)
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
-        original_df = original_df.drop_duplicates()
+        original_df["timestamp"] = pd.to_datetime(original_df["timestamp"])
         original_df = original_df.sort_values(by="timestamp", ascending=False)
+        original_df = original_df.drop_duplicates()
         dss_folder.write_local_folder_output(
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
