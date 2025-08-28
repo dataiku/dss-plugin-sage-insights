@@ -45,7 +45,11 @@ class MyRunnable(Runnable):
             results.append(["User Audit", False, e])
             
         # Audit Log Dataiku Usage
-        dataiku_usage
+        try:
+            dataiku_usage.main(self, project_handle, folder, df)
+            results.append(["Dataiku Usage", True, None])
+        except Exception as e:
+            results.append(["Dataiku Usage, False, e])
             
         # Git history
         try:
