@@ -50,7 +50,7 @@ def update_plugin_config(self, plugin_handle):
 
     
 def install_plugin(self, remote_client):
-    # Only install if not found
+    # Only install if not found, if found and set to update, patch
     sage_found = False
     for plugin in remote_client.list_plugins():
         if plugin["id"] == "sage":
