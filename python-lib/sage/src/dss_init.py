@@ -60,7 +60,6 @@ def install_plugin(self, remote_client):
         plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
         update_plugin_config(self, plugin_handle)
     else:
-        # install the plugin
         plugin_install = remote_client.install_plugin_from_git(
             repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None
         )
