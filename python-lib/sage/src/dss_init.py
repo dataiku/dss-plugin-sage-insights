@@ -47,7 +47,8 @@ def update_plugin_config(self, plugin_handle):
     settings.settings["config"]["sage_dataiku_user"]  = self.sage_dataiku_user 
     settings.settings["config"]["ignore_certs"]       = self.ignore_certs
     settings.settings["config"]["sage_folder_connection"] = self.sage_folder_connection
-    settings.settings["codeEnvName"] = "plugin_sage_managed"
+    settings.settings["codeEnvName"] = "plugin_sage_managed" 
+    settings.settings["excludedFromCDE"] = True
     settings.save()
     return
 
