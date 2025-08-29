@@ -61,7 +61,9 @@ def install_plugin(self, remote_client):
             repository_url=self.sage_repo_url,
             checkout=self.sage_repo_branch
         )
-        
+        r = git_update.wait_for_result()
+        if not r["success"]:
+            raise Exception("Plugin Failed to Update")
         # Update the code-env
         code_env = plugin_handle.update_code_env()
         r = code_env.wait_for_result()
