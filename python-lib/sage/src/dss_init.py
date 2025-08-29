@@ -55,11 +55,10 @@ def install_plugin(self, remote_client):
     for plugin in remote_client.list_plugins():
         if plugin["id"] == "sage":
             sage_found = True
-    if sage_found:
-        if self.update_github:
-            plugin_handle = remote_client.get_plugin(plugin_id="sage")
-            plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
-            update_plugin_config(self, plugin_handle)
+    if sage_found and self.update_github:
+        plugin_handle = remote_client.get_plugin(plugin_id="sage")
+        plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
+        update_plugin_config(self, plugin_handle)
     else:
         # install the plugin
         plugin_install = remote_client.install_plugin_from_git(
