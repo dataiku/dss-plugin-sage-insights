@@ -57,7 +57,11 @@ def install_plugin(self, remote_client):
             sage_found = True
     if sage_found and self.update_github:
         plugin_handle = remote_client.get_plugin(plugin_id="sage")
-        plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
+        git_update = plugin_handle.update_from_git(
+            repository_url=self.sage_repo_url,
+            checkout=self.sage_repo_branch
+        )
+        
         # Update the code-env
         code_env = plugin_handle.update_code_env()
         r = code_env.wait_for_result()
