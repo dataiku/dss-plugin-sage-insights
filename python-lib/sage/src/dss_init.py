@@ -46,7 +46,8 @@ def update_plugin_config(self, plugin_handle):
     settings.settings["config"]["sage_project_url"]   = self.sage_project_url
     settings.settings["config"]["sage_project_api"]   = self.sage_project_api 
     settings.settings["config"]["sage_worker_key"]    = self.sage_worker_key
-    settings.settings["config"]["sage_dataiku_user"]  = self.sage_dataiku_user
+    settings.settings["config"]["sage_dataiku_user"]  = self.sage_dataiku_user 
+    settings.settings["config"]["ignore_certs"]       = self.ignore_certs
     
     settings.settings["config"]["sage_folder_connection"] = self.sage_folder_connection
 
