@@ -40,7 +40,7 @@ def update_plugin_config(self, plugin_handle):
     settings.settings["defaultPermission"] = {"admin": True, "canViewComponents": False}
     settings.settings["excludedFromCDE"] = True
     settings.settings["codeEnvName"] = "plugin_sage_managed" 
-    settings.settings["detailsNotVisible"] = True 
+    settings.settings["detailsNotVisible"] = False 
 
     settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
     settings.settings["config"]["sage_repo_branch"] = self.sage_repo_branch 
