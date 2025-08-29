@@ -38,9 +38,11 @@ macro = "pyrunnable_sage_data-gather-partition-history"
 def update_plugin_config(self, plugin_handle):
     settings = plugin_handle.get_settings()
     settings.settings["defaultPermission"] = {"admin": False, "canViewComponents": False}
-    
+
+    settings.settings["config"]["sage_project_key"] = self.sage_project_api
     settings.settings["config"]["sage_project_api"] = self.sage_project_api
     settings.settings["config"]["sage_project_url"] = self.sage_project_url
+    
     settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
     settings.settings["config"]["sage_folder_connection"] = self.sage_folder_connection
     settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
