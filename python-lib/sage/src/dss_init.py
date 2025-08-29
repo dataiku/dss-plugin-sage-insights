@@ -67,9 +67,7 @@ def install_plugin(self, remote_client):
         r = plugin_install.get_result()
         if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
             raise Exception(r["messages"]["messages"])
-    
-    # connect to the plugin handle
-    plugin_handle = remote_client.get_plugin(plugin_id="sage")
+        plugin_handle = remote_client.get_plugin(plugin_id="sage")
     
     # create the code-env
     code_env = plugin_handle.create_code_env()
