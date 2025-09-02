@@ -69,8 +69,8 @@ class MyRunnable(Runnable):
             yesterday = datetime.now().astimezone() - timedelta(days=1)
             audit_log_cache_df = pd.DataFrame([yesterday], columns=["timestamp"])
         last_update = audit_log_cache_df["timestamp"].iloc[0]  
-        t = datetime.now().astimezone() - last_update
-        hours = round((t.total_seconds() / 3600) + 1, 0)
+        time_diff = datetime.now().astimezone() - last_update
+        hours = round((time_diff.total_seconds() / 3600) + 1, 0)
         logs = find_recent_files(logs, hours=hours)
         results.append(["Parse Latest Logs", True, None])
 
