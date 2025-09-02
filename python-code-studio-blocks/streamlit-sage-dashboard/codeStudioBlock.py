@@ -39,6 +39,7 @@ class MyCodeStudioBlock(CodeStudioBlock):
             "streamlit==1.46.1",
             "streamlit-aggrid",
             "duckdb==1.3.2",
+            "sqlparse==0.5.3",
             "altair",
             "tomli",
             "tabulate",
