@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 import pandas as pd
 import dataiku
-from datetime import datetime
+from datetime import timedelta, datetime
 
 from sage.src import dss_funcs
 from sage.base_data.audit_log import user_login, event_mapping
@@ -54,30 +54,35 @@ class MyRunnable(Runnable):
         os.chdir(audit_path)
         directory_path = "./"
         logs = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
-        logs = find_recent_files(logs)
+        
+        # get the cache timestamp and latest logs
+        try:
+            project_handle = local_client.get_default_project()
+            dataset_handle = project_handle.get_dataset(dataset_name="audit_log_cache")
+            if not dataset_handle.exists():
+                builder = project_handle.new_managed_dataset("audit_log_cache")
+                builder.with_store_into("filesystem_managed")
+                dataset_handle = builder.create()
+            dataset = dataiku.Dataset("audit_log_cache")
+            audit_log_cache_df = dataset.get_dataframe()
+        except:
+            yesterday = datetime.now().astimezone() - timedelta(days=1)
+            audit_log_cache_df = pd.DataFrame([yesterday], columns=["timestamp"])
+        last_update = audit_log_cache_df["timestamp"].iloc[0]  
+        time_diff = datetime.now().astimezone() - last_update
+        hours = round((time_diff.total_seconds() / 3600) + 1, 0)
+        logs = find_recent_files(logs, hours=hours)
+        results.append(["Parse Latest Logs", True, None])
+
+        # Open each remaining log for parsing
         dfs = []
         for log in logs:
             df = pd.read_json(log, lines=True)
-            dfs.append(df)            
+            dfs.append(df)
         df = pd.concat(dfs, ignore_index=True)
-        results.append(["Gather Audit Logs", True, None])
-        
-        # get the cache timestamp and latest logs
-        project_handle = local_client.get_default_project()
-        dataset_handle = project_handle.get_dataset(dataset_name="audit_log_cache")
-        if not dataset_handle.exists():
-            builder = project_handle.new_managed_dataset("audit_log_cache")
-            builder.with_store_into("filesystem_managed")
-            dataset_handle = builder.create()
-        dataset = dataiku.Dataset("audit_log_cache")
-        try:
-            audit_log_cache_df = dataset.get_dataframe()
-        except:
-            audit_log_cache_df = pd.DataFrame([datetime.now().astimezone()], columns=["timestamp"])
-        last_update = audit_log_cache_df["timestamp"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
-        #df = df[df["timestamp"] >= last_update]
-        results.append(["Parse Latest Logs", True, None])
+        df = df[df["timestamp"] >= last_update]
+        results.append(["Gather Audit Logs", True, None])
         
         # Expand Messages and join
         jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
