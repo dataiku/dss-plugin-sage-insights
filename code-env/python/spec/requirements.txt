@@ -1,6 +1,7 @@
 streamlit==1.46.1
 streamlit-aggrid
 duckdb==1.3.2
+sqlparse==0.5.3
 altair
 tomli
 tabulate
@@ -9,5 +10,4 @@ plotly
 scipy
 nbformat>=4.2.0
 orjson
-matplotlib
-joblib
+matplotli
