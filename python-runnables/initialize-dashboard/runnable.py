@@ -125,7 +125,7 @@ class MyRunnable(Runnable):
         # Create scenario to gather base data 
         if cont:
             try:
-                dss_init.create_scenarios(project_handle, "DASHBOARD", self.sage_dataiku_user))
+                dss_init.create_scenarios(project_handle, "DASHBOARD", self.sage_dataiku_user)
                 results.append(["Update Scenarios", True, None])
             except Exception as e:
                 cont = False
