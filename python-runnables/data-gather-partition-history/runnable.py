@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 
 from sage.src import dss_funcs, dss_folder
-from sage.partition_history import audit_user, git_history
+from sage.partition_history import audit_user, git_history, dataiku_usage
 
 from dataiku.runnables import Runnable
 
@@ -34,25 +34,34 @@ class MyRunnable(Runnable):
         folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
         df = pd.DataFrame(folder.list_partitions(), columns=["partition"])
         df[["instance_name", "category", "module", "dt"]] = df["partition"].str.split("|", expand=True)
+        df["dt"] = pd.to_datetime(df["dt"])
         results.append(["Gather Partitions", True, None])
         
         # Audit log User information
         try:
             audit_user.main(self, project_handle, folder, df)
-            results.append(["User Aduit", True, None])
+            results.append(["User Audit", True, None])
         except Exception as e:
-            results.append(["User Aduit", False, e])
+            results.append(["User Audit", False, e])
             
-        # Audit log User information
+        # Audit Log Dataiku Usage
+        try:
+            dataiku_usage.main(self, project_handle, folder, df)
+            results.append(["Dataiku Usage", True, None])
+        except Exception as e:
+            results.append(["Dataiku Usage", False, e])
+            
+        # Git history
         try:
             git_history.main(self, project_handle, folder, df)
             results.append(["Git History", True, None])
         except Exception as e:
             results.append(["Git History", False, e])
+            
+         
         
         # return results
         if results:
             df = pd.DataFrame(results, columns=["step", "result", "message"])
             html = df.to_html()
             return html
-        raise Exception("FAILED TO RUN PROJECT CHECKS")
