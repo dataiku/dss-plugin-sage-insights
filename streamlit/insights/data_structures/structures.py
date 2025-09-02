@@ -1,3 +1,14 @@
+def get_query_dict():
+    query = {
+        "sel":   [],
+        "from":  [],
+        "join":  [],
+        "where": [],
+        "grp":   [],
+        "order": [],
+    }
+    return query
+
 def get(type):
     FIG = {
         "pass": True,
