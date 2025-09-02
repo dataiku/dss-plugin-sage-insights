@@ -10,4 +10,5 @@ plotly
 scipy
 nbformat>=4.2.0
 orjson
-matplotli
+matplotlib
+joblib
