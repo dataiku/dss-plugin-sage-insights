@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 import pandas as pd
 import dataiku
-from datetime import datetime
+from datetime import timedelta, datetime
 
 from sage.src import dss_funcs
 from sage.base_data.audit_log import user_login, event_mapping
