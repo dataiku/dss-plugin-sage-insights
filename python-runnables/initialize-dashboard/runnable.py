@@ -14,6 +14,7 @@ class MyRunnable(Runnable):
         self.config = config
         self.plugin_config = plugin_config
         self.sage_project_key = plugin_config.get("sage_project_key", None)
+        self.sage_dataiku_user  = plugin_config.get("sage_dataiku_user", "admin")
 
         # Set environment variable
         self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
@@ -124,7 +125,7 @@ class MyRunnable(Runnable):
         # Create scenario to gather base data 
         if cont:
             try:
-                dss_init.create_scenarios(project_handle, "DASHBOARD")
+                dss_init.create_scenarios(project_handle, "DASHBOARD", self.sage_dataiku_user))
                 results.append(["Update Scenarios", True, None])
             except Exception as e:
                 cont = False
