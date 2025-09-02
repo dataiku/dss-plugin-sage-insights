@@ -74,19 +74,22 @@ class MyRunnable(Runnable):
         logs = find_recent_files(logs, hours=hours)
         results.append(["Parse Latest Logs", True, None])
 
-            
-            
-        last_update = audit_log_cache_df["timestamp"].iloc[0]        
-        df["timestamp"] = pd.to_datetime(df["timestamp"])
-        df = df[df["timestamp"] >= last_update]
-        
-        
+        # Open each remaining log for parsing
         dfs = []
         for log in logs:
             df = pd.read_json(log, lines=True)
             dfs.append(df)
         df = pd.concat(dfs, ignore_index=True)
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
+        df = df[df["timestamp"] >= last_update]
         results.append(["Gather Audit Logs", True, None])
+        
+        
+        
+
+        
+        
+
         
 
         
