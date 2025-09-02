@@ -84,15 +84,6 @@ class MyRunnable(Runnable):
         df = df[df["timestamp"] >= last_update]
         results.append(["Gather Audit Logs", True, None])
         
-        
-        
-
-        
-        
-
-        
-
-        
         # Expand Messages and join
         jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
         df = df.drop(columns="message").reset_index(drop=True)
