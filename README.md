@@ -2,7 +2,7 @@
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.5.2
+* Version - 1.5.3
 * Special Thanks
   * Jordan Burke
   * Ben Bourgeois
