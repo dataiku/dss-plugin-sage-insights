@@ -76,7 +76,7 @@ class MyRunnable(Runnable):
             audit_log_cache_df = pd.DataFrame([datetime.now().astimezone()], columns=["timestamp"])
         last_update = audit_log_cache_df["timestamp"].iloc[0]        
         df["timestamp"] = pd.to_datetime(df["timestamp"])
-        #df = df[df["timestamp"] >= last_update]
+        df = df[df["timestamp"] >= last_update]
         results.append(["Parse Latest Logs", True, None])
         
         # Expand Messages and join
