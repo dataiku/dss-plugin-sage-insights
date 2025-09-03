@@ -5,13 +5,13 @@ import plotly.express as px
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["sel"]   = ["base.instance_name", "base.recipe_type", "COUNT(*) AS recipe_count"]
-    query["from"]  = ["recipes_metadata as base"]
-    query["join"]  = []
-    query["where"] = []
-    query["grp"]   = ["base.instance_name", "base.recipe_type"]
-    query["order"] = ["base.instance_name", "recipe_count"]
-    df = dss_duck.query_duckdb(query, filters, debug=False)
+    query["select"] = ["base.instance_name", "base.recipe_type", "COUNT(*) AS recipe_count"]
+    query["from"]   = ["recipes_metadata as base"]
+    query["join"]   = []
+    query["where"]  = []
+    query["group"]  = ["base.instance_name", "base.recipe_type"]
+    query["order"]  = ["base.instance_name", "recipe_count"]
+    df = dss_duck.query_duckdb(query, filters, debug=True)
 
     # Additional Preperation
     df = df.groupby("instance_name").tail(10)

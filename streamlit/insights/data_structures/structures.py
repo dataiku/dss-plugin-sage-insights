@@ -1,11 +1,11 @@
 def get_query_dict():
     query = {
-        "sel":   [],
-        "from":  [],
-        "join":  [],
-        "where": [],
-        "grp":   [],
-        "order": [],
+        "select": [],
+        "from":   [],
+        "join":   [],
+        "where":  [],
+        "group":  [],
+        "order":  [],
     }
     return query
 

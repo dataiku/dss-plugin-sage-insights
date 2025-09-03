@@ -13,7 +13,7 @@ def main(filters = {}):
 
     # Perform logic here
     FIGS = []
-    FIG["label"] = "Enabeld Users -- All"
+    FIG["label"] = "Enabled Users -- All"
     FIG["data"] = int(df.groupby("enabled")["login"].nunique().loc[True])
     FIGS.append(FIG)
 
