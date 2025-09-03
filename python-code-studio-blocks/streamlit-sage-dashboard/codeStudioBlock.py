@@ -126,7 +126,7 @@ dataFrameSerialization="arrow"   # faster dataframe transport than legacy
 
 [theme]
 base="light"             # "light", "dark", or "auto"
-primaryColor="#4CAF50"  # accent color (buttons, sliders, etc.)
+primaryColor="#4CAF50"   # accent color (buttons, sliders, etc.)
 backgroundColor="#FFFFFF"
 secondaryBackgroundColor="#F5F5F5"
 textColor="#000000"
