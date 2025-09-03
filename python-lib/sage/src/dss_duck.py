@@ -122,7 +122,7 @@ def build_sql(query: dict, filters: dict) -> str:
         join_clause = "\n" + "\n".join(query["join"])
     # WHERE
     filter_clause = ""
-    if filters and "_metadata" in join_claue:
+    if filters and "_metadata" in from_clause:
         filter_clause = "LEFT JOIN metadata_primary_keys AS mpk ON ("
         for tbl in query["from"]:
             if "AS" in tbl.upper():
