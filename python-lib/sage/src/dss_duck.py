@@ -113,7 +113,7 @@ def filters_conversion(filters):
 
 def build_sql(query: dict, filters: dict) -> str:
     # SELECT
-    sel_clause = "SELECT " + ", ".join(query.get("sel", ["*"]))
+    select_clause = "SELECT " + ", ".join(query.get("select", ["*"]))
     # FROM
     from_clause = "FROM " + ", ".join(query.get("from", []))
     # JOIN
@@ -139,15 +139,15 @@ def build_sql(query: dict, filters: dict) -> str:
     if query.get("where"):
         where_clause = "\nWHERE " + " AND ".join(query["where"])
     # GROUP BY
-    grp_clause = ""
-    if query.get("grp"):
-        grp_clause = "\nGROUP BY " + ", ".join(query["grp"])
+    group_clause = ""
+    if query.get("group"):
+        group_clause = "\nGROUP BY " + ", ".join(query["group"])
     # ORDER BY
     order_clause = ""
     if query.get("order"):
         order_clause = "\nORDER BY " + ", ".join(query["order"])
     # Put it all together
-    sql = "\n".join([sel_clause, from_clause, join_clause, filter_clause, where_clause, grp_clause, order_clause])
+    sql = "\n".join([select_clause, from_clause, join_clause, filter_clause, where_clause, group_clause, order_clause])
     sql = sqlparse.format(sql, reindent=True, keyword_case='upper')
     return sql
 
