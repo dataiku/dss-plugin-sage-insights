@@ -24,10 +24,7 @@ def main(project_handle, client_d = {}):
         d["dataset_last_mod_dt"] = pd.to_datetime(d["dataset_last_mod_dt"], unit="ms")
         d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
         
-        # turn to dataframe
         dfs.append(pd.DataFrame([d]))
-        if df.empty:
-            df = tdf
-        else:
-            df = pd.concat([df, tdf], ignore_index=True)
+    # turn to dataframe
+    df = pd.concat(dfs, ignore_index=True)
     return df
