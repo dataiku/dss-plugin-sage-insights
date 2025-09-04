@@ -97,7 +97,7 @@ def main(project_handle, client_d = {}):
                     pass
             d["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
             d["recipe_spark_mods"] = False
-            if sparkConfig.get("conf", [])
+            if sparkConfig.get("conf", []):
                 d["recipe_spark_mods"] = True
                 
             
