@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def main(project_handle, client_d = {}):
-    df = pd.DataFrame()
+    dfs = []
     for scenario in project_handle.list_scenarios():
         d = {"project_key": project_handle.project_key}
         
@@ -23,9 +23,6 @@ def main(project_handle, client_d = {}):
         d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
         
         # turn to dataframe
-        tdf = pd.DataFrame([d])
-        if df.empty:
-            df = tdf
-        else:
-            df = pd.concat([df, tdf], ignore_index=True)
+        dfs.append(pd.DataFrame([d]))
+    df = pd.concat(dfs, ignore_index=True)
     return df
