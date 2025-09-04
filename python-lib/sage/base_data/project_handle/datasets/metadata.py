@@ -25,7 +25,7 @@ def main(project_handle, client_d = {}):
         d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
         
         # turn to dataframe
-        tdf = pd.DataFrame([d])
+        dfs.append(pd.DataFrame([d]))
         if df.empty:
             df = tdf
         else:
