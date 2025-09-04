@@ -4,9 +4,9 @@ import pandas as pd
 def main(project_handle, client_d = {}):
     dfs = []
     for scenario in project_handle.list_scenarios():
-        d = {"project_key": project_handle.project_key}
-        
         # Poll Data
+        d = {"project_key": project_handle.project_key}
+
         scenario_handle = project_handle.get_scenario(scenario['id'])
         raw_settings    = scenario_handle.get_settings().get_raw()
         d["scenario_type"]   = raw_settings.get('type', None)
@@ -16,13 +16,14 @@ def main(project_handle, client_d = {}):
         d["scenario_id"]     = raw_settings.get('id', None)
         d["scenario_name"]   = raw_settings.get('name', None)
         d["scenario_tags"]   = raw_settings.get('tags', None)
+        
         version = scenario_handle.get_settings().get_raw()["versionTag"]
         d["scenario_version_num"] = version.get('versionNumber', None)
         d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
         d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
         d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
-        
-        # turn to dataframe
         dfs.append(pd.DataFrame([d]))
+
+    # turn to dataframe
     df = pd.concat(dfs, ignore_index=True)
     return df
