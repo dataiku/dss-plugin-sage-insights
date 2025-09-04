@@ -39,7 +39,7 @@ def main(self, remote_client, df):
         
         
         # lets split the df by category and save
-        for category, sub_grp in merged_df.groupby("dataiku_category"):
+        for category, sub_grp in merged_df.groupby("category"):
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, sub_grp)
