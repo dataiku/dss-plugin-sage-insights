@@ -88,12 +88,12 @@ def main(project_handle, client_d = {}):
         
         if d["recipe_engine_type"] == "SPARK":
             sparkConfig = {}
+            d["recipe_spark_mods"] = False
             try:
                 sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"] #["inheritConf"]
             except:
                 try:
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
-            d["recipe_spark_mods"] = False
             if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
                 d["recipe_spark_mods"] = True
             
