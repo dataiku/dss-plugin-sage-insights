@@ -20,11 +20,10 @@ def main(project_handle, client_d = {}):
         d["dataset_last_create_by"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
         d["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"])
         d["dataset_tags"] = dataset.get("tags", False)
-        
         d["dataset_last_mod_dt"] = pd.to_datetime(d["dataset_last_mod_dt"], unit="ms")
         d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
-        
         dfs.append(pd.DataFrame([d]))
+
     # turn to dataframe
     df = pd.concat(dfs, ignore_index=True)
     return df
