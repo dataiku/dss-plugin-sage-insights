@@ -87,7 +87,12 @@ def main(project_handle, client_d = {}):
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
         
         if d["recipe_engine_type"] == "SPARK":
-            d["recipe_spark_conf"] = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["inheritConf"]
+            sparkConfig = {}
+            try:
+                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"] #["inheritConf"]
+            except:
+                try:
+                    sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
             d["recipe_spark_mods"] = False
             if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
                 d["recipe_spark_mods"] = True
