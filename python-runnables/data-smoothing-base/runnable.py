@@ -91,7 +91,7 @@ class MyRunnable(Runnable):
             path = "/projects/metadata.csv"
         )
         df = pd.merge(users_df, prjs_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
-        primary_keys = ["instance_name", "project_key", "enabled", "userProfile", "login"]
+        primary_keys = ["instance_name", "login", "enabled", "userProfile", "project_key"]
         df = df[primary_keys]
         dss_folder.write_local_folder_output(
             sage_project_key = self.sage_project_key,
