@@ -2,6 +2,8 @@ import pandas as pd
 
 
 def main(project_handle, client_d = {}):
+    if not project_handle.list_scenarios():
+        return pd.DataFrame()
     dfs = []
     for scenario in project_handle.list_scenarios():
         # Poll Data
