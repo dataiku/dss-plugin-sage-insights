@@ -118,10 +118,11 @@ class MyRunnable(Runnable):
         ###results.append(["CRU Logs", result[0], result[1]])
         
         # Reset the audit_log_cache df
-        last_time_entry = df["timestamp"].max()
-        audit_log_cache_df["timestamp"] = last_time_entry
-        dataset.write_with_schema(audit_log_cache_df)
-        results.append(["Set New Audit Log Cache timestamp", True, last_time_entry])
+        if not self.debug:
+            last_time_entry = df["timestamp"].max()
+            audit_log_cache_df["timestamp"] = last_time_entry
+            dataset.write_with_schema(audit_log_cache_df)
+            results.append(["Set New Audit Log Cache timestamp", True, last_time_entry])
         
         # return results
         results_df = pd.DataFrame(results, columns=["step", "result", "message"])
