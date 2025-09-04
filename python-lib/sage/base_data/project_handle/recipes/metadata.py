@@ -96,8 +96,10 @@ def main(project_handle, client_d = {}):
                 except:
                     pass
             d["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
-                
+            if sparkConfig.get("conf", [])
                 d["recipe_spark_mods"] = True
+                
+                 = True
             if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
                 
             
