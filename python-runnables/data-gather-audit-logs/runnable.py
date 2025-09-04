@@ -22,6 +22,9 @@ def find_recent_files(file_list, hours=100):
                 recent_files.append(path)
     return recent_files
 
+def run_module():
+    return
+
 
 class MyRunnable(Runnable):
 
