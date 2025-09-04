@@ -11,5 +11,5 @@ def main(project_handle, client_d = {}):
         pd.json_normalize(df[f"{prefix}_versions"]).add_prefix(f"{prefix}_verions_")
     ], axis=1)
     df.columns = df.columns.str.replace('.', '_', regex=False)
-    df = rename_and_move_first(project_handle, df, "projectKey", "project_key")
+    df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}_projectKey", "project_key")
     return df
