@@ -35,7 +35,7 @@ def main(self, remote_client, df):
         # Filter - remove dropped columns
         merged_df = merged_df[merged_df["dataiku_category"] != "DROP_DELETE"]
         merged_df.columns = ["timestamp", "date", "full_message", "login", "project_key", "instance_name", "base_message", "category"]
-        merged_df = merged_df["timestamp", "date", "instance_name", "project_key", "login", "category", "full_message","base_message"]
+        merged_df = merged_df[["timestamp", "date", "instance_name", "project_key", "login", "category", "full_message","base_message"]]
         
         # lets split the df by category and save
         for category, sub_grp in merged_df.groupby("category"):
