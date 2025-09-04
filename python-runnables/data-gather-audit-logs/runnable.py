@@ -111,19 +111,8 @@ class MyRunnable(Runnable):
         df["instance_name"] = instance_name
 
         # Module Import
-        r = user_login.main(self, remote_client, df)
-        if all(isinstance(x, list) for x in results):
-            for l in r:
-                results.append(l)
-        else:
-            results.append(r)
-
-        r = event_mapping.main(self, remote_client, df)
-        if all(isinstance(x, list) for x in results):
-            for l in r:
-                results.append(l)
-        else:
-            results.append(r)
+        #results += run_module(self, user_login, remote_client, df)
+        #results += run_module(self, event_mapping, remote_client, df)
         
         ## cru_logs(df)
         ###results.append(["CRU Logs", result[0], result[1]])
