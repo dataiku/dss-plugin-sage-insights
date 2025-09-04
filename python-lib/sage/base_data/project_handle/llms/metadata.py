@@ -3,6 +3,7 @@ from sage.src import dss_funcs
 
 
 def main(project_handle, client_d = {}):
-    df = pd.json_normalize(project_handle.list_llms())
-    df = rename_and_move_first(project_handle, df, "projectKey", "project_key")
+    prefix = "llms"
+    df = pd.json_normalize(project_handle.list_knowledge_banks()).add_prefix(f"{prefix}_")
+    df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}_projectKey", "project_key")
     return df
