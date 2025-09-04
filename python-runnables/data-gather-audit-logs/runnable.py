@@ -112,7 +112,7 @@ class MyRunnable(Runnable):
 
         # Module Import
         results += run_module(self, user_login, remote_client, df)
-        #results += run_module(self, event_mapping, remote_client, df)
+        results += run_module(self, event_mapping, remote_client, df)
         
         ## cru_logs(df)
         ###results.append(["CRU Logs", result[0], result[1]])
