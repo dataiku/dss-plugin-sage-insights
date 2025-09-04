@@ -99,7 +99,6 @@ def main(project_handle, client_d = {}):
             d["recipe_spark_mods"] = False
             if sparkConfig.get("conf", []):
                 d["recipe_spark_mods"] = True
-                
             
         # turn to dataframe
         dfs.append(pd.DataFrame([d]))
