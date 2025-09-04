@@ -41,8 +41,8 @@ def main(project_handle, client_d = {}):
         d["recipe_type"] = recipe["type"]
         d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
         d["recipe_last_mod_dt"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"], dt = True)
-        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"], dt = True)
-        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
+        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
+        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"], dt = True)
         d["recipe_tags"] = recipe["tags"]
         
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
@@ -93,8 +93,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_spark_mods"] = True
             
         # turn to dataframe
-        tdf = pd.DataFrame([d])
-        dfs.append(tdf)
+        dfs.append(pd.DataFrame([d]))
     
     if dfs:
         return pd.concat(dfs)
