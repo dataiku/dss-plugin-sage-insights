@@ -3,6 +3,9 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle, client_d = {}):
+    if not project_handle.list_knowledge_banks():
+        return pd.DataFrame()
+    
     df = pd.DataFrame()
     for dataset in project_handle.list_datasets():
         d = {"project_key": project_handle.project_key}
