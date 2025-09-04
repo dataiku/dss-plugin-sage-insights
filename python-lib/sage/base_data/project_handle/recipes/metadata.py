@@ -95,8 +95,13 @@ def main(project_handle, client_d = {}):
             except:
                 try:
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
-            if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
+                except:
+                    pass
+            d["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
+                
                 d["recipe_spark_mods"] = True
+            if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
+                
             
         # turn to dataframe
         dfs.append(pd.DataFrame([d]))
