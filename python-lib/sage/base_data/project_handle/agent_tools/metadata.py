@@ -3,7 +3,7 @@ from sage.src import dss_funcs
 
 
 def main(project_handle, client_d = {}):
-    if not project_handle.list_agents():
+    if not project_handle.list_agent_tools():
         return pd.DataFrame()
     
     prefix = "agent_tools"
