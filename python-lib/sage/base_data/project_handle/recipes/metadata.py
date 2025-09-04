@@ -3,6 +3,9 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle, client_d = {}):
+    if not project_handle.list_recipes():
+        return pd.DataFrame()
+    
     # Get project level python code environment
     project_python_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["mode"]
     if project_python_env == "USE_BUILTIN_MODE":
