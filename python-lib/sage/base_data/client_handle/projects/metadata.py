@@ -21,7 +21,7 @@ def main(client, client_d = {}):
         dfs.append(pd.DataFrame([d]))
     
     # turn to dataframe
-    df = pd.concat(dfs)
+    df = pd.concat(dfs, ignore_index=True)
     
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_last_create_by"] == False, "project_last_create_by"] = df["project_last_mod_by"]
