@@ -89,7 +89,7 @@ def main(project_handle, client_d = {}):
         if d["recipe_engine_type"] == "SPARK":
             sparkConfig = {}
             try:
-                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"] #["inheritConf"]
+                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
             except:
                 try:
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
