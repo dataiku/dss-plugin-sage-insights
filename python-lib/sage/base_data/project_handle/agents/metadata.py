@@ -3,6 +3,7 @@ from sage.src import dss_funcs
 
 
 def main(project_handle, client_d = {}):
+    prefix = "agents"
     df = pd.json_normalize(project_handle.list_agents())
     df = df.explode("versions").reset_index(drop=True)
     df = pd.concat([
