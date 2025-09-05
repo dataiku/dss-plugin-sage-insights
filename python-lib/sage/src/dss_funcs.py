@@ -110,6 +110,7 @@ def rename_and_move_first(project_handle: "dataikuapi.dss.project.DSSProject", d
     if new in df.columns:
         cols = [new] + [c for c in df.columns if c != new]
         df = df[cols]
+    df.columns = df.columns.str.replace(".", "_", regex=False)
     return df
 
 
