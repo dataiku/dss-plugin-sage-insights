@@ -9,7 +9,7 @@ def main(filters = {}):
     query["from"]   = ["recipes_metadata as base"]
     query["group"]  = ["base.instance_name", "base.recipe_type"]
     query["order"]  = ["base.instance_name", "recipe_count"]
-    df = dss_duck.query_duckdb(query, filters, debug=False)
+    df = dss_duck.query_duckdb(query, filters)
 
     # Additional Preperation
     df = df.groupby("instance_name").tail(10)
