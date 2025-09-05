@@ -8,7 +8,7 @@ def main(filters = {}):
     query = structures.get_query_dict()
     query["select"] = ["*"]
     query["from"]   = ["recipes_metadata"]
-    df = dss_duck.query_duckdb(query, filters, debug=True)
+    df = dss_duck.query_duckdb(query, filters)
 
     # load data structure
     FIG = structures.get("metric")

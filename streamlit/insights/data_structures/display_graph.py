@@ -10,8 +10,19 @@ def main(FIG):
 
     # Start of Graphing / Charting
     if FIG["type"] == "plotly": # PLOTLY
+        fig = FIG["data"]
+        if FIG["desc"]:
+            st.markdown(FIG["desc"])
+
+            #fig.add_annotation(
+            #    text=FIG["desc"],
+            #    xref="paper", yref="paper",
+            #    x=0.5, y=-0.25,
+            #    showarrow=False,
+            #    font=dict(size=12, color="gray")
+            #)
         st.plotly_chart(
-            FIG["data"], use_container_width=True, theme=None,
+            fig, use_container_width=True, theme=None,
             key=FIG["key"], on_select=FIG["on_select"], selection_mode=FIG["selection_mode"]
         )
     

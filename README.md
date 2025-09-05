@@ -4,9 +4,14 @@
 * Email - <Stephen.Mazzei@dataiku.com>
 * Version - 1.5.4
 * Special Thanks
-  * Jordan Burke
-  * Ben Bourgeois
-  * Arjun Srivatsa
+  * Development
+    * Jordan Burke
+    * Ben Bourgeois
+    * Jonathan Sill
+  * Documentation
+    * Rob Harris
+  * Project Management
+    * Arjun Srivatsa
 
 ## Scope
 
