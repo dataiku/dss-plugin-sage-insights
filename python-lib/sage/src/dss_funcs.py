@@ -102,6 +102,18 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
+def rename_and_move_first(project_handle: "dataikuapi.dss.project.DSSProject", df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
+    if old in df.columns:
+        df = df.rename(columns={old: new})
+    else:
+        df[new] = project_handle.project_key
+    if new in df.columns:
+        cols = [new] + [c for c in df.columns if c != new]
+        df = df[cols]
+    df.columns = df.columns.str.replace(".", "_", regex=False)
+    return df
+
+
 # ---------- STREAMLIT MODULES -----------------------------
 def collect_modules(module):
     import streamlit as st

@@ -3,6 +3,9 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(project_handle, client_d = {}):
+    if not project_handle.list_recipes():
+        return pd.DataFrame()
+    
     # Get project level python code environment
     project_python_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["mode"]
     if project_python_env == "USE_BUILTIN_MODE":
@@ -38,8 +41,8 @@ def main(project_handle, client_d = {}):
         d["recipe_type"] = recipe["type"]
         d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
         d["recipe_last_mod_dt"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"], dt = True)
-        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"], dt = True)
-        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"])
+        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
+        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"], dt = True)
         d["recipe_tags"] = recipe["tags"]
         
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
@@ -84,14 +87,21 @@ def main(project_handle, client_d = {}):
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
         
         if d["recipe_engine_type"] == "SPARK":
-            d["recipe_spark_conf"] = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["inheritConf"]
+            sparkConfig = {}
+            try:
+                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
+            except:
+                try:
+                    sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
+                except:
+                    pass
+            d["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
             d["recipe_spark_mods"] = False
-            if recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]["conf"]:
+            if sparkConfig.get("conf", []):
                 d["recipe_spark_mods"] = True
             
         # turn to dataframe
-        tdf = pd.DataFrame([d])
-        dfs.append(tdf)
+        dfs.append(pd.DataFrame([d]))
     
     if dfs:
         return pd.concat(dfs)

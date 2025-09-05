@@ -3,7 +3,7 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(client, client_d = {}):
-    df = pd.DataFrame()
+    dfs = []
     for project in client.list_projects():
         d = {}
         
@@ -18,13 +18,10 @@ def main(client, client_d = {}):
         d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
         d["project_shortDesc"] = project.get("shortDesc", False)
         d["project_tags"] = project.get("tags", False)
-
-        # turn to dataframe
-        tdf = pd.DataFrame([d])
-        if df.empty:
-            df = tdf
-        else:
-            df = pd.concat([df, tdf], ignore_index=True)
+        dfs.append(pd.DataFrame([d]))
+    
+    # turn to dataframe
+    df = pd.concat(dfs, ignore_index=True)
     
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_last_create_by"] == False, "project_last_create_by"] = df["project_last_mod_by"]
