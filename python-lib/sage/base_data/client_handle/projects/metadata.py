@@ -8,6 +8,7 @@ from joblib import Parallel, delayed
 
 def main(client, client_d = {}):
     dfs = []
+    list_projects_arrays = np.array_split(client.list_projects(), 2)
     
     
     for project in client.list_projects():
