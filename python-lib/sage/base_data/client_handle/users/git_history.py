@@ -29,7 +29,7 @@ def split_work(client, project_keys):
 
 def main(client, client_d = {}):
     project_keys = client.list_project_keys()
-    pkey_array = np.array_split(project_keys, 4)
+    pkey_array = np.array_split(project_keys, 2)
     results = Parallel(n_jobs=4)(delayed(split_work)(client=client, project_keys=i) for i in pkey_array)
     df = pd.concat(results, ignore_index=True)
     return df
