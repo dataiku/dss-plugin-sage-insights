@@ -27,5 +27,4 @@ def main(client, client_d = {}):
     df = pd.concat(dfs, ignore_index=True)
     df.columns = df.columns.str.replace(".", "_", regex=False)
     df["connection_category"] = df["type"].map(reverse_lookup).fillna("other")
-
     return df
