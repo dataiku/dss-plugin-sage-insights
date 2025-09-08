@@ -6,7 +6,7 @@ from sage.src.dss_funcs import get_nested_value
 
 def project_gather(projects):
     dfs = []
-    for project in client.list_projects():
+    for project in projects:
         d = {}
         # Poll Data
         d["project_key"] = project.get("projectKey", False)
