@@ -10,4 +10,5 @@ def main(client, client_d = {}):
         d = settings.settings
         dfs.append(pd.json_normalize(d))
     df = pd.concat(dfs, ignore_index=True)
+    df.columns = df.columns.str.replace(".", "_", regex=False)
     return df
