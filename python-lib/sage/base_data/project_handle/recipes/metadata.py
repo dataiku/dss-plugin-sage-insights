@@ -101,8 +101,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_spark_mods"] = True
         # LLMS
         try:
-            recipe = project_handle.get_recipe("compute_backlog_tasks_tickets_classified")
-            d["recipe_llm_mesh_id"] = recipe.get_settings().get_json_payload()["llmId"]
+            d["recipe_llm_mesh_id"] = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
             d["recipe_llm_mesh_id"] = False
         # turn to dataframe
