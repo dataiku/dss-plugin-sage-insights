@@ -15,7 +15,7 @@ def split_work(client, project_keys):
         df = pd.DataFrame(git_log["entries"])
         if df.empty:
             continue
-        df["timestamp"] = pd.to_datetime(tdf["timestamp"])
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
         df = df[(df["timestamp"].dt.date >= today)]
         df["project_key"] = project_key
         dfs.append(df)
