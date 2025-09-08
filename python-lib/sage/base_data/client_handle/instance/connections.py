@@ -26,6 +26,6 @@ def main(client, client_d = {}):
         dfs.append(pd.json_normalize(d))
     df = pd.concat(dfs, ignore_index=True)
     df.columns = df.columns.str.replace(".", "_", regex=False)
-    df["connection_category"] = df["type"].map(reverse_lookup).fillna("Other")
+    df["connection_category"] = df["type"].map(reverse_lookup).fillna("other")
 
     return df
