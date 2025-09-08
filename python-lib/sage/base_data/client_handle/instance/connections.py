@@ -1,7 +1,6 @@
 import pandas as pd
 
 conn_mapping = {
-    
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
