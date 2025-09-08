@@ -34,9 +34,8 @@ def main(project_handle, client_d = {}):
     # Loop Recipes
     dfs = []
     for recipe in project_handle.list_recipes():
-        d = {"project_key": project_handle.project_key}
-
         # Poll Data
+        d = {"project_key": project_handle.project_key}
         d["recipe_name"] = recipe["name"]
         d["recipe_type"] = recipe["type"]
         d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
@@ -44,10 +43,8 @@ def main(project_handle, client_d = {}):
         d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
         d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"], dt = True)
         d["recipe_tags"] = recipe["tags"]
-
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
         d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
-        
         # Get layer 2 information
         recipe_handle = project_handle.get_recipe(recipe["name"])
         try:
