@@ -2,7 +2,7 @@ import pandas as pd
 
 conn_mapping = {
     "sql_database": [],
-    "file_based": [],
+    "file_based": ["Filesystem", "FTP", "SSH"],
     "cloud_storage": [],
     "hadoop": [],
     "nosql": [],
