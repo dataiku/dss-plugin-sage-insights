@@ -18,7 +18,8 @@ def split_work(client, project_keys):
         df["timestamp"] = pd.to_datetime(tdf["timestamp"])
         df = df[(df["timestamp"].dt.date >= today)]
         df["project_key"] = project_key
-    return df
+        dfs.append(df)
+    return pd.concat(dfs, ignore_index=True)
 
 
 def main(client, client_d = {}):
