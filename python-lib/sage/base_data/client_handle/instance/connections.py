@@ -6,14 +6,14 @@ conn_mapping = {
     "cloud_storage": ["EC2","Azure", "GCS", "SharePointOnline"],
     "hadoop": ["HDFS"],
     "nosql": ["MongoDB", "Cassandra", "ElasticSearch"],
-    "managed_model_depl": [SageMaker, AzureML, VertexAIModelDeployment, DatabricksModelDeployment],
+    "managed_model_depl": ["SageMaker", "AzureML", "VertexAIModelDeployment", "DatabricksModelDeployment"],
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
         "SageMaker-GenericLLM", "AzureAISearch", "Anthropic",
         "DatabricksLLM", "SnowflakeCortex", "AzureOpenAI", "OpenAI"
     ]
-    "other": [],
+    "other": ["Twitter", "Kafka", "SQS"],
 }
 
 reverse_lookup = {
