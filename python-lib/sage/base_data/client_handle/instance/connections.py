@@ -5,7 +5,7 @@ conn_mapping = {
     "file_based": ["Filesystem", "FTP", "SSH"],
     "cloud_storage": ["EC2","Azure", "GCS", "SharePointOnline"],
     "hadoop": ["HDFS"],
-    "nosql": [],
+    "nosql": ["MongoDB", "Cassandra", "ElasticSearch"],
     "managed_model_depl": [],
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
