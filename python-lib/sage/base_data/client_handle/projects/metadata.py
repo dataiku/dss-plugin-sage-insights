@@ -1,6 +1,8 @@
 import pandas as pd
-from sage.src.dss_funcs import get_nested_value
+import numpy as np
 from joblib import Parallel, delayed
+
+from sage.src.dss_funcs import get_nested_value
 
 
 def project_gather(projects):
