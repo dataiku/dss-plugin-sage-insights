@@ -2,12 +2,18 @@ import pandas as pd
 
 conn_mapping = {
     "sql_database": [],
+    "file_based": [],
+    "cloud_storage": [],
+    "hadoop": [],
+    "nosql": [],
+    "managed_model_depl": [],
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
         "SageMaker-GenericLLM", "AzureAISearch", "Anthropic",
         "DatabricksLLM", "SnowflakeCortex", "AzureOpenAI", "OpenAI"
     ]
+    "other": [],
 }
 
 reverse_lookup = {
