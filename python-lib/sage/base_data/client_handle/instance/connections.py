@@ -9,6 +9,12 @@ conn_mapping = {
     ]
 }
 
+reverse_lookup = {
+    value: tag
+    for tag, values in lookup.items()
+    for value in values
+}
+
 
 def main(client, client_d = {}):
     connections = client.list_connections_names(connection_type="all")
