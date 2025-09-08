@@ -6,7 +6,7 @@ conn_mapping = {
     "cloud_storage": ["EC2","Azure", "GCS", "SharePointOnline"],
     "hadoop": ["HDFS"],
     "nosql": ["MongoDB", "Cassandra", "ElasticSearch"],
-    "managed_model_depl": [],
+    "managed_model_depl": [SageMaker, AzureML, VertexAIModelDeployment, DatabricksModelDeployment],
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
@@ -33,5 +33,5 @@ def main(client, client_d = {}):
         dfs.append(pd.json_normalize(d))
     df = pd.concat(dfs, ignore_index=True)
     df.columns = df.columns.str.replace(".", "_", regex=False)
-    df["connection_category"] = df["type"].map(reverse_lookup).fillna("other")
+    df["connection_category"] = df["type"].map(reverse_lookup).fillna("UNKNOWN")
     return df
