@@ -11,7 +11,7 @@ conn_mapping = {
 
 reverse_lookup = {
     value: tag
-    for tag, values in lookup.items()
+    for tag, values in conn_mapping.items()
     for value in values
 }
 
@@ -26,4 +26,6 @@ def main(client, client_d = {}):
         dfs.append(pd.json_normalize(d))
     df = pd.concat(dfs, ignore_index=True)
     df.columns = df.columns.str.replace(".", "_", regex=False)
+    df["connection_category"] = df["type"].map(reverse_lookup).fillna("Other")
+
     return df
