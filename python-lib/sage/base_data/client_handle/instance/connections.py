@@ -12,7 +12,7 @@ conn_mapping = {
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
         "SageMaker-GenericLLM", "AzureAISearch", "Anthropic",
         "DatabricksLLM", "SnowflakeCortex", "AzureOpenAI", "OpenAI"
-    ]
+    ],
     "other": ["Twitter", "Kafka", "SQS"],
 }
 
