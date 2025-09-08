@@ -58,7 +58,7 @@ def main(project_handle, client_d = {}):
             d["recipe_engine_type"] = "NOT_FOUND"
             d["recipe_engine_label"] = "NOT_FOUND"
             d["recipe_engine_recommended"] = "NOT_FOUND"
-
+        # PYTHON
         if recipe["type"] == "python":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
@@ -67,7 +67,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = python_env_name
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-
+        # R
         if recipe["type"] == "R":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
@@ -76,7 +76,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = r_env_name
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-
+        # PYTHON / R
         if recipe["type"] in ["python", "R"]:
             d["recipe_container_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerMode"]
             if d["recipe_container_mode"] == "NONE":
@@ -85,7 +85,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_container_name"] = container_env_name
             else:
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
-
+        # SPARK
         if d["recipe_engine_type"] == "SPARK":
             sparkConfig = {}
             try:
@@ -99,7 +99,12 @@ def main(project_handle, client_d = {}):
             d["recipe_spark_mods"] = False
             if sparkConfig.get("conf", []):
                 d["recipe_spark_mods"] = True
-
+        # LLMS
+        try:
+            recipe = project_handle.get_recipe("compute_backlog_tasks_tickets_classified")
+            d["recipe_llm_mesh_id"] = recipe.get_settings().get_json_payload()["llmId"]
+        except:
+            d["recipe_llm_mesh_id"] = False
         # turn to dataframe
         dfs.append(pd.DataFrame([d]))
 
