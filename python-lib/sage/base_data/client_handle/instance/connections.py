@@ -3,8 +3,8 @@ import pandas as pd
 conn_mapping = {
     "sql_database": [],
     "file_based": ["Filesystem", "FTP", "SSH"],
-    "cloud_storage": [],
-    "hadoop": [],
+    "cloud_storage": ["EC2","Azure", "GCS"],
+    "hadoop": ["HDFS"],
     "nosql": [],
     "managed_model_depl": [],
     "llm_mesh": [
