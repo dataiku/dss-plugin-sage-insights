@@ -13,7 +13,7 @@ conn_mapping = {
         "SageMaker-GenericLLM", "AzureAISearch", "Anthropic",
         "DatabricksLLM", "SnowflakeCortex", "AzureOpenAI", "OpenAI"
     ],
-    "other": ["Twitter", "Kafka", "SQS"],
+    "other": ["Twitter", "Kafka", "SQS"]
 }
 
 reverse_lookup = {
