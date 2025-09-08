@@ -1,7 +1,12 @@
 import pandas as pd
 
 conn_mapping = {
-    "sql_database": [],
+    "sql_database": [
+        "Snowflake", "Databricks", "Redshift", "BigQuery", "Synapse",
+        "FabricWarehouse", "PostgreSQL", "MySQL", "SQLServer", "Oracle",
+        "Teradata", "AlloyDB", "Athena", "Greenplum", "Vertica", "SAPHANA",
+        "Netezza", "Trino", "TreasureData", "Denodo", "JDBC"
+    ],
     "file_based": ["Filesystem", "FTP", "SSH"],
     "cloud_storage": ["EC2","Azure", "GCS", "SharePointOnline"],
     "hadoop": ["HDFS"],
