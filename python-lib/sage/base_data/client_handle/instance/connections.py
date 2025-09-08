@@ -1,6 +1,7 @@
 import pandas as pd
 
 conn_mapping = {
+    "sql_database": [],
     "llm_mesh": [
         "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
         "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
