@@ -102,7 +102,7 @@ def main(project_handle, client_d = {}):
 
         # turn to dataframe
         dfs.append(pd.DataFrame([d]))
-    
+
     if dfs:
         return pd.concat(dfs)
     else:
