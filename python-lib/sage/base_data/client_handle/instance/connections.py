@@ -1,10 +1,10 @@
 import pandas as pd
 
 llm_mesh = [
-    'MistralAI', 'Pinecone', 'CustomLLM', 'AzureLLM', 'Bedrock',
-    'HuggingFaceLocal', 'VertexAILLM', 'StabilityAI', 'Cohere',
-    'SageMaker-GenericLLM', 'AzureAISearch', 'Anthropic',
-    'DatabricksLLM', 'SnowflakeCortex', 'AzureOpenAI', 'OpenAI'
+    "MistralAI", "Pinecone", "CustomLLM", "AzureLLM", "Bedrock",
+    "HuggingFaceLocal", "VertexAILLM", "StabilityAI", "Cohere",
+    "SageMaker-GenericLLM", "AzureAISearch", "Anthropic",
+    "DatabricksLLM", "SnowflakeCortex", "AzureOpenAI", "OpenAI"
 ]
 
 
