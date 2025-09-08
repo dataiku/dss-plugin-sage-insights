@@ -3,12 +3,10 @@ from sage.src.dss_funcs import get_nested_value
 from joblib import Parallel, delayed
 
 
-
 def project_gather(projects):
     dfs = []
     for project in client.list_projects():
         d = {}
-        
         # Poll Data
         d["project_key"] = project.get("projectKey", False)
         d["project_name"] = project.get("name", False)
@@ -21,11 +19,9 @@ def project_gather(projects):
         d["project_shortDesc"] = project.get("shortDesc", False)
         d["project_tags"] = project.get("tags", False)
         dfs.append(pd.DataFrame([d]))
-    
     # turn to dataframe
     df = pd.concat(dfs, ignore_index=True)
-    
-    
+    return df
 
 
 def main(client, client_d = {}):
