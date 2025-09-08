@@ -8,7 +8,6 @@ def project_gather(projects):
     dfs = []
     for project in projects:
         d = {}
-        # Poll Data
         d["project_key"] = project.get("projectKey", False)
         d["project_name"] = project.get("name", False)
         d["login"] = project.get("ownerLogin", False) # Match users dataframe
@@ -20,7 +19,6 @@ def project_gather(projects):
         d["project_shortDesc"] = project.get("shortDesc", False)
         d["project_tags"] = project.get("tags", False)
         dfs.append(pd.DataFrame([d]))
-    # turn to dataframe
     df = pd.concat(dfs, ignore_index=True)
     return df
 
