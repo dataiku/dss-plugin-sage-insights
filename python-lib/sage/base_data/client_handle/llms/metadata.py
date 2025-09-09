@@ -2,7 +2,7 @@ import pandas as pd
 from sage.src import dss_funcs
 
 
-def main(project_handle, client_d = {}):
+def main(self, client, client_d = {}):
     if not project_handle.list_llms():
         return pd.DataFrame()
     
