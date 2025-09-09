@@ -23,7 +23,7 @@ def project_gather(projects):
     return df
 
 
-def main(client, client_d = {}):
+def main(self, client, client_d = {}):
     dfs = []
     list_projects_arrays = np.array_split(client.list_projects(), 2)
     results = Parallel(n_jobs=2)(delayed(project_gather)(i) for i in list_projects_arrays)
