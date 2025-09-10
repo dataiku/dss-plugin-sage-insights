@@ -31,11 +31,15 @@ def main(self, remote_client, df):
         merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
 
         # lets split the df by category and save
-        for category, sub_grp in merged_df.groupby("dataiku_category"):
-            sub_grp = sub_grp.dropna(axis=1, how='all')
+        for category, grp in merged_df.groupby("dataiku_category"):
+            grp = grp.dropna(axis=1, how='all')
+
+            if "projectKey" in grp.columns:
+                grp = grp.rename(columns={"projectKey": "project_key"})
+            
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
-                dss_folder.write_remote_folder_output(self, remote_client, write_path, sub_grp)
+                dss_folder.write_remote_folder_output(self, remote_client, write_path, grp)
                 results.append([f"write/save - Dataiku Usage {category}", True, f"data-{dt_epoch}.csv"])
             except Exception as e:
                 results.append([f"write/save - Dataiku Usage {category}", False, e])
