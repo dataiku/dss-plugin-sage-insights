@@ -28,10 +28,10 @@ def main(self, remote_client, df):
         
         # Filter - remove dropped columns
         merged_df = merged_df[merged_df["dataiku_category"] != "DROP_DELETE"]
-        merged_df["category"] = merged_df["category"].str.lower()
+        merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
 
         # lets split the df by category and save
-        for category, sub_grp in merged_df.groupby("category"):
+        for category, sub_grp in merged_df.groupby("dataiku_category"):
             sub_grp = sub_grp.dropna(axis=1, how='all')
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
