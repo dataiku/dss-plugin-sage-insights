@@ -5,16 +5,10 @@ from sage.base_data.audit_log import mapping
 
 
 def main(self, remote_client, df):
-    mapping_df = pd.read_csv(StringIO(mapping.raw_csv))
-    
-    # Select the columns needed
-    try:
-        df = df[["timestamp", "date", "message.msgType", "message.authUser", "message.projectKey", "instance_name"]]
-    except:
-        return ["Loading Audit Logs", False, "No new data found"]
-    
     results = []
     instance_name = df["instance_name"].iloc[0]
+    mapping_df = pd.read_csv(StringIO(mapping.raw_csv))
+
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
         # datetime for saving
