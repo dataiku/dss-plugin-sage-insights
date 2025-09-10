@@ -33,7 +33,8 @@ def main(self, remote_client, df):
         # lets split the df by category and save
         for category, grp in merged_df.groupby("dataiku_category"):
             grp = grp.dropna(axis=1, how='all')
-
+            grp.columns = grp.columns.str.replace('.', '_', regex=False)
+            grp.columns = grp.columns.str.replace('message_', '', regex=False)
             if "projectKey" in grp.columns:
                 grp = grp.rename(columns={"projectKey": "project_key"})
             
