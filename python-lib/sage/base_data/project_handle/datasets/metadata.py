@@ -2,7 +2,7 @@ import pandas as pd
 from sage.src.dss_funcs import get_nested_value
 
 
-def main(project_handle, client_d = {}):
+def main(self, project_handle, client_d = {}):
     if not project_handle.list_datasets():
         return pd.DataFrame()
     
