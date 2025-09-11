@@ -12,3 +12,4 @@ scipy
 nbformat>=4.2.0
 orjson
 matplotlib
+joblib
