@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def main(project_handle, client_d = {}):
+def main(self, project_handle, client_d = {}):
     if not project_handle.list_scenarios():
         return pd.DataFrame()
     

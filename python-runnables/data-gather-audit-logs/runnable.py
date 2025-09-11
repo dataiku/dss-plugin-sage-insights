@@ -96,7 +96,6 @@ class MyRunnable(Runnable):
             df = pd.read_json(log, lines=True)
             dfs.append(df)
         df = pd.concat(dfs, ignore_index=True)
-        df["timestamp"] = pd.to_datetime(df["timestamp"])
         df = df[df["timestamp"] >= last_update]
         results.append(["Gather Audit Logs", True, None])
         

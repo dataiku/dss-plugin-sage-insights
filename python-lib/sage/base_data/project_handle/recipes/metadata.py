@@ -2,7 +2,7 @@ import pandas as pd
 from sage.src.dss_funcs import get_nested_value
 
 
-def main(project_handle, client_d = {}):
+def main(self, project_handle, client_d = {}):
     if not project_handle.list_recipes():
         return pd.DataFrame()
     
@@ -34,9 +34,8 @@ def main(project_handle, client_d = {}):
     # Loop Recipes
     dfs = []
     for recipe in project_handle.list_recipes():
-        d = {"project_key": project_handle.project_key}
-        
         # Poll Data
+        d = {"project_key": project_handle.project_key}
         d["recipe_name"] = recipe["name"]
         d["recipe_type"] = recipe["type"]
         d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
@@ -44,10 +43,8 @@ def main(project_handle, client_d = {}):
         d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
         d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"], dt = True)
         d["recipe_tags"] = recipe["tags"]
-        
         d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
         d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
-        
         # Get layer 2 information
         recipe_handle = project_handle.get_recipe(recipe["name"])
         try:
@@ -58,7 +55,7 @@ def main(project_handle, client_d = {}):
             d["recipe_engine_type"] = "NOT_FOUND"
             d["recipe_engine_label"] = "NOT_FOUND"
             d["recipe_engine_recommended"] = "NOT_FOUND"
-
+        # PYTHON
         if recipe["type"] == "python":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
@@ -67,7 +64,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = python_env_name
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-         
+        # R
         if recipe["type"] == "R":
             d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
@@ -76,7 +73,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_code_env_name"] = r_env_name
             else:
                 d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-                
+        # PYTHON / R
         if recipe["type"] in ["python", "R"]:
             d["recipe_container_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerMode"]
             if d["recipe_container_mode"] == "NONE":
@@ -85,7 +82,7 @@ def main(project_handle, client_d = {}):
                 d["recipe_container_name"] = container_env_name
             else:
                 d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
-        
+        # SPARK
         if d["recipe_engine_type"] == "SPARK":
             sparkConfig = {}
             try:
@@ -99,10 +96,14 @@ def main(project_handle, client_d = {}):
             d["recipe_spark_mods"] = False
             if sparkConfig.get("conf", []):
                 d["recipe_spark_mods"] = True
-            
+        # LLMS
+        try:
+            d["recipe_llm_mesh_id"] = recipe_handle.get_settings().get_json_payload()["llmId"]
+        except:
+            d["recipe_llm_mesh_id"] = False
         # turn to dataframe
         dfs.append(pd.DataFrame([d]))
-    
+
     if dfs:
         return pd.concat(dfs)
     else:
