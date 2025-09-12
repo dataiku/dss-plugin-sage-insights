@@ -6,26 +6,11 @@ def main(self, project_handle, client_d = {}):
     if not project_handle.list_datasets():
         return pd.DataFrame()
     
-    dfs = []
-    for dataset in project_handle.list_datasets():
-        d = {"project_key": project_handle.project_key}
-        
-        # Poll Data
-        d["dataset_name"] = dataset.get("name", False)
-        d["dataset_type"] = dataset.get("type", False)
-        d["dataset_managed"] = dataset.get("managed", False)
-        d["dataset_formatType"] = get_nested_value(dataset, ["formatType"])
-        d["dataset_last_mod_by"] = get_nested_value(dataset, ["versionTag", "lastModifiedBy", "login"])
-        d["dataset_last_mod_dt"] = get_nested_value(dataset, ["versionTag", "lastModifiedOn"], dt = True)
-        d["dataset_last_create_by"] = get_nested_value(dataset, ["creationTag", "lastModifiedBy", "login"])
-        d["dataset_last_create_dt"] = get_nested_value(dataset, ["creationTag", "lastModifiedOn"], dt = True)
-        d["dataset_tags"] = dataset.get("tags", False)
-        
-        d["dataset_last_mod_dt"] = pd.to_datetime(d["dataset_last_mod_dt"], unit="ms")
-        d["dataset_last_create_dt"] = pd.to_datetime(d["dataset_last_create_dt"], unit="ms")
-        
-        dfs.append(pd.DataFrame([d]))
-
-    # turn to dataframe
-    df = pd.concat(dfs, ignore_index=True)
+    df = pd.json_normalize(project_handle.list_datasets()).add_prefix("dataset_")
+    
+    # Clean dates
+    for c in ["dataset_versionTag.lastModifiedOn", "dataset_creationTag.lastModifiedOn"]:
+        df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
+        df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
+        df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
     return df
