@@ -118,7 +118,7 @@ def main(self, project_handle, client_d = {}):
         updated_engine(recipe_handle, recipes_name)
         # Individual Objects
         if recipes_type == "python":
-            update_python(recipe_handle, recipes_name)
+            update_python(recipe_handle, recipes_name, python_env_name)
         if recipes_type == "R":
             update_R(recipe_handle, recipes_name)
         if recipe_engine_type == "SPARK":
