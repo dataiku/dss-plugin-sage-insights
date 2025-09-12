@@ -62,8 +62,6 @@ class MyRunnable(Runnable):
                 results.append(["plugin directory", False, "Cannot find plugin Directory"])
                 cont = False
             results.append(["plugin directory", True, None])
-            
-            
         # Get Dashboard library directory
         if cont:
             project_path = f"{root_path}/config/projects/{self.sage_project_key}/lib/python"
@@ -71,7 +69,6 @@ class MyRunnable(Runnable):
                 results.append(["Project Library Confirmed", False, "Cannot find project library"])
                 cont = False
             results.append(["Project Library Confirmed", True, None])
-        
         # Delete the current running version
         if cont:
             project_path = f"{root_path}/config/projects/{self.sage_project_key}/lib/python/sage"
@@ -84,7 +81,6 @@ class MyRunnable(Runnable):
                     cont = False
             else:
                 results.append(["Delete Existing", True, "Initial Setup"])
-
         # Copy the streamlit application
         if cont:
             try:
