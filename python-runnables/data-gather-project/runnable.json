@@ -6,6 +6,7 @@
         "category": "Sage Insights: Data Gather"
     },
     "impersonate": false,
+    "params": [],
     "permissions": ["ADMIN"],
     "requiresGlobalAdmin": true,
     "resultType": "RESULT_TABLE",
