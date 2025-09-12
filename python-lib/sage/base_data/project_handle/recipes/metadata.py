@@ -69,11 +69,11 @@ def main(self, project_handle, client_d = {}):
                 recipe_engine_type = "NOT_FOUND"
                 recipe_engine_label = "NOT_FOUND"
                 recipe_engine_recommended = "NOT_FOUND"
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
-            if getattr(row, "recipes_params.containerSelection.containerMode") == "INHERIT":
-                df.loc[df["recipes_name"] == recipes_name, "recipes_params.containerSelection.containerConf"] = container_env_name
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineType"] = recipe_engine_type
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineLabel"] = recipe_engine_label
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineRecommended"] = recipe_engine_recommended
+            if getattr(row, "recipes_params_containerSelection_containerMode") == "INHERIT":
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_containerSelection_containerConf"] = container_env_name
         
         # Individual Objects
         if recipes_type == "python":
@@ -84,7 +84,7 @@ def main(self, project_handle, client_d = {}):
                 recipe_code_env_name = python_env_name
             else:
                 recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_envSelection_envName"] = recipe_code_env_name
         if recipes_type == "R":
             recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if recipe_code_env_mode == "USE_BUILTIN_MODE":
@@ -93,7 +93,7 @@ def main(self, project_handle, client_d = {}):
                 recipe_code_env_name = r_env_name
             else:
                 recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_envSelection_envName"] = recipe_code_env_name
         if recipe_engine_type == "SPARK":
             sparkConfig = {}
             try:
@@ -103,15 +103,15 @@ def main(self, project_handle, client_d = {}):
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
                 except:
                     pass
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = sparkConfig.get("inheritConf", "")
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = sparkConfig.get("inheritConf", "")
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConfMods"] = False
             if sparkConfig.get("conf", []):
-                df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = True
                 
         # Check for LLMs
         try:
             llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
             llm_model = ""
-        df.loc[df["recipes_name"] == recipes_name, "recipes_params.llmId"] = llm_model
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
     return df
