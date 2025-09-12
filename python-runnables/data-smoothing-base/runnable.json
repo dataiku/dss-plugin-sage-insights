@@ -1,6 +1,6 @@
 {
     "meta": {
-        "label": "Data Gather Base Data",
+        "label": "Base Data - Latest Partition",
         "description": "Grab the latest partition data across all instances and create one dataset per category/module.",
         "icon": "fas fa-puzzle-piece",
         "category": "Sage Insights: Data Gather"
