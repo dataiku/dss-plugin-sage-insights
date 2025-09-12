@@ -9,7 +9,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 
 class MyRunnable(Runnable):
