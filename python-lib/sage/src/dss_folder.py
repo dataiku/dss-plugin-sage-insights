@@ -61,15 +61,11 @@ def read_local_folder_input(self, project_handle, folder_name, path):
 
 def write_local_folder_output(self, project_handle, folder_name, path, data):
     folder = get_folder(self, project_handle, folder_name)
-    if data_type == "DF":
-        f = io.BytesIO()
-        data.to_parquet(f)
-        f.seek(0)
-        content = f.read()
-        folder.upload_stream(path, content)
-    elif data_type == "JSON":
-        with folder.get_writer(path) as w:
-            w.write(str.encode(json.dumps(data, indent=4)))
+    f = io.BytesIO()
+    data.to_parquet(f)
+    f.seek(0)
+    content = f.read()
+    folder.upload_stream(path, content)
     return
 
 
