@@ -57,3 +57,5 @@ class MyRunnable(Runnable):
             for index, row in df.iterrows():
                 rt.add_record(row.tolist())
             return rt
+        else:
+            raise Exception("Something went wrong")
