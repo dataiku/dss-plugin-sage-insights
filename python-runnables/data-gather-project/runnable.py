@@ -76,6 +76,5 @@ class MyRunnable(Runnable):
                 rt.add_column(n, col, "STRING")
                 n +=1
             for index, row in df.iterrows():
-                return " ".join(row.tolist())
                 rt.add_record(row.tolist())
             return rt
