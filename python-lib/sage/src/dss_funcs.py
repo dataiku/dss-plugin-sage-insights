@@ -69,12 +69,18 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 #results.append([project_key, path, module_name, "load/run", False, "DF CAME BACK EMPTY"])
                 continue # nothing to write, skip
             try:
+                # Remote client and DT parsing
                 remote_client = build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
                 dt_year  = str(self.dt.year)
                 dt_month = str(f'{self.dt.month:02d}')
                 dt_day   = str(f'{self.dt.day:02d}')
+                # Add Additonal Information / output path
+                instance_name = get_dss_name(build_local_client())
+                if "instance_name" not in df.columns:
+                    df["instance_name"] = instance_name
                 write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
                 if project_key:
+                    df rename_and_move_first(df, "projectKey", "project_key")
                     write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
                 results.append([project_key, path, module_name, "write/save", True, None])
@@ -96,7 +102,7 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
-def rename_and_move_first(project_handle: "dataikuapi.dss.project.DSSProject", df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
+def rename_and_move_first(df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
     if old in df.columns:
         df = df.rename(columns={old: new})
     else:
