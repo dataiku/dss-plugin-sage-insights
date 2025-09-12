@@ -8,7 +8,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 from dataiku.customrecipe import get_recipe_config
 
 
