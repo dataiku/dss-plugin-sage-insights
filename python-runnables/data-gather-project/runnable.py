@@ -69,7 +69,7 @@ class MyRunnable(Runnable):
         if results:
             rt = ResultTable()
             n = 1
-            for col in df.columns:
+            for col in ["project_key", "path", "module_name", "step", "result", "message"]:
                 rt.add_column(n, col, "STRING")
                 n +=1
             rt.add_record(results)
