@@ -9,7 +9,6 @@
     "params": [],
     "permissions": ["ADMIN"],
     "requiresGlobalAdmin": true,
-    //"resultType": "HTML",
     "resultType": "RESULT_TABLE",
     "resultLabel": "my production",
     "extension": "txt",
