@@ -81,7 +81,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                     df["instance_name"] = instance_name
                 write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
                 if project_key:
-                    df = rename_and_move_first(df, "projectKey", "project_key")
+                    df = rename_and_move_first(df, "projectKey", "project_key", project_key)
                     write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
                 # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
@@ -104,11 +104,11 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
-def rename_and_move_first(project_handle, df, old, new):
+def rename_and_move_first(df, old, new, project_key):
     if old in df.columns:
         df = df.rename(columns={old: new})
     else:
-        df[new] = project_handle.project_key
+        df[new] = project_key
     if new in df.columns:
         cols = [new] + [c for c in df.columns if c != new]
         df = df[cols]
