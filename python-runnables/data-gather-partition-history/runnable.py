@@ -6,7 +6,7 @@ from datetime import datetime
 from sage.src import dss_funcs, dss_folder
 from sage.partition_history import audit_user, git_history, dataiku_usage
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
