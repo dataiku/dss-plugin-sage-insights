@@ -24,8 +24,7 @@ def main(self, client, client_d = {}):
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
         
     # Rename a few colums
-    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True).str.lower()
-    df = df.rename(columns={"project_ownerlogin": "login"})
+    df = df.rename(columns={"project_ownerLogin": "login"})
     
     # Convert Dict to strings
     for col in df.columns:
