@@ -14,6 +14,7 @@ def main(self, client, client_d = {}):
     
     # Rename a few colums
     df = df.rename(columns={"project_projectKey": "project_key"})
+    df = df.rename(columns={"project_projectKey": "project_key"})
 
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_creationTag_versionNumber"].isna(), "project_creationTag_versionNumber"] = 0
