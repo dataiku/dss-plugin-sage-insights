@@ -73,6 +73,6 @@ class MyRunnable(Runnable):
             for col in ["project_key", "path", "module_name", "step", "result", "message"]:
                 rt.add_column(n, col, "STRING")
                 n +=1
-            rt.add_record(["record"])
+            rt.add_record(["record", "2", "3"])
             return rt
         raise Exception("FAILED TO RUN PROJECT CHECKS")
