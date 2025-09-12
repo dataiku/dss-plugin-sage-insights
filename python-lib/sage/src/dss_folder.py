@@ -82,6 +82,7 @@ def write_local_folder_output(self, project_handle, folder_name, path, data, dat
             w.write(str.encode(json.dumps(data, indent=4)))
     return
 
+
 # ---------- DATAIKU REMOTE FOLDERS ----------------------------
 def write_remote_folder_output(self, client, path, df):
     project_handle = client.get_project(project_key=self.sage_project_key)
