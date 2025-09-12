@@ -27,4 +27,10 @@ def main(self, client, client_d = {}):
     df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True).str.lower()
     df = df.rename(columns={"project_ownerlogin": "login"})
     
+    # Convert Dict to strings
+    for col in df.columns:
+        types = df[col].dropna().map(type).unique()
+        if any(t in (dict, list) for t in types):
+            df[col] = df[col].astype(str)
+    
     return df
