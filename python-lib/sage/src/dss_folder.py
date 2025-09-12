@@ -55,7 +55,7 @@ def read_local_folder_input(self, project_handle, folder_name, path):
     folder = get_folder(self, project_handle, folder_name)
     with folder.get_download_stream(path) as stream:
         file_bytes = io.BytesIO(stream.read())
-        df = pd.read_parquet(file_bytes)
+    df = pd.read_parquet(file_bytes)
     return df
 
 
