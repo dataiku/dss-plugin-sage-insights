@@ -56,9 +56,9 @@ def main(self, remote_client, df):
         developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
         developer_users_df["timestamp"] = pd.to_datetime(i)
         try:
-            write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
+            write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, developer_users_df)
-            results.append(["write/save", True, f"data-{dt_epoch}.csv"])
+            results.append(["write/save", True, f"data-{dt_epoch}.parquet"])
         except Exception as e:
             results.append(["write/save - All", False, e])
     return results
