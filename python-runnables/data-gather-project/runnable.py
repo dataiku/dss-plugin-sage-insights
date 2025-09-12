@@ -67,7 +67,6 @@ class MyRunnable(Runnable):
         
         # return results
         if results:
-            # Save the df as a DS
             df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
             df["timestamp"] = self.dt
             project_handle = local_client.get_default_project()
