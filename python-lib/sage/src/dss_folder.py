@@ -9,19 +9,6 @@ import os
 
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
-def get_local_folder(self, sage_project_key, project_handle, folder_name):
-    folder = dataiku.Folder(
-        lookup = folder_name,
-        project_key = sage_project_key,
-        ignore_flow = True
-        )
-    try:
-        folder.get_id()
-    except:
-        folder = create_local_folder(self, project_handle, folder_name)
-    return folder
-
-
 def create_local_folder(self, project_handle, folder_name):
     folder_handle = project_handle.create_managed_folder(
         name = folder_name,
@@ -37,6 +24,19 @@ def create_local_folder(self, project_handle, folder_name):
         settings.set_partitioning_file_pattern("%{instance_name}/%{category}/%{module}/%Y/%M/%D/.*")
         settings.save()
     return
+
+
+def get_local_folder(self, project_handle, folder_name):
+    folder = dataiku.Folder(
+        lookup = folder_name,
+        project_key = self.sage_project_key,
+        ignore_flow = True
+        )
+    try:
+        folder.get_id()
+    except:
+        folder = create_local_folder(self, project_handle, folder_name)
+    return folder
 
 
 # ---------- DATAIKU REMOTE FOLDERS ----------------------------
