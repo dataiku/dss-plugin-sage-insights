@@ -58,9 +58,9 @@ def read_local_folder_input(self, project_handle, folder_name, path, data_type="
     if data_type == "DF":
         with folder.get_download_stream(path) as reader:
             data = pd.read_csv(reader)
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")  # Ignore all warnings within this block
-                data = function_with_warning(data)
+            #with warnings.catch_warnings():
+                #warnings.simplefilter("ignore")  # Ignore all warnings within this block
+                #data = function_with_warning(data)
     elif data_type == "JSON":
         with folder.get_download_stream(path) as reader:
             data = json.loads(reader.data)
