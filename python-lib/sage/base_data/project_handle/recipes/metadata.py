@@ -67,7 +67,7 @@ def main(self, project_handle, client_d = {}):
         except:
             recipe_engine_type = "NOT_FOUND"
             recipe_engine_label = "NOT_FOUND"
-            recipe_engine_recommended = "NOT_FOUND"
+            recipe_engine_recommended = False
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineType"] = recipe_engine_type
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineLabel"] = recipe_engine_label
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineRecommended"] = recipe_engine_recommended
