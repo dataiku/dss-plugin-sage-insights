@@ -25,7 +25,6 @@ class MyRunnable(Runnable):
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
-        return instance_name
         
         # Get the output of the DF command
         results = []
@@ -42,6 +41,7 @@ class MyRunnable(Runnable):
         df['used_pct'] = df['used_pct'].str.replace(r'[^a-zA-Z0-9\s]', '', regex=True)
         df = df[~df["filesystem"].isin(["devtmpfs", "tmpfs"])]
         results.append(["read/parse", True, None])
+        return instance_name
 
         # loop topics and save data
         remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
