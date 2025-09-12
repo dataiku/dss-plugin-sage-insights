@@ -81,7 +81,6 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                     df["instance_name"] = instance_name
                 write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
                 if project_key:
-                    df = rename_and_move_first(df, "projectKey", "project_key", project_key)
                     write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
                 # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
