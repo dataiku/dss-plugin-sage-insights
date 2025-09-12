@@ -83,6 +83,11 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
                 if project_key:
                     write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
+                # Final cleanse of DF for dictionary/lists to strings
+                for col in df.columns:
+                    types = df[col].dropna().map(type).unique()
+                    if any(t in (dict, list) for t in types):
+                        df[col] = df[col].astype(str)
                 # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
                 results.append([project_key, path, module_name, "write/save", True, None])
