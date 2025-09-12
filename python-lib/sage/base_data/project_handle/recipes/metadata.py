@@ -10,29 +10,12 @@ def add_columns(df, column_to_move, target_column):
 
 
 def updated_engine(df, recipe_handle, recipes_name):
-    try:
-        recipe_engine_type = recipe_handle.get_status().get_selected_engine_details()["type"]
-        recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
-        recipe_engine_recommended = recipe_handle.get_status().get_selected_engine_details()["recommended"]
-    except:
-        recipe_engine_type = "NOT_FOUND"
-        recipe_engine_label = "NOT_FOUND"
-        recipe_engine_recommended = "NOT_FOUND"
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
+
     return
 
 
 def update_python(df, recipe_handle, recipes_name, python_env_name):
-    recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-    if recipe_code_env_mode == "USE_BUILTIN_MODE":
-        recipe_code_env_name = "USE_BUILTIN_MODE"  
-    elif recipe_code_env_mode == "INHERIT":
-        recipe_code_env_name = python_env_name
-    else:
-        recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+
     return
 
 
@@ -115,10 +98,27 @@ def main(self, project_handle, client_d = {}):
         recipes_type = getattr(row, "recipes_type")
         recipe_handle = project_handle.get_recipe(recipes_name)
         # Recipe Engine Better Details
-        updated_engine(recipe_handle, recipes_name)
+        try:
+            recipe_engine_type = recipe_handle.get_status().get_selected_engine_details()["type"]
+            recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
+            recipe_engine_recommended = recipe_handle.get_status().get_selected_engine_details()["recommended"]
+        except:
+            recipe_engine_type = "NOT_FOUND"
+            recipe_engine_label = "NOT_FOUND"
+            recipe_engine_recommended = "NOT_FOUND"
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
         # Individual Objects
         if recipes_type == "python":
-            update_python(recipe_handle, recipes_name, python_env_name)
+            recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
+            if recipe_code_env_mode == "USE_BUILTIN_MODE":
+                recipe_code_env_name = "USE_BUILTIN_MODE"  
+            elif recipe_code_env_mode == "INHERIT":
+                recipe_code_env_name = python_env_name
+            else:
+                recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
         if recipes_type == "R":
             update_R(recipe_handle, recipes_name, r_env_name)
         if recipe_engine_type == "SPARK":
