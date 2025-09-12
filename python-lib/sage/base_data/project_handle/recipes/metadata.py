@@ -2,6 +2,68 @@ import pandas as pd
 from sage.src import dss_funcs
 
 
+def add_columns(column_to_move, target_column):
+    moved_column = df.pop(column_to_move)
+    target_index = df.columns.get_loc(target_column)
+    df.insert(target_index + 1, column_to_move, moved_column)
+    return
+
+
+def updated_engine(recipe_handle, recipes_name):
+    try:
+        recipe_engine_type = recipe_handle.get_status().get_selected_engine_details()["type"]
+        recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
+        recipe_engine_recommended = recipe_handle.get_status().get_selected_engine_details()["recommended"]
+    except:
+        recipe_engine_type = "NOT_FOUND"
+        recipe_engine_label = "NOT_FOUND"
+        recipe_engine_recommended = "NOT_FOUND"
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
+    return
+
+
+def update_python(recipe_handle, recipes_name):
+    recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
+    if recipe_code_env_mode == "USE_BUILTIN_MODE":
+        recipe_code_env_name = "USE_BUILTIN_MODE"  
+    elif recipe_code_env_mode == "INHERIT":
+        recipe_code_env_name = python_env_name
+    else:
+        recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+    return
+
+
+def update_R(recipe_handle, recipes_name):
+    recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
+    if recipe_code_env_mode == "USE_BUILTIN_MODE":
+        recipe_code_env_name = "USE_BUILTIN_MODE"  
+    elif recipe_code_env_mode == "INHERIT":
+        recipe_code_env_name = r_env_name
+    else:
+        recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+    return
+
+
+def update_Spark(recipe_handle, recipes_name):
+    sparkConfig = {}
+    try:
+        sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
+    except:
+        try:
+            sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
+        except:
+            pass
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = sparkConfig.get("inheritConf", "")
+    df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
+    if sparkConfig.get("conf", []):
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
+    return
+
+
 def main(self, project_handle, client_d = {}):
     if not project_handle.list_recipes():
         return pd.DataFrame()
@@ -14,7 +76,7 @@ def main(self, project_handle, client_d = {}):
         python_env_name = client_d["python_env_name"]
     else:
         python_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["envName"]
-    # Get project level python code environment
+    # Get project level R code environment
     project_r_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["mode"]
     if project_r_env == "USE_BUILTIN_MODE":
         r_env_name = "USE_BUILTIN_MODE"
@@ -22,7 +84,7 @@ def main(self, project_handle, client_d = {}):
         r_env_name = client_d["r_env_name"]
     else:
         r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]        
-    # Get project level python code environment
+    # Get project level CODE_ENV environment
     project_container_env = project_handle.get_settings().settings["settings"]["container"]["containerMode"]
     if project_container_env == "NONE":
         container_env_name = "DSS_LOCAL"
@@ -30,6 +92,7 @@ def main(self, project_handle, client_d = {}):
         container_env_name = client_d["container_env_name"]
     else:
         container_env_name = project_handle.get_settings().settings["settings"]["container"]["containerConf"]
+
     # Build base df
     prefix = "recipes_"
     df = pd.json_normalize(project_handle.list_recipes()).add_prefix(prefix)
