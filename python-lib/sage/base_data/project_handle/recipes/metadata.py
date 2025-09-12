@@ -59,7 +59,7 @@ def main(self, project_handle, client_d = {}):
         recipes_type = getattr(row, "recipes_type")
         recipe_handle = project_handle.get_recipe(recipes_name)
         # Recipe Engine Better Details
-        if recipes_type in ["python", "R"]
+        if recipes_type in ["python", "R"]:
             try:
                 recipe_engine_type = recipe_handle.get_status().get_selected_engine_details()["type"]
                 recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
@@ -71,6 +71,8 @@ def main(self, project_handle, client_d = {}):
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
+            if getattr(row, "recipes_params.containerSelection.containerMode") == "INHERIT":
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params.containerSelection.containerConf"] = container_env_name
         
         # Individual Objects
         if recipes_type == "python":
