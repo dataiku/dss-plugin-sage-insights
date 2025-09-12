@@ -41,7 +41,7 @@ def main(self, project_handle, folder, df):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = f"/users/rolling_{module}.csv",
+            path = f"/users/rolling_{module}.parquet",
             data_type = "DF",
             data = original_df
         )
