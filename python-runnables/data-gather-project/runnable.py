@@ -76,7 +76,7 @@ class MyRunnable(Runnable):
                 builder = project_handle.new_managed_dataset("dg_project_level")
                 builder.with_store_into("filesystem_managed")
                 dataset_handle = builder.create()
-            dataset = dataiku.Dataset("audit_log_cache")
+            dataset = dataiku.Dataset("dg_project_level")
             dataset.write_with_schema(df)
             html = df.to_html()
             return html
