@@ -1,6 +1,6 @@
 {
     "meta": {
-        "label": "Data Gather Partition History",
+        "label": "Base Data - Partition History",
         "description": "Build trends off the Partition Data history.",
         "icon": "fas fa-puzzle-piece",
         "category": "Sage Insights: Data Gather"
