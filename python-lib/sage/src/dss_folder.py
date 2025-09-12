@@ -66,7 +66,7 @@ def read_local_folder_input(self, project_handle, folder_name, path, data_type="
 
 
 def write_local_folder_output(self, project_handle, folder_name, path, data, data_type="DF"):
-    folder = get_folder(sage_project_key, project_handle, folder_name)
+    folder = get_folder(self, project_handle, folder_name)
     if data_type == "DF":
         with folder.get_writer(path) as w:
             w.write(data.to_csv(index=False).encode("utf-8"))
