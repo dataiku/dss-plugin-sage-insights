@@ -103,7 +103,7 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
-def rename_and_move_first(df, old, new, project_key):
+def rename_and_move_first(project_handle, df, old, new):
     if old in df.columns:
         df = df.rename(columns={old: new})
     else:
