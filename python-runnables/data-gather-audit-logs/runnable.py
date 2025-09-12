@@ -8,7 +8,7 @@ from datetime import timedelta, datetime
 from sage.src import dss_funcs
 from sage.base_data.audit_log import user_login, event_mapping
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 
 def find_recent_files(file_list, hours=100):
