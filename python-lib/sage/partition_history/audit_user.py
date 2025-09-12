@@ -21,7 +21,7 @@ def main(self, project_handle, folder, df):
         except:
             original_df = pd.DataFrame()
             last_entry = pd.to_datetime(1970)
-        # Read in the new partitions and update the csv
+        # Read in the new partitions and update the parquet
         partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
         partitions = partitions_df["partition"].tolist()
         if not partitions:
@@ -30,7 +30,7 @@ def main(self, project_handle, folder, df):
             dfs = []
             for path in folder.get_partition_info(partition)["paths"]:
                 with folder.get_download_stream(path=path) as r:
-                    dfs.append(pd.read_csv(r))
+                    dfs.append(pd.read_parquet(r))
             tdf = pd.concat(dfs, ignore_index=True)
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
