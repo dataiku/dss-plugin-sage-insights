@@ -61,7 +61,9 @@ class MyRunnable(Runnable):
         instance_name = dss_funcs.get_dss_name(local_client)
         
         write_path = f"/testing.parquet"
-        dss_folder.write_remote_folder_output(self, remote_client, write_path, grp)
+        df = pd.json_normalize(local_client.list_projects())
+        df["timestamp"] = datetime.now()
+        dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
         return "STOP"
                 
         # change directory and get audit logs
