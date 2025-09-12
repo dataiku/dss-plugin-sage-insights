@@ -31,80 +31,13 @@ def main(self, project_handle, client_d = {}):
     else:
         container_env_name = project_handle.get_settings().settings["settings"]["container"]["containerConf"]
     
-    # Loop Recipes
-    dfs = []
-    for recipe in project_handle.list_recipes():
-        # Poll Data
-        d = {"project_key": project_handle.project_key}
-        d["recipe_name"] = recipe["name"]
-        d["recipe_type"] = recipe["type"]
-        d["recipe_last_mod_by"] = get_nested_value(recipe, ["versionTag", "lastModifiedBy", "login"])
-        d["recipe_last_mod_dt"] = get_nested_value(recipe, ["versionTag", "lastModifiedOn"], dt = True)
-        d["recipe_last_create_by"] = get_nested_value(recipe, ["creationTag", "lastModifiedBy", "login"])
-        d["recipe_last_create_dt"] = get_nested_value(recipe, ["creationTag", "lastModifiedOn"], dt = True)
-        d["recipe_tags"] = recipe["tags"]
-        d["recipe_last_mod_dt"] = pd.to_datetime(d["recipe_last_mod_dt"], unit="ms")
-        d["recipe_last_create_dt"] = pd.to_datetime(d["recipe_last_create_dt"], unit="ms")
-        # Get layer 2 information
-        recipe_handle = project_handle.get_recipe(recipe["name"])
-        try:
-            d["recipe_engine_type"] = recipe_handle.get_status().get_selected_engine_details()["type"]
-            d["recipe_engine_label"] = recipe_handle.get_status().get_selected_engine_details()["label"]
-            d["recipe_engine_recommended"] = recipe_handle.get_status().get_selected_engine_details()["recommended"]
-        except:
-            d["recipe_engine_type"] = "NOT_FOUND"
-            d["recipe_engine_label"] = "NOT_FOUND"
-            d["recipe_engine_recommended"] = "NOT_FOUND"
-        # PYTHON
-        if recipe["type"] == "python":
-            d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-            if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
-                d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
-            elif d["recipe_code_env_mode"] == "INHERIT":
-                d["recipe_code_env_name"] = python_env_name
-            else:
-                d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-        # R
-        if recipe["type"] == "R":
-            d["recipe_code_env_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-            if d["recipe_code_env_mode"] == "USE_BUILTIN_MODE":
-                d["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
-            elif d["recipe_code_env_mode"] == "INHERIT":
-                d["recipe_code_env_name"] = r_env_name
-            else:
-                d["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-        # PYTHON / R
-        if recipe["type"] in ["python", "R"]:
-            d["recipe_container_mode"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerMode"]
-            if d["recipe_container_mode"] == "NONE":
-                d["recipe_container_name"] = "DSS_LOCAL"  
-            elif d["recipe_container_mode"] == "INHERIT":
-                d["recipe_container_name"] = container_env_name
-            else:
-                d["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
-        # SPARK
-        if d["recipe_engine_type"] == "SPARK":
-            sparkConfig = {}
-            try:
-                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
-            except:
-                try:
-                    sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
-                except:
-                    pass
-            d["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
-            d["recipe_spark_mods"] = False
-            if sparkConfig.get("conf", []):
-                d["recipe_spark_mods"] = True
-        # LLMS
-        try:
-            d["recipe_llm_mesh_id"] = recipe_handle.get_settings().get_json_payload()["llmId"]
-        except:
-            d["recipe_llm_mesh_id"] = False
-        # turn to dataframe
-        dfs.append(pd.DataFrame([d]))
-
-    if dfs:
-        return pd.concat(dfs)
-    else:
-        return pd.DataFrame()
+    # Build base df
+    prefix = "recipes_"
+    df = pd.json_normalize(project_handle.list_recipes()).add_prefix(prefix)
+    # Clean dates
+    for c in ["recipes_versionTag.lastModifiedOn", "recipes_creationTag.lastModifiedOn"]:
+        df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
+        df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
+        df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
+    # Project Key
+    df = rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
