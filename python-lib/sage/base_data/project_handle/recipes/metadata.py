@@ -2,14 +2,14 @@ import pandas as pd
 from sage.src import dss_funcs
 
 
-def add_columns(column_to_move, target_column):
+def add_columns(df, column_to_move, target_column):
     moved_column = df.pop(column_to_move)
     target_index = df.columns.get_loc(target_column)
     df.insert(target_index + 1, column_to_move, moved_column)
     return
 
 
-def updated_engine(recipe_handle, recipes_name):
+def updated_engine(df, recipe_handle, recipes_name):
     try:
         recipe_engine_type = recipe_handle.get_status().get_selected_engine_details()["type"]
         recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
@@ -24,7 +24,7 @@ def updated_engine(recipe_handle, recipes_name):
     return
 
 
-def update_python(recipe_handle, recipes_name, python_env_name):
+def update_python(df, recipe_handle, recipes_name, python_env_name):
     recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
     if recipe_code_env_mode == "USE_BUILTIN_MODE":
         recipe_code_env_name = "USE_BUILTIN_MODE"  
@@ -36,7 +36,7 @@ def update_python(recipe_handle, recipes_name, python_env_name):
     return
 
 
-def update_R(recipe_handle, recipes_name, r_env_name):
+def update_R(df, recipe_handle, recipes_name, r_env_name):
     recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
     if recipe_code_env_mode == "USE_BUILTIN_MODE":
         recipe_code_env_name = "USE_BUILTIN_MODE"  
