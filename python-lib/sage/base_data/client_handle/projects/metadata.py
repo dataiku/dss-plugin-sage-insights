@@ -11,6 +11,9 @@ def main(self, client, client_d = {}):
     df = pd.concat([df, jdf], axis=1)
     jdf = pd.json_normalize(df["project_creationTag"]).add_prefix("project_creationTag_")
     df = pd.concat([df, jdf], axis=1)
+    
+    # Rename a few colums
+    f = df.rename(columns={old: new})
 
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_creationTag_versionNumber"].isna(), "project_creationTag_versionNumber"] = 0
