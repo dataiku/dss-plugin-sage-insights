@@ -13,8 +13,9 @@ def main(self, client, client_d = {}):
     df = pd.concat([df, jdf], axis=1)
     
     # Rename a few colums
+    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True)
     df = df.rename(columns={"project_projectKey": "project_key"})
-    df = df.rename(columns={"project_projectKey": "project_key"})
+    df = df.rename(columns={"project_projectKey": "login"})
 
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_creationTag_versionNumber"].isna(), "project_creationTag_versionNumber"] = 0
