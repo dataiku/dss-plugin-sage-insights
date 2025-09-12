@@ -123,8 +123,6 @@ def main(self, project_handle, client_d = {}):
             update_R(recipe_handle, recipes_name, r_env_name)
         if recipe_engine_type == "SPARK":
             update_Spark(recipe_handle, recipes_name)
-        if sparkConfig:
-            update_Spark(recipe_handle, recipes_name)
         try:
             llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
