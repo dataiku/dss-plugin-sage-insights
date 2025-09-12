@@ -69,6 +69,7 @@ class MyRunnable(Runnable):
         # return results
         if results:
             df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
+            df = df.astype(str)
             rt = ResultTable()
             n = 1
             for col in df.columns:
