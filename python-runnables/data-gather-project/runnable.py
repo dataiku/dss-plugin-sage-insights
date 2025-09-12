@@ -68,6 +68,7 @@ class MyRunnable(Runnable):
         if results:
             # Save the df as a DS
             df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
+            df["timestamp"] = self.dt
             project_handle = local_client.get_default_project()
             dataset_handle = project_handle.get_dataset(dataset_name="dg_project_level")
             if not dataset_handle.exists():
