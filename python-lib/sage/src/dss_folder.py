@@ -22,7 +22,7 @@ def get_folder(sage_project_key, project_handle, folder_name):
     return folder
 
 
-def create_folder(project_handle, folder_name):
+def create_folder(self, project_handle, folder_name):
     SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
     
     folder_handle = project_handle.create_managed_folder(
