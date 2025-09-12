@@ -60,6 +60,8 @@ class MyRunnable(Runnable):
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
         
+        #
+        from sage.src import dss_folder
         write_path = f"/testing.parquet"
         df = pd.json_normalize(local_client.list_projects())
         df["timestamp"] = datetime.now()
