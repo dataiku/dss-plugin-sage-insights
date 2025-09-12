@@ -6,6 +6,7 @@ import pandas as pd
 import json
 import warnings
 import os
+import io
 
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
