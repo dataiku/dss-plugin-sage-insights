@@ -4,7 +4,7 @@ from sage.src import dss_init
 import os
 import pandas as pd
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
