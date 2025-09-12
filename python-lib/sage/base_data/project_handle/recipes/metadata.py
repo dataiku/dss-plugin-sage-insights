@@ -14,15 +14,15 @@ def main(self, project_handle, client_d = {}):
         python_env_name = client_d["python_env_name"]
     else:
         python_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["envName"]
-    
+    # Get project level python code environment
     project_r_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["mode"]
     if project_r_env == "USE_BUILTIN_MODE":
         r_env_name = "USE_BUILTIN_MODE"
     elif project_r_env == "INHERIT":
         r_env_name = client_d["r_env_name"]
     else:
-        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]
-        
+        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]        
+    # Get project level python code environment
     project_container_env = project_handle.get_settings().settings["settings"]["container"]["containerMode"]
     if project_container_env == "NONE":
         container_env_name = "DSS_LOCAL"
@@ -30,7 +30,6 @@ def main(self, project_handle, client_d = {}):
         container_env_name = client_d["container_env_name"]
     else:
         container_env_name = project_handle.get_settings().settings["settings"]["container"]["containerConf"]
-    
     # Build base df
     prefix = "recipes_"
     df = pd.json_normalize(project_handle.list_recipes()).add_prefix(prefix)
@@ -41,7 +40,6 @@ def main(self, project_handle, client_d = {}):
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
     # Project Key
     df = rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
-    
     # Get layer 2 information
     for row in df.itertuples():
         recipes_name = getattr(row, "recipes_name")
@@ -101,3 +99,4 @@ def main(self, project_handle, client_d = {}):
             df["recipe_llm_mesh_id"] = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
             df["recipe_llm_mesh_id"] = False
+    return df
