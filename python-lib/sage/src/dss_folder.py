@@ -9,7 +9,7 @@ import os
 
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
-def get_folder(sage_project_key, project_handle, folder_name):
+def get_folder(self, sage_project_key, project_handle, folder_name):
     folder = dataiku.Folder(
         lookup = folder_name,
         project_key = sage_project_key,
