@@ -41,7 +41,7 @@ class MyRunnable(Runnable):
         df['used_pct'] = df['used_pct'].str.replace(r'[^a-zA-Z0-9\s]', '', regex=True)
         df = df[~df["filesystem"].isin(["devtmpfs", "tmpfs"])]
         results.append(["read/parse", True, None])
-        return instance_name
+        return str(len(df))
 
         # loop topics and save data
         remote_client = dss_funcs.build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
