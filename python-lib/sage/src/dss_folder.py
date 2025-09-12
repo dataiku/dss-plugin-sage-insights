@@ -42,6 +42,30 @@ def get_local_folder(self, project_handle, folder_name):
     return folder
 
 
+def function_with_warning(df):
+    for c in df.columns:
+        if df[c].dtype == "object":
+            temp_col = pd.to_datetime(df[c],  errors='coerce')
+            if temp_col.notna().all():
+                df[c] = temp_col
+                min_date = df[df[c] != "1970-01-01"][c].min()
+                df.loc[df[c] == "1970-01-01", c] = min_date
+    return df
+
+
+def read_local_folder_input(sage_project_key, project_handle, folder_name, path, data_type="DF"):
+    folder = get_folder(sage_project_key, project_handle, folder_name)
+    if data_type == "DF":
+        with folder.get_download_stream(path) as reader:
+            data = pd.read_csv(reader)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")  # Ignore all warnings within this block
+                data = function_with_warning(data)
+    elif data_type == "JSON":
+        with folder.get_download_stream(path) as reader:
+            data = json.loads(reader.data)
+    return data
+
 # ---------- DATAIKU REMOTE FOLDERS ----------------------------
 def write_remote_folder_output(self, client, path, df):
     project_handle = client.get_project(project_key=self.sage_project_key)
