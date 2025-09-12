@@ -75,6 +75,8 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 dt_month = str(f'{self.dt.month:02d}')
                 dt_day   = str(f'{self.dt.day:02d}')
                 # Add Additonal Information / output path
+                df.columns = df.columns.str.lower()
+
                 df.columns = df.columns.str.replace(".", "_", regex=False)
                 instance_name = get_dss_name(build_local_client())
                 if "instance_name" not in df.columns:
