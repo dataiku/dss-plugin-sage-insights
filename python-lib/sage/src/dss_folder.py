@@ -58,7 +58,7 @@ def function_with_warning(df):
     return df
 
 
-def read_local_folder_input(self, project_handle, folder_name, path, data_type="DF"):
+def read_local_folder_input(self, project_handle, folder_name, path):
     folder = get_folder(self, project_handle, folder_name)
     if data_type == "DF":
         with folder.get_download_stream(path) as stream:
@@ -70,7 +70,7 @@ def read_local_folder_input(self, project_handle, folder_name, path, data_type="
     return data
 
 
-def write_local_folder_output(self, project_handle, folder_name, path, data, data_type="DF"):
+def write_local_folder_output(self, project_handle, folder_name, path, data):
     folder = get_folder(self, project_handle, folder_name)
     if data_type == "DF":
         f = io.BytesIO()
