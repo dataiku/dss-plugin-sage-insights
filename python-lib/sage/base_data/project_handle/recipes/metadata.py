@@ -55,9 +55,9 @@ def main(self, project_handle, client_d = {}):
     
     # Add Cols for more data
     df["recipes_params.engineLabel"] = ""
-    add_columns("recipes_params.engineLabel", "recipes_params.engineType")
+    df = add_columns(df, "recipes_params.engineLabel", "recipes_params.engineType")
     df["recipes_params.engineRecommended"] = ""
-    add_columns("recipes_params.engineRecommended", "recipes_params.engineLabel")
+    df = add_columns(df, "recipes_params.engineRecommended", "recipes_params.engineLabel")
 
     # Get layer 2 information
     for row in df.itertuples():
