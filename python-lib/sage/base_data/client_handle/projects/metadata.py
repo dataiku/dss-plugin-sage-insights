@@ -14,7 +14,7 @@ def main(self, client, client_d = {}):
     
     # Rename a few colums
     df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True)
-    df = df.rename(columns={"project_projectKey": "project_key"})
+    df = df.rename(columns={"project_Key": "project_key"})
     df = df.rename(columns={"project_projectKey": "login"})
 
     # Imported projects missing creation values - temp fix for now
