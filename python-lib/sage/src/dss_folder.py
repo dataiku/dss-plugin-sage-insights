@@ -44,8 +44,8 @@ def update_datetime(df):
     for column in df.columns:
         if is_datetime(df[column]):
             try:
-                min_date = df[df[c] != "1970-01-01"][c].min()
-                df.loc[df[c] == "1970-01-01", c] = min_date
+                min_date = df[df[column] != "1970-01-01"][column].min()
+                df.loc[df[column] == "1970-01-01", column] = min_date
             except:
                 pass
     return df
