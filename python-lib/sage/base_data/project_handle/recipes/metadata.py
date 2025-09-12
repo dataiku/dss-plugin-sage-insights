@@ -103,63 +103,31 @@ def main(self, project_handle, client_d = {}):
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
     # Project Key
     df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
+    # Add Cols for more data
+    df["recipes_params.engineLabel"] = ""
+    add_columns("recipes_params.engineLabel", "recipes_params.engineType")
+    df["recipes_params.engineRecommended"] = ""
+    add_columns("recipes_params.engineRecommended", "recipes_params.engineLabel")
+
     # Get layer 2 information
     for row in df.itertuples():
         recipes_name = getattr(row, "recipes_name")
         recipes_type = getattr(row, "recipes_type")
-        recipe_engine_type = getattr(row, "recipe_engine_type")
         recipe_handle = project_handle.get_recipe(recipes_name)
-        try:
-            df["recipe_engine_type"] = recipe_handle.get_status().get_selected_engine_details()["type"]
-            df["recipe_engine_label"] = recipe_handle.get_status().get_selected_engine_details()["label"]
-            df["recipe_engine_recommended"] = recipe_handle.get_status().get_selected_engine_details()["recommended"]
-        except:
-            df["recipe_engine_type"] = "NOT_FOUND"
-            df["recipe_engine_label"] = "NOT_FOUND"
-            df["recipe_engine_recommended"] = "NOT_FOUND"
+        # Recipe Engine Better Details
+        updated_engine(recipe_handle, recipes_name)
+        # Individual Objects
         if recipes_type == "python":
-            recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-            if recipe_code_env_mode == "USE_BUILTIN_MODE":
-                df["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
-            elif recipe_code_env_mode == "INHERIT":
-                df["recipe_code_env_name"] = python_env_name
-            else:
-                df["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-        # R
+            update_python(recipe_handle, recipes_name)
         if recipes_type == "R":
-            recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-            if recipe_code_env_mode == "USE_BUILTIN_MODE":
-                df["recipe_code_env_name"] = "USE_BUILTIN_MODE"  
-            elif recipe_code_env_mode == "INHERIT":
-                df["recipe_code_env_name"] = r_env_name
-            else:
-                df["recipe_code_env_name"] = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-        # PYTHON / R
-        if recipes_type in ["python", "R"]:
-            recipe_container_mode = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerMode"]
-            if recipe_container_mode == "NONE":
-                df["recipe_container_name"] = "DSS_LOCAL"  
-            elif recipe_container_mode == "INHERIT":
-                df["recipe_container_name"] = container_env_name
-            else:
-                df["recipe_container_name"] = recipe_handle.get_settings().data["recipe"]["params"]["containerSelection"]["containerConf"]
-        # SPARK
+            update_R(recipe_handle, recipes_name)
         if recipe_engine_type == "SPARK":
-            sparkConfig = {}
-            try:
-                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
-            except:
-                try:
-                    sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
-                except:
-                    pass
-            df["recipe_spark_conf"] = sparkConfig.get("inheritConf", False)
-            df["recipe_spark_mods"] = False
-            if sparkConfig.get("conf", []):
-                df["recipe_spark_mods"] = True
-        # LLMS
+            update_Spark(recipe_handle, recipes_name)
+        if sparkConfig:
+            update_Spark(recipe_handle, recipes_name)
         try:
-            df["recipe_llm_mesh_id"] = recipe_handle.get_settings().get_json_payload()["llmId"]
+            llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
-            df["recipe_llm_mesh_id"] = False
+            llm_model = ""
+        df.loc[df["recipes_name"] == recipes_name, "recipes_params.llmId"] = llm_model
     return df
