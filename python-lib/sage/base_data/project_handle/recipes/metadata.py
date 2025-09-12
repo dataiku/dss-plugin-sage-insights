@@ -65,8 +65,8 @@ def main(self, project_handle, client_d = {}):
             recipe_engine_label = recipe_handle.get_status().get_selected_engine_details()["label"]
             recipe_engine_recommended = recipe_handle.get_status().get_selected_engine_details()["recommended"]
         except:
-            recipe_engine_type = "NOT_FOUND"
-            recipe_engine_label = "NOT_FOUND"
+            recipe_engine_type = "DSS"
+            recipe_engine_label = "DSS"
             recipe_engine_recommended = False
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineType"] = recipe_engine_type
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineLabel"] = recipe_engine_label
