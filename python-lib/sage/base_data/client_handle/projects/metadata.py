@@ -12,10 +12,6 @@ def main(self, client, client_d = {}):
     jdf = pd.json_normalize(df["project_creationTag"]).add_prefix("project_creationTag_")
     df = pd.concat([df, jdf], axis=1)
     
-    # Rename a few colums
-    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True).str.lower()
-    df = df.rename(columns={"project_ownerlogin": "login"})
-
     # Imported projects missing creation values - temp fix for now
     df.loc[df["project_creationTag_versionNumber"].isna(), "project_creationTag_versionNumber"] = 0
     df.loc[df["project_creationTag_lastModifiedOn"].isna(), "project_creationTag_lastModifiedOn"] = df["project_versionTag_lastModifiedOn"]
@@ -26,5 +22,9 @@ def main(self, client, client_d = {}):
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
+        
+    # Rename a few colums
+    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True).str.lower()
+    df = df.rename(columns={"project_ownerlogin": "login"})
     
     return df
