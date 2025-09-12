@@ -43,16 +43,18 @@ def main(self, remote_client, df):
         
         # Developer Users
         tdf = grp[grp["message_authUser"].isin(login_users)]
+        ## Action Items
         action_words = ["save", "create", "analysis", "clear", "run"] # Action Words -- Focus on
         pattern = "|".join(action_words)
         tdf = tdf[tdf["message_msgType"].str.contains(pattern, na=False)]
+        ## Bad items
         remove_strings = ["list", "dataset-clear-samples", "dataset-save-schema", "project-save-variables"] # Vague Words -- Remove
         pattern = "|".join(remove_strings)
         tdf = tdf[~tdf["message_msgType"].str.contains(pattern, na=False)]
+        ## Unique it
         developer_users = tdf["message_authUser"].unique()
         developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
         developer_users_df["timestamp"] = pd.to_datetime(i)
-        developer_users_df["instance_name"] = instance_name
         try:
             write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.csv"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, developer_users_df)
