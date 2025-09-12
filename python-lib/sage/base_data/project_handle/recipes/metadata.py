@@ -52,6 +52,7 @@ def main(self, project_handle, client_d = {}):
         
     # Project Key
     df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
+    df.columns = df.columns.str.replace(".", "_", regex=False)
     
     # Get layer 2 information
     for row in df.itertuples():
