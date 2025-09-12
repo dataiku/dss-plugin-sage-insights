@@ -76,7 +76,7 @@ def write_local_folder_output(self, project_handle, folder_name, path, data, dat
         data.to_parquet(f)
         f.seek(0)
         content = f.read()
-        folder.upload_stream("second.parquet", content)
+        folder.upload_stream(path, content)
     elif data_type == "JSON":
         with folder.get_writer(path) as w:
             w.write(str.encode(json.dumps(data, indent=4)))
