@@ -40,14 +40,14 @@ def get_local_folder(self, project_handle, folder_name):
     return folder
 
 
-def function_with_warning(df):
-    for c in df.columns:
-        if df[c].dtype == "object":
-            temp_col = pd.to_datetime(df[c],  errors='coerce')
-            if temp_col.notna().all():
-                df[c] = temp_col
+def update_datetime(df):
+    for column in df.columns:
+        if is_datetime(df[column]):
+            try:
                 min_date = df[df[c] != "1970-01-01"][c].min()
                 df.loc[df[c] == "1970-01-01", c] = min_date
+            except:
+                pass
     return df
 
 
