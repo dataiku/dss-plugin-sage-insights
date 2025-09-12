@@ -137,4 +137,3 @@ class MyRunnable(Runnable):
             return rt
         else:
             raise Exception("Something went wrong")
-
