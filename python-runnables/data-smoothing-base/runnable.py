@@ -39,7 +39,7 @@ class MyRunnable(Runnable):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = f"/partition.csv",
+            path = f"/partition.parquet",
             data_type = "DF",
             data = pd.DataFrame([max_date], columns=["latest_partition"])
         )
