@@ -12,7 +12,7 @@ import os
 import io
 
 
-# ---------- DATAIKU LOCAL FOLDERS -----------------------------
+# ---------- DATAIKU LOCAL FOLDERS --------------------------------------------------------
 def create_local_folder(self, project_handle, folder_name):
     folder_handle = project_handle.create_managed_folder(
         name = folder_name,
@@ -83,7 +83,7 @@ def write_local_folder_output(self, project_handle, folder_name, path, data, dat
     return
 
 
-# ---------- DATAIKU REMOTE FOLDERS ----------------------------
+# ---------- DATAIKU REMOTE FOLDERS --------------------------------------------------------
 def write_remote_folder_output(self, client, path, df):
     project_handle = client.get_project(project_key=self.sage_project_key)
     fid = None
