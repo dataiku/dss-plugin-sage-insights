@@ -24,7 +24,7 @@ def updated_engine(recipe_handle, recipes_name):
     return
 
 
-def update_python(recipe_handle, recipes_name):
+def update_python(recipe_handle, recipes_name, python_env_name):
     recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
     if recipe_code_env_mode == "USE_BUILTIN_MODE":
         recipe_code_env_name = "USE_BUILTIN_MODE"  
