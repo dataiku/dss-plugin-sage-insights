@@ -3,7 +3,6 @@
 # -----------------------------------------------------------------------------------------
 import dataiku
 import pandas as pd
-import os
 import io
 
 
