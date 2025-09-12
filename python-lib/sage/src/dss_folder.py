@@ -55,14 +55,14 @@ def read_local_folder_input(self, project_handle, folder_name, path):
     folder = get_folder(self, project_handle, folder_name)
     with folder.get_download_stream(path) as stream:
         file_bytes = io.BytesIO(stream.read())
-        data = pd.read_parquet(file_bytes)
-    return data
+        df = pd.read_parquet(file_bytes)
+    return df
 
 
-def write_local_folder_output(self, project_handle, folder_name, path, data):
+def write_local_folder_output(self, project_handle, folder_name, path, df):
     folder = get_folder(self, project_handle, folder_name)
     f = io.BytesIO()
-    data.to_parquet(f)
+    df.to_parquet(f)
     f.seek(0)
     content = f.read()
     folder.upload_stream(path, content)
