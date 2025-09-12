@@ -110,5 +110,4 @@ def rename_and_move_first(df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
     if new in df.columns:
         cols = [new] + [c for c in df.columns if c != new]
         df = df[cols]
-    df.columns = df.columns.str.replace(".", "_", regex=False)
     return df
