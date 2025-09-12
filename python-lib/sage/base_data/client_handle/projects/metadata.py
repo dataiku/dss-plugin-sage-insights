@@ -8,16 +8,16 @@ def project_gather(projects):
     dfs = []
     for project in projects:
         d = {}
-        d["project_key"] = project.get("projectKey", False)
-        d["project_name"] = project.get("name", False)
-        d["login"] = project.get("ownerLogin", False) # Match users dataframe
+        d["project_key"] = project.get("projectKey", "")
+        d["project_name"] = project.get("name", "")
+        d["login"] = project.get("ownerLogin", "")
         d["project_login_dn"] = get_nested_value(project, ["ownerDisplayName"])
         d["project_last_mod_by"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
         d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
         d["project_last_create_by"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
         d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
-        d["project_shortDesc"] = project.get("shortDesc", False)
-        d["project_tags"] = project.get("tags", False)
+        d["project_shortDesc"] = project.get("shortDesc", "")
+        d["project_tags"] = project.get("tags", [])
         dfs.append(pd.DataFrame([d]))
     df = pd.concat(dfs, ignore_index=True)
     return df
