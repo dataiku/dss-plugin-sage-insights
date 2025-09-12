@@ -74,7 +74,8 @@ class MyRunnable(Runnable):
             for col in df.columns:
                 rt.add_column(n, col, "STRING")
                 n +=1
-            for r in results:
-                rt.add_record(r)
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+                
             return rt
         raise Exception("FAILED TO RUN PROJECT CHECKS")
