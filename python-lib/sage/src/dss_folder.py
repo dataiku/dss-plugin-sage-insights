@@ -64,6 +64,17 @@ def read_local_folder_input(self, project_handle, folder_name, path, data_type="
             data = json.loads(reader.data)
     return data
 
+
+def write_local_folder_output(self, project_handle, folder_name, path, data, data_type="DF"):
+    folder = get_folder(sage_project_key, project_handle, folder_name)
+    if data_type == "DF":
+        with folder.get_writer(path) as w:
+            w.write(data.to_csv(index=False).encode("utf-8"))
+    elif data_type == "JSON":
+        with folder.get_writer(path) as w:
+            w.write(str.encode(json.dumps(data, indent=4)))
+    return
+
 # ---------- DATAIKU REMOTE FOLDERS ----------------------------
 def write_remote_folder_output(self, client, path, df):
     project_handle = client.get_project(project_key=self.sage_project_key)
