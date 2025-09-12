@@ -35,7 +35,10 @@ def get_local_folder(self, project_handle, folder_name):
     try:
         folder.get_id()
     except:
-        folder = create_local_folder(self, project_handle, folder_name)
+        try:
+            folder = create_local_folder(self, project_handle, folder_name)
+        except Exception as e:
+            raise Exception(e)
     return folder
 
 
