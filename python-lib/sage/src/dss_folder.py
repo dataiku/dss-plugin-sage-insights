@@ -53,8 +53,8 @@ def function_with_warning(df):
     return df
 
 
-def read_local_folder_input(sage_project_key, project_handle, folder_name, path, data_type="DF"):
-    folder = get_folder(sage_project_key, project_handle, folder_name)
+def read_local_folder_input(self, project_handle, folder_name, path, data_type="DF"):
+    folder = get_folder(self, project_handle, folder_name)
     if data_type == "DF":
         with folder.get_download_stream(path) as reader:
             data = pd.read_csv(reader)
