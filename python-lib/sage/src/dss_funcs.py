@@ -83,6 +83,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 if project_key:
                     df rename_and_move_first(df, "projectKey", "project_key")
                     write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
+                # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
                 results.append([project_key, path, module_name, "write/save", True, None])
             except Exception as e:
@@ -103,7 +104,7 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
-def rename_and_move_first(df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
+def rename_and_move_first(df, old, new):
     if old in df.columns:
         df = df.rename(columns={old: new})
     else:
