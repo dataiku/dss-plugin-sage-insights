@@ -25,18 +25,7 @@ def update_R(df, recipe_handle, recipes_name, r_env_name):
 
 
 def update_Spark(recipe_handle, recipes_name):
-    sparkConfig = {}
-    try:
-        sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
-    except:
-        try:
-            sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
-        except:
-            pass
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = sparkConfig.get("inheritConf", "")
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
-    if sparkConfig.get("conf", []):
-        df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
+
     return
 
 
@@ -122,7 +111,18 @@ def main(self, project_handle, client_d = {}):
                 recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
         if recipe_engine_type == "SPARK":
-            update_Spark(recipe_handle, recipes_name)
+            sparkConfig = {}
+            try:
+                sparkConfig = recipe_handle.get_status().data["engineParams"]["sparkSQL"]["sparkConfig"]
+            except:
+                try:
+                    sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
+                except:
+                    pass
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = sparkConfig.get("inheritConf", "")
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
+            if sparkConfig.get("conf", []):
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
         try:
             llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
