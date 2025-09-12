@@ -80,9 +80,9 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 instance_name = get_dss_name(build_local_client())
                 if "instance_name" not in df.columns:
                     df["instance_name"] = instance_name
-                write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
+                write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.parquet"
                 if project_key:
-                    write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
+                    write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.parquet"
                 # Final cleanse of DF for dictionary/lists to strings
                 for col in df.columns:
                     types = df[col].dropna().map(type).unique()
