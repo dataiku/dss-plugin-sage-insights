@@ -21,6 +21,7 @@ def main(self, project_handle, client_d = {}):
         python_env_name = client_d["python_env_name"]
     else:
         python_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["python"]["envName"]
+        
     # Get project level R code environment
     project_r_env = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["mode"]
     if project_r_env == "USE_BUILTIN_MODE":
@@ -28,7 +29,8 @@ def main(self, project_handle, client_d = {}):
     elif project_r_env == "INHERIT":
         r_env_name = client_d["r_env_name"]
     else:
-        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]        
+        r_env_name = project_handle.get_settings().settings["settings"]["codeEnvs"]["r"]["envName"]      
+        
     # Get project level CODE_ENV environment
     project_container_env = project_handle.get_settings().settings["settings"]["container"]["containerMode"]
     if project_container_env == "NONE":
@@ -41,13 +43,16 @@ def main(self, project_handle, client_d = {}):
     # Build base df
     prefix = "recipes_"
     df = pd.json_normalize(project_handle.list_recipes()).add_prefix(prefix)
+    
     # Clean dates
     for c in ["recipes_versionTag.lastModifiedOn", "recipes_creationTag.lastModifiedOn"]:
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
+        
     # Project Key
     df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
+    
     # Add Cols for more data
     df["recipes_params.engineLabel"] = ""
     add_columns("recipes_params.engineLabel", "recipes_params.engineType")
@@ -71,6 +76,7 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineType"] = recipe_engine_type
         df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineLabel"] = recipe_engine_label
         df.loc[df["recipes_name"] == recipes_name, "recipes_params.engineRecommended"] = recipe_engine_recommended
+        
         # Individual Objects
         if recipes_type == "python":
             recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
@@ -103,6 +109,7 @@ def main(self, project_handle, client_d = {}):
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
             if sparkConfig.get("conf", []):
                 df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
+                
         # Check for LLMs
         try:
             llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
