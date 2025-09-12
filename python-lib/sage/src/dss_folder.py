@@ -9,7 +9,7 @@ import os
 
 
 # ---------- DATAIKU LOCAL FOLDERS -----------------------------
-def get_local_folder(sage_project_key, project_handle, folder_name):
+def get_local_folder(self, sage_project_key, project_handle, folder_name):
     folder = dataiku.Folder(
         lookup = folder_name,
         project_key = sage_project_key,
@@ -18,7 +18,7 @@ def get_local_folder(sage_project_key, project_handle, folder_name):
     try:
         folder.get_id()
     except:
-        folder = create_local_folder(project_handle, folder_name)
+        folder = create_local_folder(self, project_handle, folder_name)
     return folder
 
 
