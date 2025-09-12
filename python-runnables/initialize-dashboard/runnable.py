@@ -34,8 +34,8 @@ class MyRunnable(Runnable):
         # Create the folders
         if cont:
             try:
-                f = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
-                f = dss_folder.get_folder(self.sage_project_key, project_handle, "base_data")
+                f = dss_folder.get_local_folder(self.sage_project_key, project_handle, "partitioned_data")
+                f = dss_folder.get_local_folder(self.sage_project_key, project_handle, "base_data")
                 results.append(["Create Folders", True, None])
             except Exception as e:
                 results.append(["Create Folders", False, f"An error occurred: {e}"])
