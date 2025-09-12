@@ -76,30 +76,3 @@ def function_with_warning(df):
                 df.loc[df[c] == "1970-01-01", c] = min_date
     return df
 
-
-def read_base_data(path):
-    local_client = dataiku.api_client()
-    project_handle = local_client.get_default_project()
-    sage_project_key = project_handle.project_key
-    df = read_local_folder_input(
-        sage_project_key = sage_project_key,
-        project_handle = project_handle,
-        folder_name="base_data",
-        path=path
-    )
-    return df
-
-
-# ---------- DATAIKU REMOTE FOLDERS ----------------------------
-def write_remote_folder_output(self, client, path, df):
-    project_handle = client.get_project(project_key=self.sage_project_key)
-    fid = None
-    for f in project_handle.list_managed_folders():
-        if f["name"] == "partitioned_data":
-            fid = f["id"]
-            break
-    if not fid:
-        raise Exception()
-    folder = project_handle.get_managed_folder(odb_id=fid)
-    r = folder.put_file(path, df.to_csv(index=None))
-    return
