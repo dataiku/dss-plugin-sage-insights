@@ -123,6 +123,7 @@ def main(self, project_handle, client_d = {}):
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConfMods"] = False
             if sparkConfig.get("conf", []):
                 df.loc[df["recipes_name"] == recipes_name, "recipes_params.sparkConf"] = True
+        # Check for LLMs
         try:
             llm_model = recipe_handle.get_settings().get_json_payload()["llmId"]
         except:
