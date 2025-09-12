@@ -18,7 +18,7 @@ def get_local_folder(sage_project_key, project_handle, folder_name):
     try:
         folder.get_id()
     except:
-        folder = create_folder(project_handle, folder_name)
+        folder = create_local_folder(project_handle, folder_name)
     return folder
 
 
