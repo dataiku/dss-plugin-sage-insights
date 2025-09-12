@@ -13,7 +13,7 @@ def main(self, client, client_d = {}):
     df = pd.concat([df, jdf], axis=1)
     
     # Rename a few colums
-    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True)
+    df.columns = df.columns.str.replace(r"^project_project", "project_", regex=True).str.lower()
     df = df.rename(columns={"project_Key": "project_key"})
     df = df.rename(columns={"project_ownerLogin": "login"})
 
