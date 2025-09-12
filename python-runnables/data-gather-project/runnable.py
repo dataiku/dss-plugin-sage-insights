@@ -66,15 +66,16 @@ class MyRunnable(Runnable):
         
         # return results
         if results:
-            df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
-            
-            
             # Save the df as a DS
-
+            df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
+            project_handle = local_client.get_default_project()
+            dataset_handle = project_handle.get_dataset(dataset_name="dg_project_level")
+            if not dataset_handle.exists():
+                builder = project_handle.new_managed_dataset("dg_project_level")
+                builder.with_store_into("filesystem_managed")
+                dataset_handle = builder.create()
+            dataset = dataiku.Dataset("audit_log_cache")
             dataset.write_with_schema(df)
-            
-            
-            
             html = df.to_html()
             return html
         raise Exception("FAILED TO RUN PROJECT CHECKS")
