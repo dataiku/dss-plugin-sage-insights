@@ -20,14 +20,7 @@ def update_python(df, recipe_handle, recipes_name, python_env_name):
 
 
 def update_R(df, recipe_handle, recipes_name, r_env_name):
-    recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
-    if recipe_code_env_mode == "USE_BUILTIN_MODE":
-        recipe_code_env_name = "USE_BUILTIN_MODE"  
-    elif recipe_code_env_mode == "INHERIT":
-        recipe_code_env_name = r_env_name
-    else:
-        recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
-    df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
+
     return
 
 
@@ -120,7 +113,14 @@ def main(self, project_handle, client_d = {}):
                 recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
             df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
         if recipes_type == "R":
-            update_R(recipe_handle, recipes_name, r_env_name)
+            recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
+            if recipe_code_env_mode == "USE_BUILTIN_MODE":
+                recipe_code_env_name = "USE_BUILTIN_MODE"  
+            elif recipe_code_env_mode == "INHERIT":
+                recipe_code_env_name = r_env_name
+            else:
+                recipe_code_env_name = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envName"]
+            df.loc[df["recipes_name"] == recipes_name, "recipes_params.envSelection.envName"] = recipe_code_env_name
         if recipe_engine_type == "SPARK":
             update_Spark(recipe_handle, recipes_name)
         try:
