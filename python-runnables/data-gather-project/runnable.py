@@ -76,6 +76,5 @@ class MyRunnable(Runnable):
                 n +=1
             for index, row in df.iterrows():
                 rt.add_record(row.tolist())
-                
             return rt
         raise Exception("FAILED TO RUN PROJECT CHECKS")
