@@ -120,7 +120,7 @@ def main(self, project_handle, client_d = {}):
         if recipes_type == "python":
             update_python(recipe_handle, recipes_name, python_env_name)
         if recipes_type == "R":
-            update_R(recipe_handle, recipes_name)
+            update_R(recipe_handle, recipes_name, r_env_name)
         if recipe_engine_type == "SPARK":
             update_Spark(recipe_handle, recipes_name)
         if sparkConfig:
