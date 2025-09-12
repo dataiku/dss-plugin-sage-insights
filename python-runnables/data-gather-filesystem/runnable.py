@@ -5,7 +5,7 @@ import subprocess
 import pandas as pd
 from datetime import datetime, date, timedelta
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
