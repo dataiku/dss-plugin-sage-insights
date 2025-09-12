@@ -58,6 +58,12 @@ class MyRunnable(Runnable):
         # return results
         if results:
             df = pd.DataFrame(results, columns=["step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN INSTANCE CHECKS")
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
