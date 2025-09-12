@@ -9,26 +9,6 @@ def add_columns(df, column_to_move, target_column):
     return
 
 
-def updated_engine(df, recipe_handle, recipes_name):
-
-    return
-
-
-def update_python(df, recipe_handle, recipes_name, python_env_name):
-
-    return
-
-
-def update_R(df, recipe_handle, recipes_name, r_env_name):
-
-    return
-
-
-def update_Spark(recipe_handle, recipes_name):
-
-    return
-
-
 def main(self, project_handle, client_d = {}):
     if not project_handle.list_recipes():
         return pd.DataFrame()
