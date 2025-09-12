@@ -22,7 +22,7 @@ def main(self, remote_client, df):
         merged_df = pd.merge(
             grp,
             mapping_df,
-            on="message.msgType",
+            on="message_msgType",
             how="left"
         )
         
