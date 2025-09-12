@@ -67,6 +67,14 @@ class MyRunnable(Runnable):
         # return results
         if results:
             df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
+            
+            
+            # Save the df as a DS
+
+            dataset.write_with_schema(df)
+            
+            
+            
             html = df.to_html()
             return html
         raise Exception("FAILED TO RUN PROJECT CHECKS")
