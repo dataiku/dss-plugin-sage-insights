@@ -6,7 +6,7 @@ def add_columns(df, column_to_move, target_column):
     moved_column = df.pop(column_to_move)
     target_index = df.columns.get_loc(target_column)
     df.insert(target_index + 1, column_to_move, moved_column)
-    return
+    return df
 
 
 def main(self, project_handle, client_d = {}):
