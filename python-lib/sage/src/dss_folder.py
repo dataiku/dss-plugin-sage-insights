@@ -31,7 +31,7 @@ def get_local_folder(self, project_handle, folder_name):
         lookup = folder_name,
         project_key = self.sage_project_key,
         ignore_flow = True
-        )
+    )
     try:
         folder.get_id()
     except:
