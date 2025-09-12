@@ -25,6 +25,7 @@ class MyRunnable(Runnable):
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
+        return instance_name
         
         # Get the output of the DF command
         results = []
