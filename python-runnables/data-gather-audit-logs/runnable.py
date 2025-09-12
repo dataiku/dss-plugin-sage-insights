@@ -124,9 +124,14 @@ class MyRunnable(Runnable):
             results.append(["Set New Audit Log Cache timestamp", True, last_time_entry])
         
         # return results
-        results_df = pd.DataFrame(results, columns=["step", "result", "message"])
-        html = results_df.to_html()
-        return html
-
-
-# EOF
+        if results:
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
