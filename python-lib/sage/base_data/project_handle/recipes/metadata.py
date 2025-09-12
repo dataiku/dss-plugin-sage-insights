@@ -39,7 +39,7 @@ def main(self, project_handle, client_d = {}):
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
     # Project Key
-    df = rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
+    df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
     # Get layer 2 information
     for row in df.itertuples():
         recipes_name = getattr(row, "recipes_name")
