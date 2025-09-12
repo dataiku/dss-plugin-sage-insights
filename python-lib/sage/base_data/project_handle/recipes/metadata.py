@@ -71,10 +71,11 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineType"] = recipe_engine_type
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineLabel"] = recipe_engine_label
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineRecommended"] = recipe_engine_recommended
+        
+        # Individual Objects
         if getattr(row, "recipes_params_containerSelection_containerMode", "") == "INHERIT":
             df.loc[df["recipes_name"] == recipes_name, "recipes_params_containerSelection_containerConf"] = container_env_name
         
-        # Individual Objects
         if recipes_type == "python":
             recipe_code_env_mode = recipe_handle.get_settings().data["recipe"]["params"]["envSelection"]["envMode"]
             if recipe_code_env_mode == "USE_BUILTIN_MODE":
