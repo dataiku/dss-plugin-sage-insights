@@ -15,7 +15,7 @@ def project_gather(projects):
         d["project_last_mod_by"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
         d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"], dt=True)
         d["project_last_create_by"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
-        d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
+        d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"], dt=True)
         d["project_shortDesc"] = project.get("shortDesc", "")
         d["project_tags"] = project.get("tags", [])
         dfs.append(pd.DataFrame([d]))
