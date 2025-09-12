@@ -70,7 +70,7 @@ class MyRunnable(Runnable):
                     sage_project_key = self.sage_project_key,
                     project_handle = project_handle,
                     folder_name = "base_data",
-                    path = f"/{category}/{module}.csv",
+                    path = f"/{category}/{module}.parquet",
                     data_type = "DF",
                     data = df
                 )
@@ -82,13 +82,13 @@ class MyRunnable(Runnable):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = "/users/metadata.csv"
+            path = "/users/metadata.parquet"
         )
         prjs_df = dss_folder.read_local_folder_input(
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = "/projects/metadata.csv"
+            path = "/projects/metadata.parquet"
         )
         df = pd.merge(users_df, prjs_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
         primary_keys = ["instance_name", "login", "enabled", "userProfile", "project_key"]
@@ -97,7 +97,7 @@ class MyRunnable(Runnable):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = "/metadata_primary_keys.csv",
+            path = "/metadata_primary_keys.parquet",
             data_type = "DF",
             data = df
         )
