@@ -68,9 +68,10 @@ class MyRunnable(Runnable):
             
         # return results
         if results:
+            df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
             rt = ResultTable()
             n = 1
-            for col in ["project_key", "path", "module_name", "step", "result", "message"]:
+            for col in df.columns:
                 rt.add_column(n, col, "STRING")
                 n +=1
             for r in results:
