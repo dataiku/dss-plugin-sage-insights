@@ -53,12 +53,6 @@ def main(self, project_handle, client_d = {}):
     # Project Key
     df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
     
-    # Add Cols for more data
-    df["recipes_params.engineLabel"] = ""
-    df = add_columns(df, "recipes_params.engineLabel", "recipes_params.engineType")
-    df["recipes_params.engineRecommended"] = ""
-    df = add_columns(df, "recipes_params.engineRecommended", "recipes_params.engineLabel")
-
     # Get layer 2 information
     for row in df.itertuples():
         recipes_name = getattr(row, "recipes_name")
