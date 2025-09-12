@@ -52,7 +52,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
         for f in files:
             if not f.endswith(".py") or f == "__init__.py":
                 continue
-            module_name = f[:-3]
+            module_name = f.removesuffix(".py")
             path = root.replace(directory, "")
             fp = os.path.join(root, f)
             try:
