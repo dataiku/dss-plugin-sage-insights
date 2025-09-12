@@ -9,6 +9,6 @@ def main(self, client, client_d = {}):
     
     prefix = "llms"
     df = pd.json_normalize(project_handle.list_llms()).add_prefix(f"{prefix}_")
-    df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}_projectKey", "project_key")
+    df = dss_funcs.rename_and_move_first(df, f"{prefix}_projectKey", "project_key")
     df.drop(columns=["project_key"], inplace=True)
     return df
