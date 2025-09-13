@@ -88,6 +88,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                     types = df[col].dropna().map(type).unique()
                     if any(t in (dict, list) for t in types):
                         df[col] = df[col].astype(str)
+                df = df.reset_index(drop=True)
                 # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
                 results.append([project_key, path, module_name, "write/save", True, None])
