@@ -18,7 +18,7 @@ def main(self, project_handle, folder, df):
             last_entry = pd.to_datetime(1970)
         # Read in the new partitions and update the parquet
         partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
-        partitions = partitions_df["partition"].tolist()
+        partitions = partitions_df["partitions"].tolist()
         if not partitions:
             continue
         for partition in partitions:
@@ -31,6 +31,5 @@ def main(self, project_handle, folder, df):
         # Write new output
         original_df["timestamp"] = pd.to_datetime(original_df["timestamp"])
         original_df = original_df.sort_values(by="timestamp", ascending=False)
-        original_df = original_df.drop_duplicates()
         dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/users/rolling_{module}.parquet", original_df)
     return
