@@ -53,13 +53,6 @@ class MyRunnable(Runnable):
                 results.append([module, True, None])
             except Exception as e:
                 results.append([module, False, e])
-            
-        ## Git history
-        #try:
-        #    git_history.main(self, project_handle, folder, df)
-        #    results.append(["Git History", True, None])
-        #except Exception as e:
-        #    results.append(["Git History", False, e])
 
         # return results
         if results:
