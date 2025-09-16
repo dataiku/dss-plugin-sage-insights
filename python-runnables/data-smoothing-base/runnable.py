@@ -31,6 +31,7 @@ class MyRunnable(Runnable):
         folder_df = pd.DataFrame(partitions, columns=["partitions"])
         cols = ["instance_name", "category", "module", "dt"]
         folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+        folder_df["dt"] = pd.to_datetime(folder_df["dt"])
         results.append(["List Partitions", True, None])
         
         # get latest partition
