@@ -65,7 +65,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
             except Exception as e:
                 df = pd.DataFrame()
                 results.append([project_key, path, module_name, "load/run", False, e])
-            if df.empty:
+            if not isinstance(df, pd.DataFrame) or df.empty:
                 #results.append([project_key, path, module_name, "load/run", False, "DF CAME BACK EMPTY"])
                 continue # nothing to write, skip
             try:
