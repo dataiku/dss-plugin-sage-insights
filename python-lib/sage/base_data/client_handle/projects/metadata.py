@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
-from sage.src.dss_funcs import dss_funcs, get_nested_value
+from sage.src import dss_funcs
 
 
 def main(self, client, client_d = {}):
