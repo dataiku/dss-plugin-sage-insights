@@ -5,7 +5,6 @@
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true,
-  "updateResourcesApiNode": false,
   "conda": false,
   "deploymentMode": "DSS_INTERNAL"
 }
