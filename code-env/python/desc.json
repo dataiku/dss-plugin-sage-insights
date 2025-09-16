@@ -6,8 +6,7 @@
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true,
-  "dockerImageResources": "COPY",
   "updateResourcesApiNode": false,
   "conda": false,
-  "deploymentMode": "DESIGN_MANAGED"
+  "deploymentMode": "DSS_INTERNAL"
 }
