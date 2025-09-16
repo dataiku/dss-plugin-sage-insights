@@ -5,7 +5,8 @@
   "useReferenceSpec": false,
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
-  "installJupyterSupport": true,
+  "installJupyterSupport": true,,
+  "dockerImageResources": "COPY",
   "updateResourcesApiNode": false,
   "conda": false,
   "deploymentMode": "DSS_INTERNAL"
