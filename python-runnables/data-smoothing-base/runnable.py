@@ -36,7 +36,7 @@ class MyRunnable(Runnable):
         # get latest partition
         max_date = folder_df['dt'].max()
         dss_folder.write_local_folder_output(
-            sage_project_key = self.sage_project_key,
+            self = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
             path = f"/partition.parquet",
