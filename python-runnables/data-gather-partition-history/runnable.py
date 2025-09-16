@@ -47,26 +47,18 @@ class MyRunnable(Runnable):
 
         }
         for module in modules:
-        
-        try:
-            audit_user.main(self, project_handle, folder, df)
-            results.append(["User Audit", True, None])
-        except Exception as e:
-            results.append(["User Audit", False, e])
+            try:
+                modules[module].main(self, project_handle, folder, df)
+                results.append([module, True, None])
+            except Exception as e:
+                results.append([module, False, e])
             
-        # Audit Log Dataiku Usage
-        try:
-            dataiku_usage.main(self, project_handle, folder, df)
-            results.append(["Dataiku Usage", True, None])
-        except Exception as e:
-            results.append(["Dataiku Usage", False, e])
-            
-        # Git history
-        try:
-            git_history.main(self, project_handle, folder, df)
-            results.append(["Git History", True, None])
-        except Exception as e:
-            results.append(["Git History", False, e])
+        ## Git history
+        #try:
+        #    git_history.main(self, project_handle, folder, df)
+        #    results.append(["Git History", True, None])
+        #except Exception as e:
+        #    results.append(["Git History", False, e])
 
         # return results
         if results:
