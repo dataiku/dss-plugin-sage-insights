@@ -35,13 +35,8 @@ class MyRunnable(Runnable):
         
         # get latest partition
         max_date = folder_df['dt'].max()
-        dss_folder.write_local_folder_output(
-            self = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = f"/partition.parquet",
-            data = pd.DataFrame([max_date], columns=["latest_partition"])
-        )
+        pdf = pd.DataFrame([max_date], columns=["latest_partition"])
+        dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/partition.parquet", pdf)
         filtered_df = folder_df[folder_df['dt'] == max_date]
         results.append(["Newest Partition", True, None])
         
