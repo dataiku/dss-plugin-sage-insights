@@ -24,8 +24,8 @@ def main(self, project_handle, folder, df):
         for partition in partitions:
             dfs = []
             for path in folder.get_partition_info(partition)["paths"]:
-                with folder.get_download_stream(path=path) as r:
-                    dfs.append(pd.read_parquet(r))
+                ttdf = dss_folder.read_local_folder_input(self, project_handle, "partitioned_data", path)
+                dfs.append(ttdf)
             tdf = pd.concat(dfs, ignore_index=True)
             original_df = pd.concat([original_df, tdf], ignore_index=True)
         # Write new output
