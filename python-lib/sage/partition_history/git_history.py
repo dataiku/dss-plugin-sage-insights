@@ -8,7 +8,6 @@ def main(self, project_handle, folder, df):
         (df["category"] == "users")
         & (df["module"] == "git_history")
     ]["partition"].tolist()
-    
     # Load the df
     git_history_df = pd.DataFrame()
     for partition in partitions:
@@ -22,10 +21,8 @@ def main(self, project_handle, folder, df):
                 git_history_df = git_history_tmp_df
             else:
                 git_history_df = pd.concat([git_history_df, git_history_tmp_df], ignore_index=True)
-
     # Simplify column name
     git_history_df = git_history_df.rename(columns={"author": "login"})
-
     # Write consolidated DF to folder
     dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/users/rolling_git_history.csv", git_history_df)
     return
