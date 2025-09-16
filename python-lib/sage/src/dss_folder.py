@@ -52,7 +52,7 @@ def update_datetime(df):
 
 
 def read_local_folder_input(self, project_handle, folder_name, path):
-    folder = get_folder(self, project_handle, folder_name)
+    folder = get_local_folder(self, project_handle, folder_name)
     with folder.get_download_stream(path) as stream:
         file_bytes = io.BytesIO(stream.read())
     df = pd.read_parquet(file_bytes)
@@ -60,7 +60,7 @@ def read_local_folder_input(self, project_handle, folder_name, path):
 
 
 def write_local_folder_output(self, project_handle, folder_name, path, df):
-    folder = get_folder(self, project_handle, folder_name)
+    folder = get_local_folder(self, project_handle, folder_name)
     f = io.BytesIO()
     df.to_parquet(f)
     f.seek(0)
