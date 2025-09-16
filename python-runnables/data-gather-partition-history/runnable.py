@@ -48,7 +48,7 @@ class MyRunnable(Runnable):
         }
         for module in modules:
             try:
-                modules[module].main(self, project_handle, folder, df)
+                modules[module].main(self, project_handle, folder, folder_df)
                 results.append([module, True, None])
             except Exception as e:
                 results.append([module, False, e])
