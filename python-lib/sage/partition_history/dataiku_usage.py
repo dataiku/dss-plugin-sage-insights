@@ -18,7 +18,7 @@ def main(self, project_handle, folder, df):
             last_entry = pd.to_datetime(1970)
         # Read in the new partitions and update the parquet
         partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
-        partitions = partitions_df["partition"].tolist()
+        partitions = partitions_df["partitions"].tolist()
         if not partitions:
             continue
         for partition in partitions:
