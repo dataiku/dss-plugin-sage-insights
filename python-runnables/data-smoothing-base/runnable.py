@@ -40,7 +40,6 @@ class MyRunnable(Runnable):
             project_handle = project_handle,
             folder_name = "base_data",
             path = f"/partition.parquet",
-            data_type = "DF",
             data = pd.DataFrame([max_date], columns=["latest_partition"])
         )
         filtered_df = folder_df[folder_df['dt'] == max_date]
