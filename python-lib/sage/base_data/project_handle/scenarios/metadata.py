@@ -10,6 +10,8 @@ def main(self, project_handle, client_d = {}):
     df = pd.json_normalize(project_handle.list_scenarios()).add_prefix(prefix)
     # Clean dates
     for c in ["scenarios_nextRun", "scenarios_lastModifiedOn", "scenarios_createdOn"]:
+        if c not in df.columns:
+            continue
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
         df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
