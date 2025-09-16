@@ -7,7 +7,7 @@ def main(self, project_handle, folder, df):
     partitions = df[
         (df["category"] == "users")
         & (df["module"] == "git_history")
-    ]["partition"].tolist()
+    ]["partitions"].tolist()
     # Load the df
     git_history_df = pd.DataFrame()
     for partition in partitions:
