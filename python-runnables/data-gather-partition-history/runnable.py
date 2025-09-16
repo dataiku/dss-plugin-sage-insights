@@ -40,6 +40,14 @@ class MyRunnable(Runnable):
         results.append(["List Partitions", True, None])
         
         # Audit log User information
+        modules = {
+            "User Audit": 'audit_user',
+            "Dataiku Usage": 'dataiku_usage',
+            "Git History": 'git_history',
+
+        }
+        for module in modules:
+        
         try:
             audit_user.main(self, project_handle, folder, df)
             results.append(["User Audit", True, None])
