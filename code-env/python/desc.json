@@ -6,5 +6,5 @@
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true,
   "conda": false,
-  "deploymentMode": "DSS_INTERNAL"
+  "deploymentMode": "PLUGIN_MANAGED"
 }
