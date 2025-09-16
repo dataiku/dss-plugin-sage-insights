@@ -24,7 +24,7 @@ class MyRunnable(Runnable):
         # get partitioned folder
         local_client = dss_funcs.build_local_client()
         project_handle = local_client.get_project(project_key=self.sage_project_key)
-        folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
+        folder = dss_folder.get_local_folder(self, project_handle, "partitioned_data")
         
         # list partitions and turn into a df
         partitions = folder.list_partitions()
