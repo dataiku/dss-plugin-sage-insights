@@ -12,7 +12,7 @@ def main(self, project_handle, folder, df):
     git_history_df = pd.DataFrame()
     for partition in partitions:
         for path in folder.get_partition_info(partition)["paths"]:
-            df = read_local_folder_input(self, project_handle, "partitioned_data", path)
+            df = dss_folder.read_local_folder_input(self, project_handle, "partitioned_data", path)
             # Build Git History Table
             df["timestamp"] = pd.to_datetime(df["timestamp"])
             git_history_tmp_df = df.groupby(["instance_name", "author", "project_key"])["author"].size().reset_index(name="count")
