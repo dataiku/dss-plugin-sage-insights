@@ -60,13 +60,7 @@ class MyRunnable(Runnable):
                     else:
                         df = pd.concat([df, tdf], ignore_index=True)
                 # Write consolidated DF to folder
-                dss_folder.write_local_folder_output(
-                    self = self,
-                    project_handle = project_handle,
-                    folder_name = "base_data",
-                    path = f"/{category}/{module}.parquet",
-                    data = df
-                )
+                dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/{category}/{module}.parquet", df)
         results.append(["Stack newest datasets", True, None])
         
         
