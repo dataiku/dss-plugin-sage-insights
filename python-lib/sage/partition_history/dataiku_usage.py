@@ -31,6 +31,5 @@ def main(self, project_handle, folder, df):
         # Write new output
         original_df["timestamp"] = pd.to_datetime(original_df["timestamp"])
         original_df = original_df.sort_values(by="timestamp", ascending=False)
-        original_df = original_df.drop_duplicates()
         dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/dataiku_usage/{module}.parquet", original_df)
     return
