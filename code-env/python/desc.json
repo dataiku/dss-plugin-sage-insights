@@ -5,5 +5,5 @@
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true
-  "conda": false,
+  "forceConda": false,
 }
