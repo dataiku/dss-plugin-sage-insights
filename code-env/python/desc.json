@@ -2,8 +2,12 @@
   "acceptedPythonInterpreters": [
     "PYTHON311"
   ],
+  "useReferenceSpec": true,
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true,
-  "conda": false
+  "dockerImageResources": "COPY",
+  "updateResourcesApiNode": false,
+  "conda": false,
+  "deploymentMode": "DSS_INTERNAL"
 }
