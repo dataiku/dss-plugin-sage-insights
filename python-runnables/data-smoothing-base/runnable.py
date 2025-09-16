@@ -54,19 +54,14 @@ class MyRunnable(Runnable):
             for partition in g["partitions"].tolist():
                 paths = folder.list_paths_in_partition(partition=partition)
                 for path in paths:
-                    tdf = dss_folder.read_local_folder_input(
-                        self = self.sage_project_key,
-                        project_handle = project_handle,
-                        folder_name = "partitioned_data",
-                        path = path
-                    )
+                    tdf = dss_folder.read_local_folder_input(self, project_handle, "partitioned_data", path)
                     if df.empty:
                         df = tdf
                     else:
                         df = pd.concat([df, tdf], ignore_index=True)
                 # Write consolidated DF to folder
                 dss_folder.write_local_folder_output(
-                    self = self.sage_project_key,
+                    self = self,
                     project_handle = project_handle,
                     folder_name = "base_data",
                     path = f"/{category}/{module}.parquet",
@@ -77,7 +72,7 @@ class MyRunnable(Runnable):
         
         # Collapse all the metadata files down to 1 single dataset - One dataset to rule them all
         users_df = dss_folder.read_local_folder_input(
-            sage_project_key = self.sage_project_key,
+            self = self,
             project_handle = project_handle,
             folder_name = "base_data",
             path = "/users/metadata.parquet"
