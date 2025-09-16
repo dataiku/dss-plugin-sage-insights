@@ -2,7 +2,7 @@
   "acceptedPythonInterpreters": [
     "PYTHON311"
   ],
-  "useReferenceSpec": true,
+  "useReferenceSpec": false,
   "installCorePackages": true,
   "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true,
