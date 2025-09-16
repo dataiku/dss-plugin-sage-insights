@@ -11,12 +11,7 @@ def main(self, project_handle, folder, df):
         ]
         # try to pull last update time to keep only the newest partitions
         try:
-            original_df = dss_folder.read_local_folder_input(
-                sage_project_key = self.sage_project_key,
-                project_handle = project_handle,
-                folder_name = "base_data", 
-                path = f"/dataiku_usage/rolling_{module}.parquet"
-            )
+            original_df = dss_folder.read_local_folder_input(self, project_handle, "base_data", f"/dataiku_usage/rolling_{module}.parquet")
             last_entry = pd.to_datetime(original_df["timestamp"].max())
         except:
             original_df = pd.DataFrame()
