@@ -32,12 +32,5 @@ def main(self, project_handle, folder, df):
         original_df["timestamp"] = pd.to_datetime(original_df["timestamp"])
         original_df = original_df.sort_values(by="timestamp", ascending=False)
         original_df = original_df.drop_duplicates()
-        dss_folder.write_local_folder_output(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = f"/users/rolling_{module}.parquet",
-            data_type = "DF",
-            data = original_df
-        )
+        dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/users/rolling_{module}.parquet", original_df)
     return
