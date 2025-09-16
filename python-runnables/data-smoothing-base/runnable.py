@@ -65,18 +65,8 @@ class MyRunnable(Runnable):
         
         
         # Collapse all the metadata files down to 1 single dataset - One dataset to rule them all
-        users_df = dss_folder.read_local_folder_input(
-            self = self,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/users/metadata.parquet"
-        )
-        prjs_df = dss_folder.read_local_folder_input(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/projects/metadata.parquet"
-        )
+        users_df = dss_folder.read_local_folder_input(self, project_handle, "base_data", "/users/metadata.parquet")
+        prjs_df = dss_folder.read_local_folder_input(self, project_handle, "base_data", "/projects/metadata.parquet")
         df = pd.merge(users_df, prjs_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
         primary_keys = ["instance_name", "login", "enabled", "userProfile", "project_key"]
         df = df[primary_keys]
