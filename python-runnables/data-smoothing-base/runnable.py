@@ -55,7 +55,7 @@ class MyRunnable(Runnable):
                 paths = folder.list_paths_in_partition(partition=partition)
                 for path in paths:
                     tdf = dss_folder.read_local_folder_input(
-                        sage_project_key = self.sage_project_key,
+                        self = self.sage_project_key,
                         project_handle = project_handle,
                         folder_name = "partitioned_data",
                         path = path
@@ -66,11 +66,10 @@ class MyRunnable(Runnable):
                         df = pd.concat([df, tdf], ignore_index=True)
                 # Write consolidated DF to folder
                 dss_folder.write_local_folder_output(
-                    sage_project_key = self.sage_project_key,
+                    self = self.sage_project_key,
                     project_handle = project_handle,
                     folder_name = "base_data",
                     path = f"/{category}/{module}.parquet",
-                    data_type = "DF",
                     data = df
                 )
         results.append(["Stack newest datasets", True, None])
