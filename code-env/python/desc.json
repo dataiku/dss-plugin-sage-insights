@@ -9,5 +9,5 @@
   "dockerImageResources": "COPY",
   "updateResourcesApiNode": false,
   "conda": false,
-  "deploymentMode": "DSS_INTERNAL"
+  "deploymentMode": "DESIGN_MANAGED"
 }
