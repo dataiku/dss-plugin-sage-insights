@@ -2,8 +2,8 @@
   "acceptedPythonInterpreters": [
     "PYTHON311"
   ],
-  "corePackagesSet": "AUTO",
-  "forceConda": false,
   "installCorePackages": true,
+  "corePackagesSet": "PANDAS22",
   "installJupyterSupport": true
+  "conda": false,
 }
