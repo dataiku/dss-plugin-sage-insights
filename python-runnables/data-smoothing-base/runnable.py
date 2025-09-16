@@ -70,14 +70,7 @@ class MyRunnable(Runnable):
         df = pd.merge(users_df, prjs_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
         primary_keys = ["instance_name", "login", "enabled", "userProfile", "project_key"]
         df = df[primary_keys]
-        dss_folder.write_local_folder_output(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/metadata_primary_keys.parquet",
-            data_type = "DF",
-            data = df
-        )
+        dss_folder.write_local_folder_output(self, project_handle, "base_data", "/metadata_primary_keys.parquet", df)
         results.append(["Metadata Master", True, None])
         
         # return results
