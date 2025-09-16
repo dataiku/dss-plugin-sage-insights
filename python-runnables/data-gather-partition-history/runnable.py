@@ -42,9 +42,9 @@ class MyRunnable(Runnable):
         
         # Audit log User information
         modules = {
-            "User Audit": 'audit_user',
-            "Dataiku Usage": 'dataiku_usage',
-            "Git History": 'git_history',
+            "User Audit": audit_user,
+            "Dataiku Usage": dataiku_usage,
+            "Git History": git_history,
 
         }
         for module in modules:
