@@ -62,7 +62,7 @@ def read_local_folder_input(self, project_handle, folder_name, path):
 def write_local_folder_output(self, project_handle, folder_name, path, df):
     folder = get_local_folder(self, project_handle, folder_name)
     f = io.BytesIO()
-    df.to_parquet(f)
+    df.to_parquet(f, compression="snappy", index=False)
     f.seek(0)
     content = f.read()
     folder.upload_stream(path, content)
@@ -80,5 +80,5 @@ def write_remote_folder_output(self, client, path, df):
     if not fid:
         raise Exception()
     folder = project_handle.get_managed_folder(odb_id=fid)
-    r = folder.put_file(path, df.to_parquet(index=False))
+    r = folder.put_file(path, df.to_parquet(compression="snappy", index=False))
     return
