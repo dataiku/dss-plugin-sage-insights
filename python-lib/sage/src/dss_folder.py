@@ -80,5 +80,6 @@ def write_remote_folder_output(self, client, path, df):
     if not fid:
         raise Exception()
     folder = project_handle.get_managed_folder(odb_id=fid)
-    r = folder.put_file(path, df.to_parquet(compression="snappy", engine='pyarrow', index=False))
+    df.to_parquet("/tmp/temp.parquet", compression="snappy", engine='pyarrow', index=False)
+    r = folder.put_file(path, "/tmp/temp.parquet")
     return
