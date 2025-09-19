@@ -4,8 +4,8 @@ from sage.src import dss_folder
 
 def main(self, remote_client, df):
     results = []
-
-    results.append(["Testing", len(df), len(df.columns)])
+    cols = df.columns.tolist()
+    results.append(["Testing", len(cols), " ".join(cols)])
     return results
     
     # Remove scenarios, job and NaN's
