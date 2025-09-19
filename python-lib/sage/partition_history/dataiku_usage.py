@@ -16,7 +16,7 @@ def main(self, project_handle, folder, df):
             last_entry = pd.to_datetime(original_df["timestamp"].max())
         except:
             original_df = pd.DataFrame()
-            last_entry = pd.to_datetime(1970, utc=True)
+            last_entry = pd.to_datetime(1970)
         # Read in the new partitions and update the parquet
         partitions_df = partitions_df.loc[partitions_df["dt"] >= last_entry]
         partitions = partitions_df["partitions"].tolist()
