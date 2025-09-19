@@ -3,7 +3,7 @@ from sage.src import dss_folder
 
 
 def main(self, remote_client, df):
-    return [["testing", True, "Testing"]]
+    results = []
     # Remove scenarios, job and NaN's
     if "message_scenarioId" in df.columns:
         df = df[df["message_scenarioId"].isna()]
@@ -18,9 +18,9 @@ def main(self, remote_client, df):
     try:
         df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_project_key", "instance_name"]]
     except:
-        return ["Loading Audit Logs", False, "No new data found"]
+        results.append(["Loading Audit Logs", False, "No new data found"])
+        return results
 
-    results = []
     instance_name = df["instance_name"].iloc[0]
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
