@@ -4,7 +4,6 @@ from sage.src import dss_folder
 
 def main(self, remote_client, df):
     results = []
-    cols = df.columns.tolist()
     
     # Remove scenarios, job and NaN's
     if "message_scenarioId" in df.columns:
