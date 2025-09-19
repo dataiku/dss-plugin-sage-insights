@@ -108,6 +108,10 @@ class MyRunnable(Runnable):
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         df["date"] = df["timestamp"].dt.date
         df["instance_name"] = instance_name
+        if "projectKey" in merged_df.columns:
+            df = df.rename(columns={"projectKey": "project_key"})
+        if "projectKey" in merged_df.columns:
+            df = df.rename(columns={"projectKey": "project_key"})
 
         # Module Import
         results += run_module(self, user_login, remote_client, df)
