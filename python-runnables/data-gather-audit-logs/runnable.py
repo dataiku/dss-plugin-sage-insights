@@ -109,9 +109,9 @@ class MyRunnable(Runnable):
         df["date"] = df["timestamp"].dt.date
         df["instance_name"] = instance_name
         if "projectKey" in df.columns:
-            df = df.rename(columns={"projectKey": "project_key"})
+            df = df.rename(columns={"message_projectKey": "project_key"})
         if "authUser" in df.columns:
-            df = df.rename(columns={"authUser": "login"})
+            df = df.rename(columns={"message_authUser": "login"})
 
         # Module Import
         results += run_module(self, user_login, remote_client, df)
