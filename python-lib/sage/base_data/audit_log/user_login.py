@@ -14,12 +14,13 @@ def main(self, remote_client, df):
     df = df.dropna(axis=1, how='all').reset_index(drop=True)
     if df.empty:
         results.append(["User Audit log Dataframe Empty", True, None])
-    cols = df.columns.tolist()
+        return
 
     # Select the columns needed
     try:
         df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_project_key", "instance_name"]]
     except:
+        cols = df.columns.tolist()
         results.append(["Loading Audit Logs", False, f"Invalid or missing column names: {cols}"])
         return results
 
