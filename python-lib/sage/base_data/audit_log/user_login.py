@@ -12,7 +12,11 @@ def main(self, remote_client, df):
     df = df[df["message_authSource"] == "USER_FROM_UI"]
     df = df.dropna(subset=["message_login"])
     df = df.dropna(axis=1, how='all').reset_index(drop=True)
-    cols = df.columns.tolist()
+    try:
+        cols = df.columns.tolist()
+    except Exception as e:
+        results.append(["wtf", False, e])
+        return results
 
     # Select the columns needed
     try:
