@@ -30,8 +30,6 @@ def main(self, remote_client, df):
         merged_df = merged_df[merged_df["dataiku_category"] != "DROP_DELETE"]
         merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
         merged_df.columns = merged_df.columns.str.replace('message_', '', regex=False)
-        if "projectKey" in merged_df.columns:
-            merged_df = merged_df.rename(columns={"projectKey": "project_key"})
                 
         # lets split the df by category and save
         for category, grp in merged_df.groupby("dataiku_category"):
