@@ -2,6 +2,9 @@ from sage.src import dss_folder
 
 import pandas as pd
 
+from datetime import datetime, timezone
+
+
 def main(self, project_handle, folder, df):
     for module in df["module"][df["category"] == "dataiku_usage"].unique().tolist():
         # Get a partitions df for the module
