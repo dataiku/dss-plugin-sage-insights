@@ -11,6 +11,8 @@ def main(self, remote_client, df):
     df = df[df["message_authSource"] == "USER_FROM_UI"]
     df = df.dropna(subset=["message_login"])
     df = df.dropna(axis=1, how='all')
+    
+    return
 
     # Select the columns needed
     try:
