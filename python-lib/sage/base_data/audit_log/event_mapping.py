@@ -4,6 +4,22 @@ from sage.src import dss_folder, dss_funcs
 from sage.base_data.audit_log import mapping
 
 
+def parse_auth_llm(auth_list):
+    project_key, webapp_id, user = None, None, None
+
+    for item in auth_list:
+        if isinstance(item, str) and "ticket:Standard webapp backend:" in item:
+            part = item.split(":")[-1].strip()
+            if "." in part:
+                project_key, webapp_id = part.split(".", 1)
+        elif isinstance(item, str):
+            user = item
+
+    return pd.Series([project_key, webapp_id, user],
+                     index=["llm_webapp_project_key", "llm_webapp_id", "llm_webapp_user"])
+
+
+
 def main(self, remote_client, df):
     results = []
     instance_name = df["instance_name"].iloc[0]
