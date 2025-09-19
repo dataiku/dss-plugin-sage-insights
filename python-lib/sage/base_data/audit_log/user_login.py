@@ -28,6 +28,8 @@ def main(self, remote_client, df):
         dt_month = str(f'{dt.month:02d}')
         dt_day   = str(f'{dt.day:02d}')
         dt_epoch = dt.value
+        
+        continue
 
         # Login Users
         login_users = grp[grp["message_msgType"] == "application-open"]["message_login"].unique()
