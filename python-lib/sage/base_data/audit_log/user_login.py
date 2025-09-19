@@ -17,7 +17,8 @@ def main(self, remote_client, df):
     try:
         df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_project_key", "instance_name"]]
     except:
-        results.append(["Loading Audit Logs", False, "Invalid or missing column names"])
+        cols = df.columns
+        results.append(["Loading Audit Logs", False, f"Invalid or missing column names: {cols}"])
         return results
 
     instance_name = df["instance_name"].iloc[0]
