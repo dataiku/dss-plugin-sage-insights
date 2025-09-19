@@ -28,7 +28,7 @@ def main(self, remote_client, df):
         
         # Filter - remove dropped columns
         merged_df = merged_df[merged_df["dataiku_category"] != "DROP_DELETE"]
-        merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
+        merged_df.columns = merged_df.columns.str.lower()
         merged_df.columns = merged_df.columns.str.replace('message_', '', regex=False)
                 
         # lets split the df by category and save
