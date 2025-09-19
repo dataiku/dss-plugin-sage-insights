@@ -35,6 +35,7 @@ def main(self, remote_client, df):
         login_users_df["timestamp"] = pd.to_datetime(i)
         login_users_df["instance_name"] = instance_name
         try:
+            login_users_df.columns = login_users_df.columns.str.replace('message_', '', regex=False)
             write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
             results.append(["write/save", True, f"data-{dt_epoch}.parquet"])
@@ -56,6 +57,7 @@ def main(self, remote_client, df):
         developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
         developer_users_df["timestamp"] = pd.to_datetime(i)
         try:
+            developer_users_df.columns = developer_users_df.columns.str.replace('message_', '', regex=False)
             write_path = f"/{instance_name}/users/developer_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, developer_users_df)
             results.append(["write/save", True, f"data-{dt_epoch}.parquet"])
