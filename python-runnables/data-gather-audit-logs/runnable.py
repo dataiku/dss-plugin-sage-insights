@@ -114,7 +114,7 @@ class MyRunnable(Runnable):
             df = df.rename(columns={"message_authUser": "message_login"})
 
         # Module Import
-        #results += run_module(self, user_login, remote_client, df)
+        results += run_module(self, user_login, remote_client, df)
         results += run_module(self, event_mapping, remote_client, df)
         
         ## cru_logs(df)
