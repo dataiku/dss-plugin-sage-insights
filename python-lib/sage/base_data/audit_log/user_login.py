@@ -8,7 +8,7 @@ def main(self, remote_client, df):
         df = df[df["message_scenarioId"].isna()]
     if "message_jobId" in df.columns:
         df = df[df["message_jobId"].isna()]
-    return []
+    return ["testing", True, "Testing"]
     df = df[df["message_authSource"] == "USER_FROM_UI"]
     df = df.dropna(subset=["message_login"])
     df = df.dropna(axis=1, how='all')
