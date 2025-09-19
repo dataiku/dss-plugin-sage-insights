@@ -14,7 +14,7 @@ def main(self, remote_client, df):
 
     # Select the columns needed
     try:
-        df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_projectKey", "instance_name"]]
+        df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_project_key", "instance_name"]]
     except:
         return ["Loading Audit Logs", False, "No new data found"]
 
