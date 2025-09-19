@@ -12,12 +12,12 @@ def main(self, remote_client, df):
     df = df[df["message_authSource"] == "USER_FROM_UI"]
     df = df.dropna(subset=["message_login"])
     df = df.dropna(axis=1, how='all')
+    cols = df.columns.tolist()
 
     # Select the columns needed
     try:
         df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_project_key", "instance_name"]]
     except:
-        cols = df.columns.tolist()
         results.append(["Loading Audit Logs", False, f"Invalid or missing column names: {cols}"])
         return results
 
