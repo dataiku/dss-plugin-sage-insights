@@ -5,8 +5,6 @@ from sage.src import dss_folder
 def main(self, remote_client, df):
     results = []
     cols = df.columns.tolist()
-    results.append(["Testing", len(cols), " ".join(cols)])
-    return results
     
     # Remove scenarios, job and NaN's
     if "message_scenarioId" in df.columns:
@@ -15,7 +13,7 @@ def main(self, remote_client, df):
         df = df[df["message_jobId"].isna()]
     df = df[df["message_authSource"] == "USER_FROM_UI"]
     df = df.dropna(subset=["message_login"])
-    #df = df.dropna(axis=1, how='all').reset_index(drop=True)
+    df = df.dropna(axis=1, how='all').reset_index(drop=True)
 
     # Select the columns needed
     try:
