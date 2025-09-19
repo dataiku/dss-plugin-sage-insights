@@ -9,12 +9,12 @@ def main(self, remote_client, df):
     if "message_jobId" in df.columns:
         df = df[df["message_jobId"].isna()]
     df = df[df["message_authSource"] == "USER_FROM_UI"]
-    df = df.dropna(subset=["message_authUser"])
+    df = df.dropna(subset=["message_login"])
     df = df.dropna(axis=1, how='all')
 
     # Select the columns needed
     try:
-        df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_authUser", "message_projectKey", "instance_name"]]
+        df = df[["timestamp", "date", "message_callPath", "message_msgType", "message_login", "message_projectKey", "instance_name"]]
     except:
         return ["Loading Audit Logs", False, "No new data found"]
 
@@ -30,7 +30,7 @@ def main(self, remote_client, df):
         dt_epoch = dt.value
 
         # Login Users
-        login_users = grp[grp["message_msgType"] == "application-open"]["message_authUser"].unique()
+        login_users = grp[grp["message_msgType"] == "application-open"]["message_login"].unique()
         login_users_df = pd.DataFrame(login_users, columns=["viewing_user_logins"])
         login_users_df["timestamp"] = pd.to_datetime(i)
         login_users_df["instance_name"] = instance_name
@@ -42,7 +42,7 @@ def main(self, remote_client, df):
             results.append(["write/save - All", False, e])
         
         # Developer Users
-        tdf = grp[grp["message_authUser"].isin(login_users)]
+        tdf = grp[grp["message_login"].isin(login_users)]
         ## Action Items
         action_words = ["save", "create", "analysis", "clear", "run"] # Action Words -- Focus on
         pattern = "|".join(action_words)
@@ -52,7 +52,7 @@ def main(self, remote_client, df):
         pattern = "|".join(remove_strings)
         tdf = tdf[~tdf["message_msgType"].str.contains(pattern, na=False)]
         ## Unique it
-        developer_users = tdf["message_authUser"].unique()
+        developer_users = tdf["message_login"].unique()
         developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
         developer_users_df["timestamp"] = pd.to_datetime(i)
         try:
