@@ -113,9 +113,10 @@ class MyRunnable(Runnable):
         if "message_authUser" in df.columns:
             df = df.rename(columns={"message_authUser": "message_login"})
 
+        results.append(["testing", len(df), len(df.columns)])
         # Module Import
-        results += run_module(self, user_login, remote_client, df)
-        results += run_module(self, event_mapping, remote_client, df)
+        #results += run_module(self, user_login, remote_client, df)
+        #results += run_module(self, event_mapping, remote_client, df)
         
         ## cru_logs(df)
         ###results.append(["CRU Logs", result[0], result[1]])
