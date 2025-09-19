@@ -3,7 +3,7 @@ from sage.src import dss_folder
 
 
 def main(self, remote_client, df):
-    return ["testing", True, "Testing"]
+    return [["testing", True, "Testing"]]
     # Remove scenarios, job and NaN's
     if "message_scenarioId" in df.columns:
         df = df[df["message_scenarioId"].isna()]
