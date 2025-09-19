@@ -51,6 +51,13 @@ def main(self, remote_client, df):
         # lets split the df by category and save
         for category, grp in merged_df.groupby("dataiku_category"):
             grp = grp.dropna(axis=1, how='all').reset_index(drop=True)
+            
+            if category == "genai_llm":
+                grp[["llm_webapp_project_key", "llm_webapp_id", "llm_webapp_user"]] = grp["authvia"].apply(parse_auth_llm)
+                if "project_key" not in grp.columns:
+                    grp["project_key"] = None
+                grp["project_key"] = grp["project_key"].fillna(grp["llm_webapp_project_key"])
+                
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, grp)
