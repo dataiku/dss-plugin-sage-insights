@@ -39,7 +39,7 @@ def main(self, remote_client, df):
         login_users_df["instance_name"] = instance_name
         try:
             login_users_df.columns = login_users_df.columns.str.replace('message_', '', regex=False)
-            df.columns = df.columns.str.lower()
+            login_users_df.columns = login_users_df.columns.str.lower()
             write_path = f"/{instance_name}/users/viewing_user_logins/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, login_users_df)
             results.append(["write/save", True, f"login users data-{dt_epoch}.parquet"])
