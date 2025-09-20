@@ -24,6 +24,8 @@ def main(self, remote_client, df):
     results = []
     instance_name = df["instance_name"].iloc[0]
     mapping_df = pd.read_csv(StringIO(mapping.raw_csv))
+    
+    df = df[df["topic"] == "generic"].reset_index(drop=True)
 
     # Loop over any partitions of dates for data
     for i,grp in df.groupby("date"):
