@@ -49,17 +49,18 @@ def main(self, remote_client, df):
         merged_df.columns = merged_df.columns.str.lower()
         merged_df.columns = merged_df.columns.str.replace('message_', '', regex=False)
         merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
+        
+        # AuthVia
+        merged_df["authvia"] = merged_df["authvia"].where(~merged_df["authvia"].isna(), other=[ ])
+        merged_df["authvia"] = merged_df["authvia"].apply(lambda x: ', '.join(map(str, x)))
+        merged_df[["message_project_key_temp", "message_webapp_id"]] = merged_df["authvia"].apply(parse_authvia)
+        if "project_key" not in merged_df.columns:
+            merged_df["project_key"] = None
+        merged_df["project_key"] = merged_df["project_key"].fillna(merged_df["message_project_key_temp"])   
                 
         # lets split the df by category and save
         for category, grp in merged_df.groupby("dataiku_category"):
             grp = grp.dropna(axis=1, how='all').reset_index(drop=True)
-            
-            if category == "genai_llm":
-                grp[["llm_webapp_project_key", "llm_webapp_id", "llm_webapp_user"]] = grp["authvia"].apply(parse_auth_llm)
-                if "project_key" not in grp.columns:
-                    grp["project_key"] = None
-                grp["project_key"] = grp["project_key"].fillna(grp["llm_webapp_project_key"])
-                
             try:
                 write_path = f"/{instance_name}/dataiku_usage/{category}/{dt_year}/{dt_month}/{dt_day}/data-{dt_epoch}.parquet"
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, grp)
