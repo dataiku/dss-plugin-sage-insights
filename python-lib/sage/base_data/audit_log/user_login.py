@@ -60,6 +60,7 @@ def main(self, remote_client, df):
         developer_users = tdf["message_login"].unique()
         developer_users_df = pd.DataFrame(developer_users, columns=["developer_user_logins"])
         developer_users_df["timestamp"] = pd.to_datetime(i)
+        developer_users_df["instance_name"] = instance_name
         try:
             developer_users_df.columns = developer_users_df.columns.str.replace('message_', '', regex=False)
             developer_users_df.columns = developer_users_df.columns.str.lower()
