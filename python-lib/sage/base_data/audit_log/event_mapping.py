@@ -62,10 +62,24 @@ def main(self, remote_client, df):
         # AuthVia
         merged_df["authvia"] = merged_df["authvia"].fillna("")
         merged_df["authvia"] = merged_df["authvia"].apply(lambda x: ', '.join(map(str, x)))
-        merged_df[["message_project_key_temp", "message_webapp_id"]] = merged_df["authvia"].apply(parse_authvia)
+        merged_df[["project_key_temp", "webapp_id_temp"]] = merged_df["authvia"].apply(parse_authvia)
+        
+        
+        # Update columns from AuthVia
         if "project_key" not in merged_df.columns:
             merged_df["project_key"] = None
-        merged_df["project_key"] = merged_df["project_key"].fillna(merged_df["message_project_key_temp"])   
+        merged_df["project_key"] = merged_df["project_key"].fillna(merged_df["project_key_temp"])
+        
+        if "webapp_id" not in merged_df.columns:
+            merged_df["webapp_id"] = None
+        merged_df["webapp_id"] = merged_df["webapp_id"].fillna(merged_df["webapp_id_temp"])
+        
+        if "webappid" in merged_df.columns:
+            dupes = merged_df.loc[:, merged_df.columns == "webappid"]
+            merged_df["webappid"] = dupes.bfill(axis=1).iloc[:, 0]
+            merged_df = merged_df.loc[:, ~merged_df.columns.duplicated()]
+        
+        
                 
         # lets split the df by category and save
         for category, grp in merged_df.groupby("dataiku_category"):
