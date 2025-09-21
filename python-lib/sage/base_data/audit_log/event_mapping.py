@@ -4,19 +4,28 @@ from sage.src import dss_folder, dss_funcs
 from sage.base_data.audit_log import mapping
 
 
-def parse_auth_llm(auth_list):
-    project_key, webapp_id, user = None, None, None
-
-    for item in auth_list:
-        if isinstance(item, str) and "ticket:Standard webapp backend:" in item:
-            part = item.split(":")[-1].strip()
-            if "." in part:
-                project_key, webapp_id = part.split(".", 1)
-        elif isinstance(item, str):
-            user = item
-
-    return pd.Series([project_key, webapp_id, user],
-                     index=["llm_webapp_project_key", "llm_webapp_id", "llm_webapp_user"])
+def parse_authvia(s):
+    project_key, webapp_id = None, None
+    if "scenario=" in s:
+        project_key, scenario_id = s[s.find("scenario="):].split(" ")[0].replace("scenario=", "").split(".")
+    elif "ticket:python_trigger:" in s:
+        project_key, scenario_id = s.replace("ticket:python_trigger:", "").split(".")
+    elif "ticket:Standard webapp backend:" in s:
+        project_key, d = s.replace("ticket:Standard webapp backend: ", "").split(".")
+        if "," in d:
+            webapp_id, login = d.split(",")
+        elif isinstance(d, str):
+            webapp_id = d
+        else:
+            print(s)
+    elif "ticket:jupyter:" in s:
+        project_key, jupyter_notebook = s.replace("ticket:jupyter:", "").split(".", maxsplit=1)
+    elif "ticket:job:" in s:
+        project_key, job_id = s.replace("ticket:job:", "").split(".", maxsplit=1)
+    elif "ticket:plugin_ui_setup:" in s:
+        pass
+    return pd.Series([project_key, webapp_id],
+                     index=["message_project_key_temp", "message_webapp_id"])
 
 
 
