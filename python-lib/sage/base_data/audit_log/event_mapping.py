@@ -60,7 +60,7 @@ def main(self, remote_client, df):
         merged_df["dataiku_category"] = merged_df["dataiku_category"].str.lower()
         
         # AuthVia
-        merged_df["authvia"] = merged_df["authvia"].where(~merged_df["authvia"].isna(), other=[ ])
+        merged_df["authvia"] = merged_df["authvia"].fillna("")
         merged_df["authvia"] = merged_df["authvia"].apply(lambda x: ', '.join(map(str, x)))
         merged_df[["message_project_key_temp", "message_webapp_id"]] = merged_df["authvia"].apply(parse_authvia)
         if "project_key" not in merged_df.columns:
