@@ -1,8 +1,27 @@
 # Sage Dashboard
 
+## ANNOUNCEMENT
+
+Due to performance issues, Sage no longer supports `csv` as an output file. All files must not be in the form of `parquet`.
+
+Because of this change, a large number of columns had to be reworked to handle the additional of a true schema being saved with the parquet files.
+
+In a decision to keep things easier to maintain in the future, column names have been reworked to use more of the natural naming conventions.
+
+* Actions to take migrating >1.6 or higher (if previously installed).
+  * Patch to v1.6 or higher
+  * Patch/Update the local code-environment for Sage
+  * Rebuild the new Streamlit Code-Studio Template
+  * Rename both the original `partitioned_data` and `base_data` folders (if wanting to preserve historical data)
+  * Run both `Init Dashboard` and `Init Worker` Macros
+    * **NOTE** Disable checkbox for re-running the scenarios on Init
+  * Double check that all code-environments properly rebuilt in the extra worker nodes
+
+## Contributors
+
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.6.0
+* Version - 1.6.1
 * Special Thanks
   * Development
     * Jordan Burke
