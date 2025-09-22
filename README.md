@@ -16,6 +16,7 @@ In a decision to keep things easier to maintain in the future, column names have
   * Run both `Init Dashboard` and `Init Worker` Macros
     * **NOTE** Disable checkbox for re-running the scenarios on Init
   * Double check that all code-environments properly rebuilt in the extra worker nodes
+  * Let scenarios run at scheduled time or manually kick off first time
 
 ## Contributors
 
