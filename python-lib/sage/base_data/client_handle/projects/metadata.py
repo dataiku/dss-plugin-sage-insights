@@ -1,42 +1,29 @@
 import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
-from sage.src.dss_funcs import get_nested_value
-
-
-def project_gather(projects):
-    dfs = []
-    for project in projects:
-        d = {}
-        d["project_key"] = project.get("projectKey", False)
-        d["project_name"] = project.get("name", False)
-        d["login"] = project.get("ownerLogin", False) # Match users dataframe
-        d["project_login_dn"] = get_nested_value(project, ["ownerDisplayName"])
-        d["project_last_mod_by"] = get_nested_value(project, ["versionTag", "lastModifiedBy", "login"])
-        d["project_last_mod_dt"] = get_nested_value(project, ["versionTag", "lastModifiedOn"])
-        d["project_last_create_by"] = get_nested_value(project, ["creationTag", "lastModifiedBy", "login"])
-        d["project_last_create_dt"] = get_nested_value(project, ["creationTag", "lastModifiedOn"])
-        d["project_shortDesc"] = project.get("shortDesc", False)
-        d["project_tags"] = project.get("tags", False)
-        dfs.append(pd.DataFrame([d]))
-    df = pd.concat(dfs, ignore_index=True)
-    return df
+from sage.src import dss_funcs
 
 
 def main(self, client, client_d = {}):
-    dfs = []
-    list_projects_arrays = np.array_split(client.list_projects(), 2)
-    results = Parallel(n_jobs=2)(delayed(project_gather)(i) for i in list_projects_arrays)
-    df = pd.concat(results, ignore_index=True)
+    # Get projects and expand
+    df = pd.DataFrame(client.list_projects()).add_prefix("project_")
+    jdf = pd.json_normalize(df["project_versionTag"]).add_prefix("project_versionTag_")
+    df = pd.concat([df, jdf], axis=1)
+    jdf = pd.json_normalize(df["project_creationTag"]).add_prefix("project_creationTag_")
+    df = pd.concat([df, jdf], axis=1)
     
     # Imported projects missing creation values - temp fix for now
-    df.loc[df["project_last_create_by"] == False, "project_last_create_by"] = df["project_last_mod_by"]
-    df.loc[df["project_last_create_dt"] == 0, "project_last_create_dt"]     = df["project_last_mod_dt"]
+    df.loc[df["project_creationTag_versionNumber"].isna(), "project_creationTag_versionNumber"] = 0
+    df.loc[df["project_creationTag_lastModifiedOn"].isna(), "project_creationTag_lastModifiedOn"] = df["project_versionTag_lastModifiedOn"]
+    df.loc[df["project_creationTag_lastModifiedBy.login"].isna(), "project_creationTag_lastModifiedBy.login"] = df["project_versionTag_lastModifiedBy.login"]
 
     # Clean dates
-    for c in ["project_last_mod_dt", "project_last_create_dt"]:
+    for c in ["project_versionTag_lastModifiedOn", "project_creationTag_lastModifiedOn"]:
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
-        df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
-    
+        
+    # Rename a few colums
+    df = df.rename(columns={"project_ownerLogin": "login"})
+    # Project Key
+    df = dss_funcs.rename_and_move_first(None, df, "project_projectKey", "project_key")
     return df

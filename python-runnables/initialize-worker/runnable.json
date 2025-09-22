@@ -6,11 +6,10 @@
         "category": "Sage Insights: Initialize"
     },
     "impersonate": false,
-    "params": [],
     "permissions": ["ADMIN"],
     "requiresGlobalAdmin": true,
-    "resultType": "HTML",
-    "resultLabel": "my production",
+    "resultType": "RESULT_TABLE",
+    "resultLabel": "RESULTS",
     "extension": "txt",
     "mimeType": "text/plain",
     "macroRoles": [],

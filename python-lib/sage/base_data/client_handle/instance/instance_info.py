@@ -3,9 +3,7 @@ from sage.src.dss_funcs import get_nested_value
 
 
 def main(self, client, client_d = {}):
-    instance_info = client.get_instance_info().raw
-    df = pd.DataFrame(instance_info, index=[0])
-    
+    df = pd.json_normalize(client.get_instance_info().raw)
     for c in ["dssStartupTimestamp"]:
         df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
         df[c] = pd.to_datetime(df[c], utc=True)

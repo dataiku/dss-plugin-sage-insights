@@ -4,11 +4,12 @@ except:
     dss_objs = False
 from sage.src import dss_funcs
 
+import dataiku
 import os
 import pandas as pd
 from datetime import datetime
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 
 class MyRunnable(Runnable):
@@ -63,10 +64,18 @@ class MyRunnable(Runnable):
         for key in local_client.list_project_keys():
             project_handle = local_client.get_project(project_key=key)
             results += dss_funcs.run_modules(self, dss_objs, project_handle, client_d, key)
-        
+            
         # return results
         if results:
             df = pd.DataFrame(results, columns=["project_key", "path", "module_name", "step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN PROJECT CHECKS")
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
+        else:
+            raise Exception("Something went wrong")

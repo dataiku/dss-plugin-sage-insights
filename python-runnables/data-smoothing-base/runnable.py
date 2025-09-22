@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
@@ -20,29 +20,24 @@ class MyRunnable(Runnable):
         return None
 
     def run(self, progress_callback):
-        results = []
         # get partitioned folder
         local_client = dss_funcs.build_local_client()
         project_handle = local_client.get_project(project_key=self.sage_project_key)
-        folder = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
+        folder = dss_folder.get_local_folder(self, project_handle, "partitioned_data")
         
         # list partitions and turn into a df
+        results = []
         partitions = folder.list_partitions()
         folder_df = pd.DataFrame(partitions, columns=["partitions"])
         cols = ["instance_name", "category", "module", "dt"]
         folder_df[cols] = folder_df["partitions"].str.split("|", expand=True)
+        folder_df["dt"] = pd.to_datetime(folder_df["dt"])
         results.append(["List Partitions", True, None])
         
         # get latest partition
         max_date = folder_df['dt'].max()
-        dss_folder.write_local_folder_output(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = f"/partition.csv",
-            data_type = "DF",
-            data = pd.DataFrame([max_date], columns=["latest_partition"])
-        )
+        pdf = pd.DataFrame([max_date], columns=["latest_partition"])
+        dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/partition.parquet", pdf)
         filtered_df = folder_df[folder_df['dt'] == max_date]
         results.append(["Newest Partition", True, None])
         
@@ -55,57 +50,36 @@ class MyRunnable(Runnable):
             for partition in g["partitions"].tolist():
                 paths = folder.list_paths_in_partition(partition=partition)
                 for path in paths:
-                    tdf = dss_folder.read_local_folder_input(
-                        sage_project_key = self.sage_project_key,
-                        project_handle = project_handle,
-                        folder_name = "partitioned_data",
-                        path = path
-                    )
+                    tdf = dss_folder.read_local_folder_input(self, project_handle, "partitioned_data", path)
                     if df.empty:
                         df = tdf
                     else:
                         df = pd.concat([df, tdf], ignore_index=True)
                 # Write consolidated DF to folder
-                dss_folder.write_local_folder_output(
-                    sage_project_key = self.sage_project_key,
-                    project_handle = project_handle,
-                    folder_name = "base_data",
-                    path = f"/{category}/{module}.csv",
-                    data_type = "DF",
-                    data = df
-                )
+                dss_folder.write_local_folder_output(self, project_handle, "base_data", f"/{category}/{module}.parquet", df)
         results.append(["Stack newest datasets", True, None])
         
         
         # Collapse all the metadata files down to 1 single dataset - One dataset to rule them all
-        users_df = dss_folder.read_local_folder_input(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/users/metadata.csv"
-        )
-        prjs_df = dss_folder.read_local_folder_input(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/projects/metadata.csv"
-        )
+        users_df = dss_folder.read_local_folder_input(self, project_handle, "base_data", "/users/metadata.parquet")
+        prjs_df = dss_folder.read_local_folder_input(self, project_handle, "base_data", "/projects/metadata.parquet")
         df = pd.merge(users_df, prjs_df, how="left", left_on=["instance_name", "login"], right_on=["instance_name", "login"])
-        primary_keys = ["instance_name", "login", "enabled", "userProfile", "project_key"]
+        primary_keys = ["instance_name", "login", "enabled", "userprofile", "project_key"]
         df = df[primary_keys]
-        dss_folder.write_local_folder_output(
-            sage_project_key = self.sage_project_key,
-            project_handle = project_handle,
-            folder_name = "base_data",
-            path = "/metadata_primary_keys.csv",
-            data_type = "DF",
-            data = df
-        )
+        dss_folder.write_local_folder_output(self, project_handle, "base_data", "/metadata_primary_keys.parquet", df)
         results.append(["Metadata Master", True, None])
         
         # return results
         if results:
             df = pd.DataFrame(results, columns=["step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN PROJECT CHECKS")
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
+        else:
+            raise Exception("Something went wrong")
