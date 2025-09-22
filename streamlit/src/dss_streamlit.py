@@ -7,16 +7,14 @@ from pandas.api.types import (
     is_object_dtype,
     is_bool_dtype,
 )
-
-from sage.src import dss_funcs
-from sage.src import dss_folder
-
-
+import importlib
+import os
+import re
 
 
-# ---------- STREAMLIT MODULES -----------------------------
+
+# ---------- MODULES -----------------------------
 def collect_modules(module):
-    import streamlit as st
     d = {}
     directory = module.__path__[0]
     for root, _, files in os.walk(directory):
@@ -32,7 +30,7 @@ def collect_modules(module):
                 d[final_string] = [module_name, fp]
     return d
 
-
+    
 def collect_display_data(load_modules):
     display_data = []
     modules = collect_modules(load_modules)
@@ -58,23 +56,8 @@ def load_insights(module_name, fp, filters = {}):
         return results
     return results
 
+
 # ------------------------------------------------------------------------------------
-def get_datasets(data_category):
-    local_client = dss_funcs.build_local_client()
-    project_handle = local_client.get_default_project()
-    sage_project_key = project_handle.project_key
-
-    datasets = []
-    folder = dss_folder.get_folder(
-        sage_project_key=sage_project_key, project_handle=project_handle, folder_name="base_data"
-    )
-    for p in folder.list_paths_in_partition():
-        if data_category in p:
-            csv = p.split("/")[-1].replace(".csv", "")
-            datasets.append(csv)
-    return datasets
-
-
 def filter_dataframe(df):
     # Try to convert datetimes into a standard format (datetime, no timezone)
     for col in df.columns:
