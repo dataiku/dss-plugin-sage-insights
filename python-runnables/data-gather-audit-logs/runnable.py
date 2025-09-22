@@ -8,7 +8,7 @@ from datetime import timedelta, datetime
 from sage.src import dss_funcs
 from sage.base_data.audit_log import user_login, event_mapping
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 
 def find_recent_files(file_list, hours=100):
@@ -100,14 +100,20 @@ class MyRunnable(Runnable):
         results.append(["Gather Audit Logs", True, None])
         
         # Expand Messages and join
-        jdf = pd.json_normalize(df["message"]).add_prefix("message.").reset_index(drop=True)
-        df = df.drop(columns="message").reset_index(drop=True)
+        jdf = pd.json_normalize(df["message"]).add_prefix("message_").reset_index(drop=True)
+        df = df.drop(columns=["message", "mdc"]).reset_index(drop=True)
         df = pd.concat([df, jdf], axis=1)
         
         # Column Cleanse
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         df["date"] = df["timestamp"].dt.date
         df["instance_name"] = instance_name
+        if "message_projectKey" in df.columns:
+            df = df.rename(columns={"message_projectKey": "message_project_key"})
+        if "message_login" in df.columns:
+            df = df.rename(columns={"message_login": "message_logged_in"})
+        if "message_authUser" in df.columns:
+            df = df.rename(columns={"message_authUser": "message_login"})
 
         # Module Import
         results += run_module(self, user_login, remote_client, df)
@@ -124,9 +130,16 @@ class MyRunnable(Runnable):
             results.append(["Set New Audit Log Cache timestamp", True, last_time_entry])
         
         # return results
-        results_df = pd.DataFrame(results, columns=["step", "result", "message"])
-        html = results_df.to_html()
-        return html
-
-
-# EOF
+        if results:
+            df = pd.DataFrame(results, columns=["step", "result", "message"])
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
+        else:
+            raise Exception("Something went wrong")

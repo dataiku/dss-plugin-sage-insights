@@ -1,16 +1,15 @@
 {
     "meta": {
-        "label": "Data Gather Partition History",
+        "label": "Base Data - Partition History",
         "description": "Build trends off the Partition Data history.",
         "icon": "fas fa-puzzle-piece",
         "category": "Sage Insights: Data Gather"
     },
     "impersonate": false,
-    "params": [],
     "permissions": ["ADMIN"],
     "requiresGlobalAdmin": true,
-    "resultType": "HTML",
-    "resultLabel": "my production",
+    "resultType": "RESULT_TABLE",
+    "resultLabel": "RESULTS",
     "extension": "txt",
     "mimeType": "text/plain",
     "macroRoles": [],

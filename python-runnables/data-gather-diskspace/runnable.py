@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime, date, timedelta
 import logging
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 def get_size(d):
     try:
@@ -102,7 +102,7 @@ class MyRunnable(Runnable):
         dt_day   = str(f'{self.dt.day:02d}')
         df["instance_name"] = instance_name
         try:
-            write_path = f"/{instance_name}/disk_space/diskspace/{dt_year}/{dt_month}/{dt_day}/data.csv"
+            write_path = f"/{instance_name}/operating_system/diskspace/{dt_year}/{dt_month}/{dt_day}/data.parquet"
             dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
             results.append(["write/save", True, None])
         except Exception as e:
@@ -111,6 +111,14 @@ class MyRunnable(Runnable):
         # return results
         if results:
             df = pd.DataFrame(results, columns=["step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN INSTANCE CHECKS")
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
+        else:
+            raise Exception("Something went wrong")

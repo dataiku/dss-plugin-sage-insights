@@ -1,33 +1,16 @@
-import sys
-sys.dont_write_bytecode = True
-
+# sage/src/dss_folder.py
+## Last Modified: 2025-09-12
+# -----------------------------------------------------------------------------------------
 import dataiku
 import pandas as pd
-import json
-import warnings
-import os
+import io
 
 
-# ---------- DATAIKU LOCAL FOLDERS -----------------------------
-def get_folder(sage_project_key, project_handle, folder_name):
-    folder = dataiku.Folder(
-        lookup = folder_name,
-        project_key = sage_project_key,
-        ignore_flow = True
-        )
-    try:
-        folder.get_id()
-    except:
-        folder = create_folder(project_handle, folder_name)
-    return folder
-
-
-def create_folder(project_handle, folder_name):
-    SAGE_FOLDER_CONNECTION = os.environ["SAGE_FOLDER_CONNECTION"]
-    
+# ---------- DATAIKU LOCAL FOLDERS --------------------------------------------------------
+def create_local_folder(self, project_handle, folder_name):
     folder_handle = project_handle.create_managed_folder(
         name = folder_name,
-        connection_name = SAGE_FOLDER_CONNECTION
+        connection_name = self.sage_folder_connection
     )
     if folder_name == "partitioned_data":
         settings = folder_handle.get_settings()
@@ -41,56 +24,52 @@ def create_folder(project_handle, folder_name):
     return
 
 
-def write_local_folder_output(sage_project_key, project_handle, folder_name, path, data, data_type="DF"):
-    folder = get_folder(sage_project_key, project_handle, folder_name)
-    if data_type == "DF":
-        with folder.get_writer(path) as w:
-            w.write(data.to_csv(index=False).encode("utf-8"))
-    elif data_type == "JSON":
-        with folder.get_writer(path) as w:
-            w.write(str.encode(json.dumps(data, indent=4)))
+def get_local_folder(self, project_handle, folder_name):
+    folder = dataiku.Folder(
+        lookup = folder_name,
+        project_key = self.sage_project_key,
+        ignore_flow = True
+    )
+    try:
+        folder.get_id()
+    except:
+        try:
+            folder = create_local_folder(self, project_handle, folder_name)
+        except Exception as e:
+            raise Exception(e)
+    return folder
+
+
+def update_datetime(df):
+    for column in df.columns:
+        if is_datetime(df[column]):
+            try:
+                min_date = df[df[column] != "1970-01-01"][column].min()
+                df.loc[df[column] == "1970-01-01", column] = min_date
+            except:
+                pass
+    return df
+
+
+def read_local_folder_input(self, project_handle, folder_name, path):
+    folder = get_local_folder(self, project_handle, folder_name)
+    with folder.get_download_stream(path) as stream:
+        file_bytes = io.BytesIO(stream.read())
+    df = pd.read_parquet(file_bytes)
+    return df
+
+
+def write_local_folder_output(self, project_handle, folder_name, path, df):
+    folder = get_local_folder(self, project_handle, folder_name)
+    f = io.BytesIO()
+    df.to_parquet(f, compression="gzip", engine='pyarrow', index=False)
+    f.seek(0)
+    content = f.read()
+    folder.upload_stream(path, content)
     return
 
 
-def read_local_folder_input(sage_project_key, project_handle, folder_name, path, data_type="DF"):
-    folder = get_folder(sage_project_key, project_handle, folder_name)
-    if data_type == "DF":
-        with folder.get_download_stream(path) as reader:
-            data = pd.read_csv(reader)
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")  # Ignore all warnings within this block
-                data = function_with_warning(data)
-    elif data_type == "JSON":
-        with folder.get_download_stream(path) as reader:
-            data = json.loads(reader.data)
-    return data
-
-
-def function_with_warning(df):
-    for c in df.columns:
-        if df[c].dtype == "object":
-            temp_col = pd.to_datetime(df[c],  errors='coerce')
-            if temp_col.notna().all():
-                df[c] = temp_col
-                min_date = df[df[c] != "1970-01-01"][c].min()
-                df.loc[df[c] == "1970-01-01", c] = min_date
-    return df
-
-
-def read_base_data(path):
-    local_client = dataiku.api_client()
-    project_handle = local_client.get_default_project()
-    sage_project_key = project_handle.project_key
-    df = read_local_folder_input(
-        sage_project_key = sage_project_key,
-        project_handle = project_handle,
-        folder_name="base_data",
-        path=path
-    )
-    return df
-
-
-# ---------- DATAIKU REMOTE FOLDERS ----------------------------
+# ---------- DATAIKU REMOTE FOLDERS --------------------------------------------------------
 def write_remote_folder_output(self, client, path, df):
     project_handle = client.get_project(project_key=self.sage_project_key)
     fid = None
@@ -101,5 +80,5 @@ def write_remote_folder_output(self, client, path, df):
     if not fid:
         raise Exception()
     folder = project_handle.get_managed_folder(odb_id=fid)
-    r = folder.put_file(path, df.to_csv(index=None))
+    r = folder.put_file(path, df.to_parquet(compression="gzip", engine='pyarrow', index=False))
     return

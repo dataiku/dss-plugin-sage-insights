@@ -1,8 +1,30 @@
-# Sage Dashboard
+# Sage Insights Dashboard and Collector
+
+
+## ANNOUNCEMENT
+
+Due to performance issues, Sage no longer supports `csv` as an output file. All files must not be in the form of `parquet`.
+
+Because of this change, a large number of columns had to be reworked to handle the additional of a true schema being saved with the parquet files.
+
+In a decision to keep things easier to maintain in the future, column names have been reworked to use more of the natural naming conventions.
+
+* Actions to take migrating >1.6 or higher (if previously installed).
+  * Patch to v1.6 or higher
+  * Patch/Update the local code-environment for Sage
+  * Rebuild the new Streamlit Code-Studio Template
+  * Rename both the original `partitioned_data` and `base_data` folders (if wanting to preserve historical data)
+  * Run both `Init Dashboard` and `Init Worker` Macros
+    * **NOTE** Disable checkbox for re-running the scenarios on Init
+  * Double check that all code-environments properly rebuilt in the extra worker nodes
+  * Let scenarios run at scheduled time or manually kick off first time
+
+
+## Contributors
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.5.4
+* Version - 1.6.1
 * Special Thanks
   * Development
     * Jordan Burke
@@ -13,6 +35,7 @@
   * Project Management
     * Arjun Srivatsa
 
+
 ## Scope
 
 This dashboard is designed to give Dataiku Admins insights into the DSS instance.
@@ -21,11 +44,13 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 * Individual objects, statistics, graphs
 * Maintenance and performance reviews
 
+
 ## Tested Versions
 
-1. v14.1.0
-1. v14.0.0
-1. v13.5.5
+1. v14.1.0 (v1.6 and below)
+1. v14.0.0 (v1.5 and below)
+1. v13.5.5 (v1.5 and below)
+
 
 ## Installation Notes
 
