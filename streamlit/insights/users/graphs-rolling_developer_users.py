@@ -6,18 +6,18 @@ from sage.insights.data_structures import structures
 
 def main(filters = {}):
     # read the base layer data -- Change path for different data
-    df = dss_streamlit.filter_base_data("/users/rolling_viewing_user_logins.csv", filters)
+    df = dss_streamlit.filter_base_data("/users/rolling_developer_user_logins.csv", filters)
 
     # Perform logic here
     if df["timestamp"].dt.to_period("M").nunique() > 3:
-        title = "Average Monthly User login"
+        title = "Average Monthly Developer User login"
         df["dt_range"] = df["timestamp"].dt.to_period("M")
-        df = df.groupby(["instance_name", "dt_range"])["viewing_user_logins"].nunique().reset_index(name="total_logins")
+        df = df.groupby(["instance_name", "dt_range"])["developer_user_logins"].nunique().reset_index(name="total_logins")
         df["dt_range"] = df["dt_range"].dt.to_timestamp()
     else:
-        title = "Average Daily User login"
+        title = "Average Daily Developer User login"
         df["dt_range"] = df["timestamp"].dt.to_period("D")
-        df = df.groupby(["instance_name", "dt_range"])["viewing_user_logins"].nunique().reset_index(name="total_logins")
+        df = df.groupby(["instance_name", "dt_range"])["developer_user_logins"].nunique().reset_index(name="total_logins")
         df["dt_range"] = df["dt_range"].dt.to_timestamp()
 
     # Initial fig
@@ -27,14 +27,14 @@ def main(filters = {}):
         y="total_logins",
         color="instance_name",
         text="total_logins",
-        labels={"total_logins": "total login users"},
+        labels={"total_logins": "total active users"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 
     # Customize layout for polish
     fig.update_layout(
         xaxis_title="Date Range",
-        yaxis_title="Total Login Users",
+        yaxis_title="Total Active Users",
         legend_title="Instance Names"
     )
 

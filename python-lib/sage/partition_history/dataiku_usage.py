@@ -3,10 +3,10 @@ from sage.src import dss_folder
 import pandas as pd
 
 def main(self, project_handle, folder, df):
-    for module in ["viewing_user_logins", "developer_user_logins"]:
+    for module in df["module"][df["category"] == "dataiku_usage"].unique().tolist():
         # Get a partitions df for the module
         partitions_df = df[
-            (df["category"] == "users")
+            (df["category"] == "dataiku_usage")
             & (df["module"] == module)
         ]
         # try to pull last update time to keep only the newest partitions
@@ -15,7 +15,7 @@ def main(self, project_handle, folder, df):
                 sage_project_key = self.sage_project_key,
                 project_handle = project_handle,
                 folder_name = "base_data", 
-                path = f"/users/rolling_{module}.csv"
+                path = f"/dataiku_usage/rolling_{module}.csv"
             )
             last_entry = pd.to_datetime(original_df["timestamp"].max())
         except:
@@ -41,7 +41,7 @@ def main(self, project_handle, folder, df):
             sage_project_key = self.sage_project_key,
             project_handle = project_handle,
             folder_name = "base_data",
-            path = f"/users/rolling_{module}.csv",
+            path = f"/dataiku_usage/{module}.csv",
             data_type = "DF",
             data = original_df
         )

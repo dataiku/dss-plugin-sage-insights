@@ -1,27 +1,28 @@
-import pandas as pd
-import plotly.express as px
-from sage.src import dss_streamlit
 from sage.insights.data_structures import structures
-
+from sage.src import dss_duck
+import plotly.express as px
 
 def main(filters = {}):
-    # read the base layer data -- Change path for different data
-    df = dss_streamlit.filter_base_data("/recipes/metadata.csv", filters)
+    # Build SQL Query Statement and Query, 
+    query = structures.get_query_dict()
+    query["select"] = ["base.instance_name", "base.recipe_type", "COUNT(*) AS recipe_count"]
+    query["from"]   = ["recipes_metadata as base"]
+    query["group"]  = ["base.instance_name", "base.recipe_type"]
+    query["order"]  = ["base.instance_name", "recipe_count"]
+    df = dss_duck.query_duckdb(query, filters)
 
-    # Perform logic here
-    filtered_df = df.groupby(["instance_name", "recipe_type"]).size().reset_index(name="count")
-    filtered_df = filtered_df.sort_values(by=["instance_name", "count"], ascending=False)
-    filtered_df = filtered_df.groupby("instance_name").head(10)
+    # Additional Preperation
+    df = df.groupby("instance_name").tail(10)
     
     # Plot
     fig = px.bar(
-        filtered_df,
+        df,
         y="recipe_type",
-        x="count",
+        x="recipe_count",
         color="instance_name",
         barmode="group",
-        text="count",
-        labels={"count": "count of recipe type"},
+        text="recipe_count",
+        labels={"recipe_count": "count of recipe type"},
         color_discrete_sequence=px.colors.qualitative.Set2
     )
 

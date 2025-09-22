@@ -18,7 +18,6 @@ def main(filters = {}):
     delta_users = total_users - enabled_users
     total_users, enabled_users, delta_users
     FIG["data"] = total_users
-    FIG["delta"] = delta_users
     FIGS.append(FIG)
 
     # Split by Instance
@@ -30,7 +29,6 @@ def main(filters = {}):
         delta_users = total_users - enabled_users
         total_users, enabled_users, delta_users
         FIG["data"] = total_users
-        FIG["delta"] = delta_users        
         FIGS.append(FIG)
 
     return FIGS

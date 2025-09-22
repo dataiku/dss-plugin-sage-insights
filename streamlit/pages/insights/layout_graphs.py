@@ -18,13 +18,14 @@ def main(data_category, display_data, modules):
     with st.sidebar:
         with st.container(border=True):
             # Build the filters dictionary
+            st.write("Filter Graphs on.....")
             st_filters = {}
             final_filter = {}
-            st_filters["instance_name"] = {"label": "Instance Name",       "options": filter_df["instance_name"].unique().tolist()}
-            st_filters["userProfile"]   = {"label": "User Profile Type",   "options": filter_df["userProfile"].unique().tolist()}
-            st_filters["enabled"]       = {"label": "User Enablment",      "options": filter_df["enabled"].unique().tolist()}
-            st_filters["login"]         = {"label": "User Login Name",     "options": filter_df["login"].unique().tolist()}
-            st_filters["project_key"]   = {"label": "Dataiku Project key", "options": filter_df["project_key"].unique().tolist()}
+            st_filters["instance_name"] = {"label": "Instance Name", "options": filter_df["instance_name"].unique().tolist()}
+            st_filters["userProfile"]   = {"label": "License Type", "options": filter_df["userProfile"].unique().tolist()}
+            st_filters["enabled"]       = {"label": "Current Users Enabled/Disabled", "options": filter_df["enabled"].unique().tolist()}
+            st_filters["login"]         = {"label": "Login Name", "options": filter_df["login"].unique().tolist()}
+            st_filters["project_key"]   = {"label": "Project key", "options": filter_df["project_key"].unique().tolist()}
             for key in st_filters:
                 label = st_filters[key]["label"]
                 options = st_filters[key]["options"]

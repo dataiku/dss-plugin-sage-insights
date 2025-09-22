@@ -1,3 +1,6 @@
+
+
+
 import sys
 sys.dont_write_bytecode = True
 
@@ -95,7 +98,7 @@ def filter_base_data(path, filters):
     if not filters:
         return df
     # Append primary keys for filtering at different levels
-    if "metadata.csv" in path:
+    if "breaks on large data pulling into memory -- metadata.csv" in path:
         if "filter_df" not in st.session_state:
             st.session_state.filter_df = dss_folder.read_base_data("/metadata_primary_keys.csv")
         try:

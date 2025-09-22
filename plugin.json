@@ -1,6 +1,6 @@
 {
     "id": "sage",
-    "version": "1.4.3",
+    "version": "1.5.4",
     "meta": {
         "label": "Sage - Dataiku Administration Insights",
         "description": "This plugin contains the current and future framework for the Admin Sage Dashbaord information.",

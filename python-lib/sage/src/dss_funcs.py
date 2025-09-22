@@ -63,7 +63,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 if hasattr(module, 'main'):
-                    df = module.main(handle, client_d)
+                    df = module.main(self, handle, client_d)
                     results.append([project_key, path, module_name, "load/run", True, None])
             except Exception as e:
                 df = pd.DataFrame()
@@ -100,6 +100,18 @@ def get_nested_value(data, keys, dt=False):
             else:
                 return False
     return current
+
+
+def rename_and_move_first(project_handle: "dataikuapi.dss.project.DSSProject", df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
+    if old in df.columns:
+        df = df.rename(columns={old: new})
+    else:
+        df[new] = project_handle.project_key
+    if new in df.columns:
+        cols = [new] + [c for c in df.columns if c != new]
+        df = df[cols]
+    df.columns = df.columns.str.replace(".", "_", regex=False)
+    return df
 
 
 # ---------- STREAMLIT MODULES -----------------------------

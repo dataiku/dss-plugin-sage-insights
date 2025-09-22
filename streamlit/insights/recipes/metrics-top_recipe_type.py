@@ -1,12 +1,14 @@
-import pandas as pd
-import plotly.express as px
-from sage.src import dss_streamlit
 from sage.insights.data_structures import structures
+from sage.src import dss_duck
+import plotly.express as px
 
 
 def main(filters = {}):
-    # read the base layer data -- Change path for different data
-    df = dss_streamlit.filter_base_data("/recipes/metadata.csv", filters)
+    # Build SQL Query Statement and Query, 
+    query = structures.get_query_dict()
+    query["select"] = ["*"]
+    query["from"]   = ["recipes_metadata"]
+    df = dss_duck.query_duckdb(query, filters)
 
     # load data structure
     FIG = structures.get("metric")

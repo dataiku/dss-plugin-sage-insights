@@ -1,3 +1,14 @@
+def get_query_dict():
+    query = {
+        "select": [],
+        "from":   [],
+        "join":   [],
+        "where":  [],
+        "group":  [],
+        "order":  [],
+    }
+    return query
+
 def get(type):
     FIG = {
         "pass": True,
@@ -6,6 +17,7 @@ def get(type):
         "data": None
     }
     if type == "plotly":
+        FIG["desc"] = ""
         FIG["key"] = "default"
         FIG["on_select"] = "rerun"
         FIG["selection_mode"] = "points"

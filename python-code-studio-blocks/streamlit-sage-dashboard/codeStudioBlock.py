@@ -39,6 +39,8 @@ class MyCodeStudioBlock(CodeStudioBlock):
             "streamlit==1.46.1",
             "streamlit-aggrid",
             "duckdb==1.3.2",
+            "sqlparse==0.5.3",
+            "joblib==1.5.1",
             "altair",
             "tomli",
             "tabulate",
@@ -110,118 +112,30 @@ fi
 if [ ! -f {settings_path}/.streamlit/config.toml ]; then
     mkdir -p {settings_path}/.streamlit
     cat << 'EOF' > {settings_path}/.streamlit/config.toml
-# Set any custom config here. Will take precedence over default config from /home/dataiku/.streamlit/config.toml
-# Changes will need a restart of the Code Studio to take effect.
-
-[global]
-# By default, Streamlit checks if the Python watchdog module is available and, if not, prints a warning asking for you to install it. The watchdog module is not required, but highly recommended. It improves Streamlit's ability to detect changes to files in your filesystem.
-# If you'd like to turn off this warning, set this to True.
-# Default: false
-# disableWatchdogWarning = false
-
-# DataFrame serialization.
-# Acceptable values: - 'legacy': Serialize DataFrames using Streamlit's custom format. Slow but battle-tested. - 'arrow': Serialize DataFrames using Apache Arrow. Much faster and versatile.
-# Default: "arrow"
-# dataFrameSerialization = "arrow"
-
-
-[runner]
-
-# Allows you to type a variable or string by itself in a single line of Python code to write it to the app.
-# Default: true
-#magicEnabled = true
-
-# Install a Python tracer to allow you to stop or pause your script at any point and introspect it. As a side-effect, this slows down your script's execution.
-# Default: false
-#installTracer = false
-
-# Sets the MPLBACKEND environment variable to Agg inside Streamlit to prevent Python crashing.
-# Default: true
-#fixMatplotlib = true
-
-# Run the Python Garbage Collector after each script execution. This can help avoid excess memory use in Streamlit apps, but could introduce delay in rerunning the app script for high-memory-use applications.
-# Default: true
-#postScriptGC = true
-
-# Handle script rerun requests immediately, rather than waiting for script execution to reach a yield point. This makes Streamlit much more responsive to user interaction, but it can lead to race conditions in apps that mutate session_state data outside of explicit session_state assignment statements.
-# Default: true
-#fastReruns = true
-
-# Raise an exception after adding unserializable data to Session State. Some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.
-# Default: false
-#enforceSerializableSessionState = false
-
-
 [server]
-# Server settings are configured by Dataiku for Code Studio.
-# Do not override them.
-
-
-[browser]
-# Browser settings are configured by Dataiku for Code Studio.
-# Do not override them.
-
-
-[logger]
-
-# Level of logging: 'error', 'warning', 'info', or 'debug'.
-# Default: 'info'
-# level = "info"
-
-# String format for logging messages. If logger.datetimeFormat is set, logger messages will default to `%(asctime)s.%(msecs)03d %(message)s`. See [Python's documentation](https://docs.python.org/2.6/library/logging.html#formatter-objects) for available attributes.
-# Default: "%(asctime)s %(message)s"
-# messageFormat = "%(asctime)s %(message)s"
-
+maxUploadSize=200       # in MB, bump if users upload big files
 
 [client]
+toolbarMode="minimal"   # hide Streamlit dev toolbar (cleaner UI)
 
-# Whether to enable st.cache.
-# Default: true
-# caching = true
+[runner]
+magicEnabled=false      # disables "magic commands" → better perf/logging clarity
+fastReruns=true         # reuse cached state where possible between reruns
 
-# Controls whether uncaught app exceptions and deprecation warnings are displayed in the browser. By default, this is set to True and Streamlit displays app exceptions and associated tracebacks, and deprecation warnings, in the browser.
-# If set to False, an exception or deprecation warning will result in a generic message being shown in the browser, and exceptions, tracebacks, and deprecation warnings will be printed to the console only.
-# Default: true
-# showErrorDetails = true
-
-
-[mapbox]
-
-# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for moderate usage levels)!
-# Default: ""
-# token = ""
-
-
-[deprecation]
-
-# Set to false to disable the deprecation warning for the file uploader encoding.
-# Default: true
-# showfileUploaderEncoding = true
-
-# Set to false to disable the deprecation warning for using the global pyplot instance.
-# Default: true
-# showPyplotGlobalUse = true
-
+[global]
+dataFrameSerialization="arrow"   # faster dataframe transport than legacy
 
 [theme]
+base="light"             # "light", "dark", or "auto"
+primaryColor="#4CAF50"   # accent color (buttons, sliders, etc.)
+backgroundColor="#FFFFFF"
+secondaryBackgroundColor="#F5F5F5"
+textColor="#000000"
+font="sans serif"       # "sans serif", "serif", or "monospace"
 
-# The preset Streamlit theme that your custom theme inherits from. One of "light" or "dark".
-# base =
-
-# Primary accent color for interactive elements.
-# primaryColor =
-
-# Background color for the main content area.
-# backgroundColor =
-
-# Background color used for the sidebar and most interactive widgets.
-# secondaryBackgroundColor =
-
-# Color used for almost all text.
-# textColor =
-
-# Font family for all text in the app, except code blocks. One of "sans serif", "serif", or "monospace".
-# font =
+[ui]
+hideTopBar=false        # keep gear/settings menu visible
+hideSidebarNav=false    # (if using multipage apps) keep sidebar navigation
 EOF
 fi
 

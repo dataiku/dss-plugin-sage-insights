@@ -13,8 +13,8 @@ macro = "pyrunnable_sage_data-gather-instance"
 [data_gather_project]
 macro = "pyrunnable_sage_data-gather-project"
 
-[data_gather_audit_user_login]
-macro = "pyrunnable_sage_data-gather-audit-user-login"
+[data_gather_audit_logs]
+macro = "pyrunnable_sage_data-gather-audit-logs"
 
 [data_gather_diskspace]
 macro = "pyrunnable_sage_data-gather-diskspace"
@@ -37,51 +37,62 @@ macro = "pyrunnable_sage_data-gather-partition-history"
 
 def update_plugin_config(self, plugin_handle):
     settings = plugin_handle.get_settings()
-    settings.settings["config"]["sage_project_key"] = self.sage_project_key
-    settings.settings["config"]["sage_project_api"] = self.sage_project_api
-    settings.settings["config"]["sage_project_url"] = self.sage_project_url
-    settings.settings["config"]["sage_worker_key"]  = self.sage_worker_key
-    settings.settings["config"]["sage_folder_connection"] = self.sage_folder_connection
-    settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
-    settings.settings["config"]["sage_repo_branch"] = self.sage_folder_connection 
+    settings.settings["defaultPermission"] = {"admin": True, "canViewComponents": False}
+    settings.settings["excludedFromCDE"] = True
+    settings.settings["detailsNotVisible"] = False 
     settings.settings["codeEnvName"] = "plugin_sage_managed"
+    settings.settings["config"]["sage_repo_url"]    = self.sage_repo_url
+    settings.settings["config"]["sage_repo_branch"] = self.sage_repo_branch 
+    settings.settings["config"]["sage_project_key"]   = self.sage_project_key
+    settings.settings["config"]["sage_project_url"]   = self.sage_project_url
+    settings.settings["config"]["sage_project_api"]   = self.sage_project_api 
+    settings.settings["config"]["sage_worker_key"]    = self.sage_worker_key
+    settings.settings["config"]["sage_dataiku_user"]  = self.sage_dataiku_user 
+    settings.settings["config"]["ignore_certs"]       = self.ignore_certs
+    settings.settings["config"]["sage_folder_connection"] = self.sage_folder_connection
     settings.save()
     return
 
     
 def install_plugin(self, remote_client):
-    # Only install if not found
+    # Only install if not found, if found and set to update, patch
     sage_found = False
     for plugin in remote_client.list_plugins():
         if plugin["id"] == "sage":
             sage_found = True
-    if sage_found:
-        if self.update_github:
-            plugin_handle = remote_client.get_plugin(plugin_id="sage")
-            plugin_handle.update_from_git(repository_url=self.sage_repo_url, checkout=self.sage_repo_branch)
-            update_plugin_config(self, plugin_handle)
-        return
-    
-    # install the plugin
-    plugin_install = remote_client.install_plugin_from_git(
-        repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None
-    )
-    r = plugin_install.wait_for_result()
-    r = plugin_install.get_result()
-    if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
-        raise Exception(r["messages"]["messages"])
-    
-    # connect to the plugin handle
-    plugin_handle = remote_client.get_plugin(plugin_id="sage")
-    
-    # create the code-env
-    code_env = plugin_handle.create_code_env()
-    r = code_env.wait_for_result()
-    r = code_env.get_result()
-    if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
-        raise Exception(r["messages"]["messages"])
-        
-    update_plugin_config(self, plugin_handle)
+    if sage_found and self.update_github:
+        plugin_handle = remote_client.get_plugin(plugin_id="sage")
+        git_update = plugin_handle.update_from_git(
+            repository_url=self.sage_repo_url,
+            checkout=self.sage_repo_branch
+        )
+        r = git_update.wait_for_result()
+        if not r["success"]:
+            raise Exception("Plugin Failed to Update")
+        # Update the code-env
+        code_env = plugin_handle.update_code_env()
+        r = code_env.wait_for_result()
+        if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
+            raise Exception(r["messages"]["messages"])
+        # Update the plugin config
+        update_plugin_config(self, plugin_handle)
+    else:
+        plugin_install = remote_client.install_plugin_from_git(
+            repository_url=self.sage_repo_url, checkout=self.sage_repo_branch, subpath=None
+        )
+        r = plugin_install.wait_for_result()
+        r = plugin_install.get_result()
+        if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
+            raise Exception(r["messages"]["messages"])
+        plugin_handle = remote_client.get_plugin(plugin_id="sage")
+        # create the code-env
+        code_env = plugin_handle.create_code_env()
+        r = code_env.wait_for_result()
+        r = code_env.get_result()
+        if r["messages"]["warning"] or r["messages"]["error"] or r["messages"]["fatal"]:
+            raise Exception(r["messages"]["messages"])
+        # Update the plugin config
+        update_plugin_config(self, plugin_handle)
     
     return
 
