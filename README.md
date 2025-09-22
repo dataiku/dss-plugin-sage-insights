@@ -1,4 +1,4 @@
-# Sage Dashboard
+# Sage Insights Dashboard and Collector
 
 ## ANNOUNCEMENT
 
