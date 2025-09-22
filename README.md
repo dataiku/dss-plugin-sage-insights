@@ -35,6 +35,7 @@ In a decision to keep things easier to maintain in the future, column names have
   * Project Management
     * Arjun Srivatsa
 
+
 ## Scope
 
 This dashboard is designed to give Dataiku Admins insights into the DSS instance.
@@ -43,11 +44,13 @@ This dashboard is designed to give Dataiku Admins insights into the DSS instance
 * Individual objects, statistics, graphs
 * Maintenance and performance reviews
 
+
 ## Tested Versions
 
-1. v14.1.0
-1. v14.0.0
-1. v13.5.5
+1. v14.1.0 (v1.6 and below)
+1. v14.0.0 (v1.5 and below)
+1. v13.5.5 (v1.5 and below)
+
 
 ## Installation Notes
 
