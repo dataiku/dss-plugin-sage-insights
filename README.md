@@ -1,5 +1,6 @@
 # Sage Insights Dashboard and Collector
 
+
 ## ANNOUNCEMENT
 
 Due to performance issues, Sage no longer supports `csv` as an output file. All files must not be in the form of `parquet`.
@@ -17,6 +18,7 @@ In a decision to keep things easier to maintain in the future, column names have
     * **NOTE** Disable checkbox for re-running the scenarios on Init
   * Double check that all code-environments properly rebuilt in the extra worker nodes
   * Let scenarios run at scheduled time or manually kick off first time
+
 
 ## Contributors
 
