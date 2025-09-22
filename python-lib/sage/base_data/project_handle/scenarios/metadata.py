@@ -1,32 +1,19 @@
 import pandas as pd
+from sage.src import dss_funcs
 
 
 def main(self, project_handle, client_d = {}):
     if not project_handle.list_scenarios():
         return pd.DataFrame()
     
-    dfs = []
-    for scenario in project_handle.list_scenarios():
-        # Poll Data
-        d = {"project_key": project_handle.project_key}
-
-        scenario_handle = project_handle.get_scenario(scenario['id'])
-        raw_settings    = scenario_handle.get_settings().get_raw()
-        d["scenario_type"]   = raw_settings.get('type', None)
-        d["scenario_run_as"] = raw_settings.get('runAsUser', None)
-        d["scenario_effective_run_as"] = scenario_handle.get_settings().effective_run_as
-        d["sceanrio_active"] = raw_settings.get('active', False)
-        d["scenario_id"]     = raw_settings.get('id', None)
-        d["scenario_name"]   = raw_settings.get('name', None)
-        d["scenario_tags"]   = raw_settings.get('tags', None)
-        
-        version = scenario_handle.get_settings().get_raw()["versionTag"]
-        d["scenario_version_num"] = version.get('versionNumber', None)
-        d["scenario_last_mod_by"] = version["lastModifiedBy"].get("login", None)
-        d["scenario_last_mod_dt"] = version.get('lastModifiedOn', None)
-        d["scenario_last_mod_dt"] = pd.to_datetime(d["scenario_last_mod_dt"], unit="ms")
-        dfs.append(pd.DataFrame([d]))
-
-    # turn to dataframe
-    df = pd.concat(dfs, ignore_index=True)
+    prefix = "scenarios_"
+    df = pd.json_normalize(project_handle.list_scenarios()).add_prefix(prefix)
+    # Clean dates
+    for c in ["scenarios_nextRun", "scenarios_lastModifiedOn", "scenarios_createdOn"]:
+        if c not in df.columns:
+            continue
+        df[c] = pd.to_datetime(df[c], unit="ms", utc=True)
+        df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
+    # Project Key
+    df = dss_funcs.rename_and_move_first(project_handle, df, f"{prefix}projectKey", "project_key")
     return df

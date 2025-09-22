@@ -1,16 +1,15 @@
 {
     "meta": {
-        "label": "Data Gather Base Data",
+        "label": "Base Data - Latest Partition",
         "description": "Grab the latest partition data across all instances and create one dataset per category/module.",
         "icon": "fas fa-puzzle-piece",
         "category": "Sage Insights: Data Gather"
     },
     "impersonate": false,
-    "params": [],
     "permissions": ["ADMIN"],
     "requiresGlobalAdmin": true,
-    "resultType": "HTML",
-    "resultLabel": "my production",
+    "resultType": "RESULT_TABLE",
+    "resultLabel": "RESULTS",
     "extension": "txt",
     "mimeType": "text/plain",
     "macroRoles": [],

@@ -35,22 +35,11 @@ class MyCodeStudioBlock(CodeStudioBlock):
         settings_path = replacer.replace_variable_by_path(settings_path)
         
         # Default Packages
-        default_packages = [
-            "streamlit==1.46.1",
-            "streamlit-aggrid",
-            "duckdb==1.3.2",
-            "sqlparse==0.5.3",
-            "joblib==1.5.1",
-            "altair",
-            "tomli",
-            "tabulate",
-            "lxml",
-            "plotly",
-            "scipy",
-            "nbformat>=4.2.0",
-            "orjson",
-            "matplotlib"
-        ]
+        import dataiku
+        client = dataiku.api_client()
+        ce = client.get_code_env(env_name="plugin_sage_managed", env_lang="PYTHON")
+        actual_packges = ce.get_settings().get_raw()["actualPackageList"].split("\n")
+        default_packages = [s for s in actual_packges if s]
         default_packages = " ".join(default_packages)
         generate_codenv, pyenv_path = generate_python_codenv(
             "STREAMLIT", self.config, template,

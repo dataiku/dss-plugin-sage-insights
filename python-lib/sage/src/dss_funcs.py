@@ -1,6 +1,3 @@
-import sys
-sys.dont_write_bytecode = True
-
 import dataiku
 import dataikuapi
 import os
@@ -55,7 +52,7 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
         for f in files:
             if not f.endswith(".py") or f == "__init__.py":
                 continue
-            module_name = f[:-3]
+            module_name = f.removesuffix(".py")
             path = root.replace(directory, "")
             fp = os.path.join(root, f)
             try:
@@ -68,20 +65,31 @@ def run_modules(self, dss_objs, handle, client_d = {}, project_key = None):
             except Exception as e:
                 df = pd.DataFrame()
                 results.append([project_key, path, module_name, "load/run", False, e])
-            if df.empty:
-                results.append([project_key, path, module_name, "load/run", False, "DF CAME BACK EMPTY"])
+            if not isinstance(df, pd.DataFrame) or df.empty:
+                #results.append([project_key, path, module_name, "load/run", False, "DF CAME BACK EMPTY"])
                 continue # nothing to write, skip
-            instance_name = get_dss_name(build_local_client())
-            if "instance_name" not in df.columns:
-                df["instance_name"] = instance_name
             try:
+                # Remote client and DT parsing
                 remote_client = build_remote_client(self.sage_project_url, self.sage_project_api, self.ignore_certs)
                 dt_year  = str(self.dt.year)
                 dt_month = str(f'{self.dt.month:02d}')
                 dt_day   = str(f'{self.dt.day:02d}')
-                write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.csv"
+                # Add Additonal Information / output path
+                df.columns = df.columns.str.lower()
+                df.columns = df.columns.str.replace(".", "_", regex=False)
+                instance_name = get_dss_name(build_local_client())
+                if "instance_name" not in df.columns:
+                    df["instance_name"] = instance_name
+                write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/data.parquet"
                 if project_key:
-                    write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.csv"
+                    write_path = f"/{instance_name}/{path}/{module_name}/{dt_year}/{dt_month}/{dt_day}/{project_key}_data.parquet"
+                # Final cleanse of DF for dictionary/lists to strings
+                for col in df.columns:
+                    types = df[col].dropna().map(type).unique()
+                    if any(t in (dict, list) for t in types):
+                        df[col] = df[col].astype(str)
+                df = df.reset_index(drop=True)
+                # Write the output finally
                 dss_folder.write_remote_folder_output(self, remote_client, write_path, df)
                 results.append([project_key, path, module_name, "write/save", True, None])
             except Exception as e:
@@ -102,58 +110,14 @@ def get_nested_value(data, keys, dt=False):
     return current
 
 
-def rename_and_move_first(project_handle: "dataikuapi.dss.project.DSSProject", df: pd.DataFrame, old: str, new: str) -> pd.DataFrame:
+def rename_and_move_first(project_handle, df, old, new):
     if old in df.columns:
         df = df.rename(columns={old: new})
     else:
-        df[new] = project_handle.project_key
+        if project_handle:
+            df[new] = project_handle.project_key
     if new in df.columns:
         cols = [new] + [c for c in df.columns if c != new]
         df = df[cols]
-    df.columns = df.columns.str.replace(".", "_", regex=False)
     return df
 
-
-# ---------- STREAMLIT MODULES -----------------------------
-def collect_modules(module):
-    import streamlit as st
-    d = {}
-    directory = module.__path__[0]
-    for root, _, files in os.walk(directory):
-        for f in files:
-            if f.endswith(".py") and f != "__init__.py":
-                module_name = f[:-3]
-                path = root.replace(directory, "")
-                fp = os.path.join(root, f)
-                delimiters = r'[-_]'
-                words = re.split(delimiters, module_name)
-                capitalized_words = [word.capitalize() for word in words]
-                final_string = " ".join(capitalized_words)
-                d[final_string] = [module_name, fp]
-    return d
-
-
-def collect_display_data(load_modules):
-    display_data = []
-    modules = collect_modules(load_modules)
-    for key in modules.keys():
-        r_type = key.split(" ")
-        r_type = r_type[0].lower()
-        display_data.append(key)
-    return modules, display_data
-
-
-def load_insights(module_name, fp, filters = {}):
-    results = {}
-    spec = importlib.util.spec_from_file_location(module_name, fp)
-    try:
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        if hasattr(module, 'main'):
-            results = module.main(filters)
-    except Exception as e:
-        import streamlit as st
-        st.error(f"Error importing or running ({fp}) {module_name}: {e}")
-        results = {}
-        return results
-    return results

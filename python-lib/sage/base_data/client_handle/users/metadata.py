@@ -58,7 +58,6 @@ def main(self, client, client_d = {}):
     for c in ["creationDate", "first_commit_date", "last_commit_date", "last_session_activity"]:
         df[c] = pd.to_datetime(df[c], utc=True)
         df[c] = df[c].fillna(pd.to_datetime("1970-01-01", utc=True))
-        df[c] = df[c].dt.strftime("%Y-%m-%d %H:%M:%S.%f")
 
     # Return
     return df

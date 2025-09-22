@@ -6,7 +6,7 @@ import os
 import shutil
 import pandas as pd
 
-from dataiku.runnables import Runnable
+from dataiku.runnables import Runnable, ResultTable
 
 class MyRunnable(Runnable):
     def __init__(self, project_key, config, plugin_config):
@@ -18,7 +18,6 @@ class MyRunnable(Runnable):
 
         # Set environment variable
         self.sage_folder_connection = plugin_config.get("sage_folder_connection", "filesystem_folders")
-        os.environ["SAGE_FOLDER_CONNECTION"] = self.sage_folder_connection
         
     def get_progress_target(self):
         return None
@@ -26,13 +25,28 @@ class MyRunnable(Runnable):
     def run(self, progress_callback):
         results = []
         cont = True
-        
         # Get local client and name
         local_client = dss_funcs.build_local_client()
         instance_name = dss_funcs.get_dss_name(local_client)
         project_handle = local_client.get_project(self.sage_project_key)
         library = project_handle.get_library()
-        
+        # Create the folders
+        if cont:
+            try:
+                f = dss_folder.get_local_folder(self, project_handle, "partitioned_data")
+                f = dss_folder.get_local_folder(self, project_handle, "base_data")
+                results.append(["Create Folders", True, None])
+            except Exception as e:
+                results.append(["Create Folders", False, f"An error occurred: {e}"])
+                cont = False
+        # Create scenario to build base data 
+        if cont:
+            try:
+                dss_init.create_scenarios(project_handle, "DASHBOARD", self.sage_dataiku_user)
+                results.append(["Update Scenarios", True, None])
+            except Exception as e:
+                cont = False
+                results.append(["Update Scenarios", False, e])
         # Get plugin directory
         if cont:
             root_path = local_client.get_instance_info().raw["dataDirPath"]
@@ -47,8 +61,6 @@ class MyRunnable(Runnable):
                 results.append(["plugin directory", False, "Cannot find plugin Directory"])
                 cont = False
             results.append(["plugin directory", True, None])
-            
-            
         # Get Dashboard library directory
         if cont:
             project_path = f"{root_path}/config/projects/{self.sage_project_key}/lib/python"
@@ -56,7 +68,6 @@ class MyRunnable(Runnable):
                 results.append(["Project Library Confirmed", False, "Cannot find project library"])
                 cont = False
             results.append(["Project Library Confirmed", True, None])
-        
         # Delete the current running version
         if cont:
             project_path = f"{root_path}/config/projects/{self.sage_project_key}/lib/python/sage"
@@ -69,19 +80,14 @@ class MyRunnable(Runnable):
                     cont = False
             else:
                 results.append(["Delete Existing", True, "Initial Setup"])
-
         # Copy the streamlit application
         if cont:
             try:
                 r = shutil.copytree(f"{source_path}/streamlit", project_path)
-                os.mkdir(f"{project_path}/src/")
-                for f in ["dss_funcs", "dss_folder", "dss_streamlit", "dss_duck"]:                    
-                    r = shutil.copy(f"{source_path}/python-lib/sage/src/{f}.py", f"{project_path}/src/")
                 results.append(["Copy Streamlit", True, None])
             except Exception as e:
                 results.append(["Copy Streamlit", False, f"An error occurred: {e}"])
                 cont = False
-            
         # Clean up Library
         if cont:
             try:
@@ -91,22 +97,10 @@ class MyRunnable(Runnable):
             except Exception as e:
                 results.append(["Library Refresh", False, f"An error occurred: {e}"])
                 cont = False
-            
-        # Create the folders
-        if cont:
-            try:
-                f = dss_folder.get_folder(self.sage_project_key, project_handle, "partitioned_data")
-                f = dss_folder.get_folder(self.sage_project_key, project_handle, "base_data")
-                results.append(["Create Folders", True, None])
-            except Exception as e:
-                results.append(["Create Folders", False, f"An error occurred: {e}"])
-                cont = False
-        
         # -- future release create the CS in admin as well so I control the whole naming
         if cont:
             # todo: create CS in admin settings for users removing a setup step
             print()
-
         # Create the Code Studio Template
         if cont:
             try:
@@ -121,19 +115,17 @@ class MyRunnable(Runnable):
             except Exception as e:
                 results.append(["Create Code Studio", False, f"An error occurred: {e}"])
                 cont = False
-                
-        # Create scenario to gather base data 
-        if cont:
-            try:
-                dss_init.create_scenarios(project_handle, "DASHBOARD", self.sage_dataiku_user)
-                results.append(["Update Scenarios", True, None])
-            except Exception as e:
-                cont = False
-                results.append(["Update Scenarios", False, e])
-        
         # return results
         if results:
             df = pd.DataFrame(results, columns=["step", "result", "message"])
-            html = df.to_html()
-            return html
-        raise Exception("FAILED TO RUN PROJECT CHECKS")
+            df = df.astype(str)
+            rt = ResultTable()
+            n = 1
+            for col in df.columns:
+                rt.add_column(n, col, "STRING")
+                n +=1
+            for index, row in df.iterrows():
+                rt.add_record(row.tolist())
+            return rt
+        else:
+            raise Exception("Something went wrong")

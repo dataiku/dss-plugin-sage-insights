@@ -22,28 +22,28 @@ st.set_page_config(
 
 # -----------------------------------------------------------------------------
 # Main
-home = st.Page("pages/main/home.py", title="Home", default=True)
+home = st.Page("pages/sage_main/home.py", title="Home", default=True)
 
 # -----------------------------------------------------------------------------
 # Platform Insights
 
 ## Operating System
-disk_space = st.Page("pages/insights/disk_space.py", title="Disk Space")
+disk_space = st.Page("pages/dashboards/disk_space.py", title="Disk Space")
 
 ## Dataiku - Client
-users = st.Page("pages/insights/users.py", title="Users")
+users = st.Page("pages/dashboards/users.py", title="Users")
 
 ## Dataiku - Project
-projects  = st.Page("pages/insights/projects.py",  title="Projects")
-datasets  = st.Page("pages/insights/datasets.py",  title="Datasets")
-recipes   = st.Page("pages/insights/recipes.py",   title="Recipes")
-scenarios = st.Page("pages/insights/scenarios.py", title="Scenarios")
+projects  = st.Page("pages/dashboards/projects.py",  title="Projects")
+datasets  = st.Page("pages/dashboards/datasets.py",  title="Datasets")
+recipes   = st.Page("pages/dashboards/recipes.py",   title="Recipes")
+scenarios = st.Page("pages/dashboards/scenarios.py", title="Scenarios")
 
 # -----------------------------------------------------------------------------
 # Usage Patterns
 
 ## GEN AI / LLM
-genai_llm = st.Page("pages/usage_patterns/genai_llm.py", title="GEN AI / LLM")
+genai_llm = st.Page("pages/dashboards/genai_llm.py", title="GEN AI / LLM")
 
 # -----------------------------------------------------------------------------
 # Navigation Panel
