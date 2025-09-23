@@ -116,9 +116,7 @@ def main(self, project_handle, client_d = {}):
             llm_model = ""
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
     try:
-        df["recipes_params_sparkconf"] = (
-            df["recipes_params_sparkconf"].fillna("").astype(str)
-        )
+        df["recipes_params_sparkconf"] = df["recipes_params_sparkconf"].fillna("").astype(str)
     except:
         pass
     
