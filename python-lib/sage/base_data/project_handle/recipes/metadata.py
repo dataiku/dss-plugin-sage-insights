@@ -117,6 +117,8 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
     
     # Quick Sanity Check
+    df["recipes_params_sparkconf"] = df["recipes_params_sparkconf"].apply(lambda x: str(x) if not pd.isna(x) else "")
+
     df = dss_funcs.normalize_column_type(df, "recipes_params_sparkconf")
 
     return df
