@@ -117,12 +117,6 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
     
     # Quick Sanity Check
-    fix_cols = ["recipes_params_sparkconf"]
-    for c in fix_cols:
-        if c not in df.columns:
-            df[c] = ""
-        else:
-            df[c] = df[c].fillna("")
-        df[c] = df[c].astype(str)
+    df = normalize_column_type(df, "recipes_params_sparkconf")
 
     return df
