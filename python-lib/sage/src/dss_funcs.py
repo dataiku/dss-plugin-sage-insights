@@ -129,6 +129,7 @@ def normalize_column_type(df: pd.DataFrame, col: str, default_if_str="", default
         return df
 
     # Look at non-null values
+    df[col] = df[col].apply(lambda x: str(x) if not pd.isna(x) else "")
     non_null_vals = df[col].dropna()
 
     if non_null_vals.empty:
@@ -137,6 +138,7 @@ def normalize_column_type(df: pd.DataFrame, col: str, default_if_str="", default
         return df
 
     # Count types
+
     type_counts = non_null_vals.map(type).value_counts()
 
     # Pick the most common type
