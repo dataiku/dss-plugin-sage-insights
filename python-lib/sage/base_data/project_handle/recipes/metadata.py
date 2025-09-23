@@ -117,9 +117,10 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
     
     # Quick Sanity Check
-    try:
-        df["recipes_params_sparkconf"] = df["recipes_params_sparkconf"].fillna("").astype(str)
-    except:
-        pass
+    fix_cols = ["recipes_params_sparkconf"]
+    for c in fix_cols:
+        if c not in df.columns:
+            df[c] = ""
+            df[c] = df[c].fillna("").astype(str)
 
     return df
