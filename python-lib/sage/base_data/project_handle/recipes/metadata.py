@@ -118,7 +118,6 @@ def main(self, project_handle, client_d = {}):
     
     # Quick Sanity Check
     df["recipes_params_sparkconf"] = df["recipes_params_sparkconf"].apply(lambda x: str(x) if not pd.isna(x) else "")
-
     df = dss_funcs.normalize_column_type(df, "recipes_params_sparkconf")
 
     return df
