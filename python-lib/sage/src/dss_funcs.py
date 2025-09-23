@@ -129,6 +129,7 @@ def normalize_column_type(df: pd.DataFrame, col: str, default_if_str="", default
         return df
 
     # Look at non-null values
+    df[c] = df[c].apply(lambda x: str(x) if not pd.isna(x) else "")
     non_null_vals = df[col].dropna()
 
     if non_null_vals.empty:
