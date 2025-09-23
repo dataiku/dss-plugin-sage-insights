@@ -121,6 +121,8 @@ def main(self, project_handle, client_d = {}):
     for c in fix_cols:
         if c not in df.columns:
             df[c] = ""
-        df[c] = df[c].fillna("").astype(str)
+        else:
+            df[c] = df[c].fillna("")
+        df[c] = df[c].astype(str)
 
     return df
