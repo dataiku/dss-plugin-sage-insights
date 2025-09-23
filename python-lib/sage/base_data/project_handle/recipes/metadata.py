@@ -119,6 +119,5 @@ def main(self, project_handle, client_d = {}):
         df["recipes_params_sparkconf"] = df["recipes_params_sparkconf"].fillna("").astype(str)
     except:
         pass
-    
-        
+
     return df
