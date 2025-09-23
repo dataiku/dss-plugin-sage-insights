@@ -138,7 +138,6 @@ def normalize_column_type(df: pd.DataFrame, col: str, default_if_str="", default
         return df
 
     # Count types
-
     type_counts = non_null_vals.map(type).value_counts()
 
     # Pick the most common type
