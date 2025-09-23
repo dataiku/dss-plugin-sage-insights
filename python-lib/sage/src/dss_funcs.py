@@ -121,3 +121,38 @@ def rename_and_move_first(project_handle, df, old, new):
         df = df[cols]
     return df
 
+
+def normalize_column_type(df: pd.DataFrame, col: str, default_if_str="", default_if_bool=False):
+    if col not in df.columns:
+        # If missing, assume string column with default
+        df[col] = default_if_str
+        return df
+
+    # Look at non-null values
+    non_null_vals = df[col].dropna()
+
+    if non_null_vals.empty:
+        # Default to string if everything is null
+        df[col] = default_if_str
+        return df
+
+    # Count types
+    type_counts = non_null_vals.map(type).value_counts()
+
+    # Pick the most common type
+    main_type = type_counts.index[0]
+
+    if main_type is bool:
+        # Convert strings that are "True"/"False" to actual booleans
+        def to_bool(x):
+            if isinstance(x, str):
+                if x.lower() == "true":
+                    return True
+                elif x.lower() == "false":
+                    return False
+            return x
+        df[col] = df[col].map(to_bool).fillna(default_if_bool).astype(bool)
+    else:  # everything else → string
+        df[col] = df[col].fillna(default_if_str).astype(str)
+
+    return df
