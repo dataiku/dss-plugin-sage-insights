@@ -75,7 +75,7 @@ def load_data(filename):
 def import_base_data():
     parquets = folder.list_paths_in_partition()
     total_parquets = len(parquets)
-    progress_text = "Coping data into database"
+    progress_text = "Copying data into database"
     progress_bar = st.progress(0, text=progress_text)
     status_text = st.empty()
     for i, parquet_path in enumerate(parquets, start=1):
@@ -168,7 +168,7 @@ def build_sql(query: dict, filters: dict) -> str:
         join_clause = "\n" + "\n".join(query["join"])
     # WHERE
     filter_clause = ""
-    if filters and "_metadata" in from_clause and True:
+    if filters and "_metadata" in from_clause:
         filter_clause = "LEFT JOIN metadata_primary_keys AS mpk ON ("
         for og_tbl in query["from"]:
             if "AS" in og_tbl.upper():
