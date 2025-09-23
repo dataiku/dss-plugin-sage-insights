@@ -119,6 +119,10 @@ def main(self, project_handle, client_d = {}):
     # Quick Sanity Check
     fix_cols = ["recipes_params_sparkconf"]
     for c in fix_cols:
-        df = dss_funcs.normalize_column_type(df, c)
+        if c not in df.columns:
+            df[c] = ""
+        else:
+            df[c] = df[c].fillna("")
+        df[c] = df[c].astype(str) 
 
     return df
