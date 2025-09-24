@@ -74,7 +74,7 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineRecommended"] = recipe_engine_recommended
         
         # Individual Objects
-        if getattr(row, "recipes_params_containerSelection_containerMode", "") == "INHERIT":
+        if getattr(row, "recipes_params_containerSelection_containerMode", False) == "INHERIT":
             df.loc[df["recipes_name"] == recipes_name, "recipes_params_containerSelection_containerConf"] = container_env_name
         
         if recipes_type == "python":
