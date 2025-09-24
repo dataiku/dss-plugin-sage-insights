@@ -104,10 +104,11 @@ def main(self, project_handle, client_d = {}):
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
                 except:
                     pass
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = sparkConfig.get("inheritConf", "")
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConfMods"] = False
-            if sparkConfig.get("conf", []):
-                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = True
+            if sparkConfig:
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = sparkConfig.get("inheritConf", "None")
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConfMods"] = False
+                if sparkConfig.get("conf", []):
+                    df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = True
                 
         # Check for LLMs
         try:
