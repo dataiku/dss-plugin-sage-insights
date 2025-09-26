@@ -6,18 +6,15 @@ import plotly.express as px
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["*"]
+    query["select"] = ["COUNT(DISTINCT base.login) AS profile_count", "base.instance_name", "base.userprofile"]
     query["from"]   = ["users_metadata as base"]
-    df = dss_duck.query_duckdb(query, filters)
-
-    # Perform logic here
-    filtered_df = df[df["enabled"] == True]
-    filtered_df = filtered_df.groupby(["instance_name", "userprofile"])["login"].nunique()
-    filtered_df = filtered_df.reset_index(name="profile_count")
+    query["group"]  = ["base.instance_name", "base.userprofile"]
+    query["where"]  = ["base.enabled is True"]
+    df = dss_duck.query_duckdb(query, filters, debug=True)
 
     # Initial fig
     fig = px.bar(
-        filtered_df,
+        df,
         x="userprofile",
         y="profile_count",
         color="instance_name",

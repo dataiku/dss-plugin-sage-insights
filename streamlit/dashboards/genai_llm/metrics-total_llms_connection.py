@@ -6,7 +6,10 @@ import plotly.express as px
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["base.instance_name, COUNT(*) as llm_mesh_count"]
+    query["select"] = [
+        "base.instance_name",
+        "COUNT(*) as llm_mesh_count"
+    ]
     query["from"] = ["instance_connections as base"]
     query["where"] = ["connection_category in ('llm_mesh')"]
     query["group"]  = ["base.instance_name"]

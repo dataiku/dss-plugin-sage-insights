@@ -74,7 +74,7 @@ def main(self, project_handle, client_d = {}):
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_engineRecommended"] = recipe_engine_recommended
         
         # Individual Objects
-        if getattr(row, "recipes_params_containerSelection_containerMode", "") == "INHERIT":
+        if getattr(row, "recipes_params_containerSelection_containerMode", False) == "INHERIT":
             df.loc[df["recipes_name"] == recipes_name, "recipes_params_containerSelection_containerConf"] = container_env_name
         
         if recipes_type == "python":
@@ -104,10 +104,11 @@ def main(self, project_handle, client_d = {}):
                     sparkConfig = recipe_handle.get_settings().data["recipe"]["params"]["sparkConfig"]
                 except:
                     pass
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = sparkConfig.get("inheritConf", "")
-            df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConfMods"] = False
-            if sparkConfig.get("conf", []):
-                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = True
+            if sparkConfig:
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = sparkConfig.get("inheritConf", "None")
+                df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConfMods"] = False
+                if sparkConfig.get("conf", []):
+                    df.loc[df["recipes_name"] == recipes_name, "recipes_params_sparkConf"] = True
                 
         # Check for LLMs
         try:
@@ -115,4 +116,10 @@ def main(self, project_handle, client_d = {}):
         except:
             llm_model = ""
         df.loc[df["recipes_name"] == recipes_name, "recipes_params_llmId"] = llm_model
+    
+    # Normalize cols
+    fix_cols = ["recipes_params_sparkConf"]
+    for c in fix_cols:
+        df = dss_funcs.normalize_column_type(df, c)
+
     return df

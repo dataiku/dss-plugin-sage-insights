@@ -18,7 +18,7 @@ graphs = [
     "Graphs Rolling Login Users",
     "Graphs Rolling Developer Users",
     "Graphs All User Attrition",
-    "Graphs Active User Attrition",
+    "Graphs Developer User Attrition",
     "Graphs Users By Creation Date M",
     "Graphs User Profile Counts",
     "Graphs Top Git Users",
