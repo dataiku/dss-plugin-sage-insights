@@ -6,7 +6,9 @@ import plotly.express as px
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["base.instance_name", "base.recipes_type", "COUNT(*) AS recipe_count"]
+    query["select"] = [
+        "base.instance_name", "base.recipes_type", "COUNT(*) AS recipe_count"
+    ]
     query["from"]   = ["recipes_metadata as base"]
     query["group"]  = ["base.instance_name", "base.recipes_type"]
     query["order"]  = ["base.instance_name", "recipe_count"]

@@ -14,8 +14,8 @@ In a decision to keep things easier to maintain in the future, column names have
   * Patch/Update the local code-environment for Sage
   * Rebuild the new Streamlit Code-Studio Template
   * Rename both the original `partitioned_data` and `base_data` folders (if wanting to preserve historical data)
+    * If you do not want to preserve, drop and delete folders with `Drop data` selected
   * Run both `Init Dashboard` and `Init Worker` Macros
-    * **NOTE** Disable checkbox for re-running the scenarios on Init
   * Double check that all code-environments properly rebuilt in the extra worker nodes
   * Let scenarios run at scheduled time or manually kick off first time
 
@@ -24,7 +24,7 @@ In a decision to keep things easier to maintain in the future, column names have
 
 * Author - Stephen Mazzei
 * Email - <Stephen.Mazzei@dataiku.com>
-* Version - 1.6.1
+* Version - 1.6.2
 * Special Thanks
   * Development
     * Jordan Burke
