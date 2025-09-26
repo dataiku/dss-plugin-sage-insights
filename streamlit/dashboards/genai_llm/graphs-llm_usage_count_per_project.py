@@ -7,7 +7,13 @@ import pandas as pd
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["EXTRACT(YEAR FROM timestamp) AS year, EXTRACT(MONTH FROM timestamp) AS month, count(*) AS genai_llm_count, instance_name, project_key"]
+    query["select"] = [
+        "EXTRACT(YEAR FROM timestamp) AS year",
+        "EXTRACT(MONTH FROM timestamp) AS month",
+        "count(*) AS genai_llm_count",
+        "instance_name",
+        "project_key"
+    ]
     query["from"]   = ["dataiku_usage_genai_llm as base"]
     query["group"]  = ["year", "month", "instance_name", "project_key"]
     df = dss_duck.query_duckdb(query, filters)

@@ -47,6 +47,9 @@ def main(filters = {}):
     # Build the FIG construct to return
     FIG = structures.get("plotly")
     FIG["title"] = "All User Attrition Over Time"
+    FIG["desc"] = """
+* Developer defined as Users who have logged in and created content.
+* Attrition defined as Users who have logged in and have since stopped."""
     FIG["data"] = fig
     
     return FIG

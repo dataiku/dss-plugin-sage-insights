@@ -8,6 +8,8 @@ import io
 import shutil
 import importlib
 import time
+import logging
+logger = logging.getLogger(__name__)
 
 from sage.src import dss_sage_tbls
 
@@ -29,12 +31,12 @@ def create_duckdb():
     try:
         os.makedirs(duckdb_home, exist_ok=True)
     except OSError as e:
-        raise Exception(e)
+        logger.error(e)
     try:
         con = duckdb.connect(duckdb_name)
         con.close()
     except Exception as e:
-        raise Exception(e)
+        logger.error(e)
     return
 
 
@@ -84,14 +86,14 @@ def import_base_data():
                 file_bytes = io.BytesIO(stream.read())
             df = pd.read_parquet(file_bytes)
         except Exception as e:
-            raise Exception(e)
+            logger.error(e)
         try:
             parquet_path = parquet_path[1:]
             parquet_file_name = parquet_path.replace("/", "_")
             df.to_parquet(f"{duckdb_home}/{parquet_file_name}", index=False)
             del df
         except Exception as e:
-            raise Exception(e)
+            logger.error(e)
         load_data(parquet_file_name)
         progress = int(i / total_parquets * 100)
         progress_bar.progress(progress, text=progress_text)
@@ -124,7 +126,7 @@ def create_additional_tables():
         try:
             df = module.main()
         except Exception as e:
-            raise Exception(e)
+            logger.error(e)
         df.to_parquet(f"{duckdb_home}/{module_name}.parquet", index=False)
         del df
         load_data(f"{module_name}.parquet")
@@ -169,7 +171,7 @@ def build_sql(query: dict, filters: dict) -> str:
     # WHERE
     filter_clause = ""
     if filters and "_metadata" in from_clause:
-        filter_clause = "LEFT JOIN metadata_primary_keys AS mpk ON ("
+        filter_clause = "INNER JOIN metadata_primary_keys AS mpk ON ("
         for og_tbl in query["from"]:
             if "AS" in og_tbl.upper():
                 tbl = og_tbl.split(" ")
@@ -177,7 +179,7 @@ def build_sql(query: dict, filters: dict) -> str:
             else:
                 tbl = og_tbl
             if "users_metadata" in og_tbl.lower():
-                filter_clause += f"{tbl}.instance_name = mpk.instance_name"
+                filter_clause += f"{tbl}.instance_name = mpk.instance_name AND {tbl}.login = mpk.login"
             else:
                 filter_clause += f"{tbl}.instance_name = mpk.instance_name AND {tbl}.project_key = mpk.project_key"
         filter_clause += ")"
@@ -211,7 +213,7 @@ def query_duckdb(query, filters = {}, debug=False):
         df = con.execute(sql_query).df()
         con.close()
     except Exception as e:
-        raise Exception(e)
+        logger.error(e)
     return df
 
 
@@ -221,5 +223,5 @@ def query_duckdb_direct(query):
         df = con.execute(query).df()
         con.close()
     except Exception as e:
-        raise Exception(e)
+        logger.error(e)
     return df
