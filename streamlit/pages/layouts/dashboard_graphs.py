@@ -19,16 +19,22 @@ def main(data_category, display_data, modules, graphs):
             # Build the filters dictionary
             st.write("Filter Graphs on.....")
             st_filters = {}
-            final_filter = {}
             st_filters["instance_name"] = {"label": "Instance Name", "options": filter_df["instance_name"].unique().tolist()}
             st_filters["userprofile"]   = {"label": "License Type", "options": filter_df["userprofile"].unique().tolist()}
             st_filters["enabled"]       = {"label": "Current Users Enabled/Disabled", "options": filter_df["enabled"].unique().tolist()}
             st_filters["login"]         = {"label": "Login Name", "options": filter_df["login"].unique().tolist()}
             st_filters["project_key"]   = {"label": "Project key", "options": filter_df["project_key"].unique().tolist()}
+            display_filter = {}
             for key in st_filters:
                 label = st_filters[key]["label"]
                 options = st_filters[key]["options"]
-                final_filter[key] = st.multiselect(label=label, options=options)
+                display_filter[key] = st.multiselect(label=label, options=options)
+    
+    # Create the final filter
+    final_filter = {}
+    for key in display_filter.keys():
+        if display_filter[key]:
+            final_filter[key] = display_filter[key]
 
     # load only the graph dashboards
     dashboards = graphs

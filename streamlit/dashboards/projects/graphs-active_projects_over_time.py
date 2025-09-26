@@ -2,12 +2,13 @@ from sage.dashboards.data_structures import structures
 from sage.src import dss_duck
 import plotly.express as px
 import pandas as pd
+import streamlit as st
 
 
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["*"]
+    query["select"] = ["base.project_creationtag_lastmodifiedon", "base.instance_name"]
     query["from"]   = ["projects_metadata as base"]
     df = dss_duck.query_duckdb(query, filters)
 

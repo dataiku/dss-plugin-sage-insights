@@ -6,8 +6,9 @@ import plotly.express as px
 def main(filters = {}):
     # Build SQL Query Statement and Query, 
     query = structures.get_query_dict()
-    query["select"] = ["*"]
+    query["select"] = ["llms_friendlynameshort", "instance_name"]
     query["from"]   = ["addon_llm_mapping as base"]
+    query["where"]  = ["base.llms_friendlynameshort <> 'None'"]
     df = dss_duck.query_duckdb(query, filters)
 
     # load data structure
