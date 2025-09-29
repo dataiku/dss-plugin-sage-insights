@@ -1,5 +1,9 @@
 # Sage Insights Dashboard and Collector
 
+## New Customer Link
+
+For all new customers of Sage, please fill out the following link: <https://airtable.com/appn1MXE52b4GKKbp/pagSyV3tDuaHDl4hL/form>
+
 
 ## ANNOUNCEMENT
 
